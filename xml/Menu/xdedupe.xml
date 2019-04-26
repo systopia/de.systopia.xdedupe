@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/xdedupe/controlroom</path>
+    <page_callback>CRM_Xdedupe_Form_ControlRoom</page_callback>
+    <title>Control Room</title>
+    <access_arguments>administer CiviCRM</access_arguments>
+  </item>
+</menu>
