@@ -20,11 +20,6 @@
 <div class="xdedupe-config">
   <h2>{ts domain="de.systopia.xdedupe"}Search Criteria{/ts}</h2>
   <div class="crm-section">
-    <div class="label">{$form.contact_type.label}</div>
-    <div class="content">{$form.contact_type.html}</div>
-    <div class="clear"></div>
-  </div>
-  <div class="crm-section">
     <div class="label">{$form.finder_1.label}</div>
     <div class="content">{$form.finder_1.html}</div>
     <div class="clear"></div>
@@ -44,6 +39,21 @@
 {* FILTERS *}
 <div class="xdedupe-config">
   <h2>{ts domain="de.systopia.xdedupe"}Matching Filters{/ts}</h2>
+  <div class="crm-section">
+    <div class="label">{$form.contact_type.label}</div>
+    <div class="content">{$form.contact_type.html}</div>
+    <div class="clear"></div>
+  </div>
+  <div class="crm-section">
+    <div class="label">{$form.contact_group.label}</div>
+    <div class="content">{$form.contact_group.html}</div>
+    <div class="clear"></div>
+  </div>
+  <div class="crm-section">
+    <div class="label">{$form.contact_tag.label}</div>
+    <div class="content">{$form.contact_tag.html}</div>
+    <div class="clear"></div>
+  </div>
   <div class="crm-section">
     <div class="label">{$form.filter_1.label}</div>
     <div class="content">{$form.filter_1.html}</div>
@@ -67,6 +77,11 @@
   <div class="crm-section">
     <div class="label">{$form.force_merge.label}</div>
     <div class="content">{$form.force_merge.html}</div>
+    <div class="clear"></div>
+  </div>
+  <div class="crm-section">
+    <div class="label">{$form.main_contact.label}</div>
+    <div class="content">{$form.main_contact.html}</div>
     <div class="clear"></div>
   </div>
   <div class="crm-section">

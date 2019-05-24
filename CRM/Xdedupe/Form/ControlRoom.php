@@ -36,8 +36,37 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
     // add finder criteria
     $this->add('hidden', 'dedupe_run', $this->dedupe_run->getID());
+    $finders = ['' => E::ts('None')] + CRM_Xdedupe_Finder::getFinderList();
 
     // add finder criteria
+    $this->add(
+      'select',
+      'finder_1',
+      E::ts("Main Criteria"),
+        $finders,
+      TRUE,
+      ['class' => 'huge']
+    );
+
+    $this->add(
+        'select',
+        'finder_2',
+        E::ts("Secondary Criteria"),
+        $finders,
+        FALSE,
+        ['class' => 'huge']
+    );
+
+    $this->add(
+        'select',
+        'finder_3',
+        E::ts("Tertiary Criteria"),
+        $finders,
+        FALSE,
+        ['class' => 'huge']
+    );
+
+    // add filter elements
     $this->add(
         'select',
         'contact_type',
@@ -48,33 +77,23 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     );
 
     $this->add(
-      'select',
-      'finder_1',
-      E::ts("Main Criteria"),
-      $this->getFinderOptions(),
-      TRUE,
-      ['class' => 'huge']
-    );
-
-    $this->add(
         'select',
-        'finder_2',
-        E::ts("Secondary Criteria"),
-        $this->getFinderOptions(),
-        FALSE,
+        'contact_group',
+        E::ts("Group"),
+        $this->getGroups(),
+        TRUE,
         ['class' => 'huge']
     );
 
     $this->add(
         'select',
-        'finder_3',
-        E::ts("Tertiary Criteria"),
-        $this->getFinderOptions(),
-        FALSE,
+        'contact_tag',
+        E::ts("Tag"),
+        $this->getTags(),
+        TRUE,
         ['class' => 'huge']
     );
 
-    // add filter elements
     $this->add(
         'select',
         'filter_1',
@@ -111,9 +130,19 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
     $this->add(
         'select',
+        'main_contact',
+        E::ts("Main Contact"),
+        CRM_Xdedupe_Picker::getPickerList(),
+        FALSE,
+        ['class' => 'huge']
+    );
+
+
+    $this->add(
+        'select',
         'auto_resolve',
         E::ts("Auto Resolve"),
-        $this->getFinderOptions(),
+        [],
         FALSE,
         ['class' => 'huge crm-select2', 'multiple' => 'multiple']
     );
@@ -189,24 +218,48 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   /**
    * Get a list of filter options
    */
-  protected function getFinderOptions() {
-    // TODO: dynamic implementation
-    return [
-        ''                         => E::ts("None"),
-        'CRM_Xdedupe_Finder_Email' => E::ts("Identical EMail"),
-    ];
-  }
-
-  /**
-   * Get a list of filter options
-   */
   protected function getContactTypeOptions() {
+    // todo: dynamic?
     return [
         ''             => E::ts("any"),
         'Individual'   => E::ts("Individual"),
         'Organization' => E::ts("Organization"),
         'Household'    => E::ts("Household")
     ];
+  }
+
+
+  /**
+   * Get the list of all (active) groups
+   */
+  protected function getGroups() {
+    $group_list = ['' => E::ts("None")];
+    $groups = civicrm_api3('Group', 'get', [
+        'is_active'    => 1,
+        'option.limit' => 0,
+        'return'       => 'id,name'
+    ]);
+    foreach ($groups['values'] as $group) {
+      $group_list[$group['id']] = $group['name'];
+    }
+    return $group_list;
+  }
+
+  /**
+   * Get the list of all active contact tags
+   */
+  protected function getTags() {
+    $tag_list = ['' => E::ts("None")];
+    $tags = civicrm_api3('Tag', 'get', [
+        'entity_table' => 'civicrm_contact',
+        'is_active'    => 1,
+        'option.limit' => 0,
+        'return'       => 'id,name'
+    ]);
+    foreach ($tags['values'] as $tag) {
+      $tag_list[$tag['id']] = $tag['name'];
+    }
+    return $tag_list;
   }
 
 }

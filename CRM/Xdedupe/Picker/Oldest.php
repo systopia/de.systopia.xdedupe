@@ -17,16 +17,16 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
+ * Implement a "ContactPicker", i.e. a class that will identify the main contact from a list of contacts
  */
-class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
+class CRM_Xdedupe_Picker_Oldest extends CRM_Xdedupe_Picker {
 
   /**
    * get the name of the finder
    * @return string name
    */
   public function getName() {
-    return E::ts("Indentical Email");
+    return E::ts("Oldest Contact");
   }
 
   /**
@@ -34,33 +34,16 @@ class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
    * @return string name
    */
   public function getHelp() {
-    return E::ts("Looks for fully identical email addresses");
+    return E::ts("Picks the contact if the smallest CiviCRM ID");
   }
 
   /**
-   * Add this finder's JOIN clauses to the list
+   * Select the main contact from a set of contacts
    *
-   * @param $joins array
+   * @param $contact_ids array list of contact IDs
+   * @return int one of the contacts in the list
    */
-  public function addJOINS(&$joins) {
-    $joins[] = "LEFT JOIN civicrm_email {$this->alias} ON {$this->alias}.contact_id = contact.id";
-  }
-
-  /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
-   */
-  public function addGROUPBYS(&$groupbys) {
-    $groupbys[] = "{$this->alias}.email";
-  }
-
-  /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
-   */
-  public function addWHERES(&$wheres) {
-    $wheres[] = "{$this->alias}.email IS NOT NULL";
+  public function selectMainContact($contact_ids) {
+    return min($contact_ids);
   }
 }

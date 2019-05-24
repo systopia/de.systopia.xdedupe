@@ -17,17 +17,17 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
+ * Implement a "ContactPicker", i.e. a class that will identify the main contact from a list of contacts
  */
-abstract class CRM_Xdedupe_Finder {
+abstract class CRM_Xdedupe_Picker {
 
-  protected $alias  = NULL;
-  protected $params = NULL;
-
-  public function __construct($alias, $params) {
-    $this->params = $params;
-    $this->alias  = $alias;
-  }
+  /**
+   * Select the main contact from a set of contacts
+   *
+   * @param $contact_ids array list of contact IDs
+   * @return int one of the contacts in the list
+   */
+  public abstract function selectMainContact($contact_ids);
 
   /**
    * get the name of the finder
@@ -42,35 +42,14 @@ abstract class CRM_Xdedupe_Finder {
   public abstract function getHelp();
 
   /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
-   */
-  public function addJOINS(&$joins) {}
-
-  /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
-   */
-  public function addWHERES(&$wheres) {}
-
-  /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
-   */
-  public function addGROUPBYS(&$groupbys) {}
-
-  /**
    * Get a list of all available finder classes
    *
    * @return array list of class names
    */
-  public static function getFinders() {
+  public static function getPickers() {
     // todo: use symfony
     return [
-        'CRM_Xdedupe_Finder_Email',
+        'CRM_Xdedupe_Picker_Oldest',
     ];
   }
 
@@ -79,13 +58,13 @@ abstract class CRM_Xdedupe_Finder {
    *
    * @return array class => name
    */
-  public static function getFinderList() {
-    $finder_list = [];
-    $finder_classes = self::getFinders();
-    foreach ($finder_classes as $finder_class) {
-      $finder = new $finder_class(null, null); // dirty, i know...
-      $finder_list[$finder_class] = $finder->getName();
+  public static function getPickerList() {
+    $picker_list = [];
+    $picker_classes = self::getPickers();
+    foreach ($picker_classes as $picker_class) {
+      $picker = new $picker_class();
+      $picker_list[$picker_class] = $picker->getName();
     }
-    return $finder_list;
+    return $picker_list;
   }
 }

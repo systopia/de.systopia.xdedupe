@@ -88,6 +88,14 @@ class CRM_Xdedupe_DedupeRun
   }
 
   /**
+   * @param $limit
+   * @param int $offset
+   */
+  public function getContactSamples($limit, $offset = 0) {
+
+  }
+
+  /**
    * Get the unqiue identifier for this run
    *
    * @return string identifier
