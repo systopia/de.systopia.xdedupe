@@ -28,7 +28,9 @@ abstract class CRM_Xdedupe_Filter extends  CRM_Xdedupe_QueryPlugin {
    */
   public static function getFilters() {
     // todo: use symfony
-    return [];
+    return [
+        'CRM_Xdedupe_Filter_DedupeException'
+    ];
   }
 
   /**
