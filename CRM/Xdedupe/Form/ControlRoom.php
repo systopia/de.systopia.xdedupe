@@ -148,7 +148,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     $this->addStats();
 
     // add preview
-    $this->addMatchPreview(25);
+    $this->addMatchPreview(50);
 
     // let's add some style...
     CRM_Core_Resources::singleton()->addStyleFile('de.systopia.xdedupe', 'css/xdedupe.css');
@@ -187,7 +187,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     }
 
     $this->addStats();
-    $this->addMatchPreview(25);
+    $this->addMatchPreview(50);
 
     parent::postProcess();
   }
