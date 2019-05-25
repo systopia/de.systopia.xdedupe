@@ -4,3 +4,7 @@ div.xdedupe-config {
   margin-top: 20px;
   border-radius:15px;
 }
+
+table.xdedupe-preview {
+  margin: 15px;
+}

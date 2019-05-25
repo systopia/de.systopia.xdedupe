@@ -72,7 +72,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         'contact_type',
         E::ts("Contact Type"),
         $this->getContactTypeOptions(),
-        TRUE,
+        FALSE,
         ['class' => 'huge']
     );
 
@@ -94,32 +94,13 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         ['class' => 'huge']
     );
 
-    $filters =  ['' => E::ts('None')] + CRM_Xdedupe_Filter::getFilterList();
     $this->add(
         'select',
-        'filter_1',
-        E::ts("Match Condition 1"),
-        $filters,
+        'filters',
+        E::ts("More Filters"),
+        CRM_Xdedupe_Filter::getFilterList(),
         FALSE,
-        ['class' => 'huge']
-    );
-
-    $this->add(
-        'select',
-        'filter_2',
-        E::ts("Match Condition 2"),
-        $filters,
-        FALSE,
-        ['class' => 'huge']
-    );
-
-    $this->add(
-        'select',
-        'filter_3',
-        E::ts("Match Condition 3"),
-        $filters,
-        FALSE,
-        ['class' => 'huge']
+        ['class' => 'huge crm-select2', 'multiple' => 'multiple']
     );
 
     // add merge options
@@ -166,6 +147,9 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     // add some stats
     $this->addStats();
 
+    // add preview
+    $this->addMatchPreview(25);
+
     // let's add some style...
     CRM_Core_Resources::singleton()->addStyleFile('de.systopia.xdedupe', 'css/xdedupe.css');
 
@@ -194,17 +178,17 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       if (!empty($values['contact_tag'])) {
         $this->dedupe_run->addFilter('CRM_Xdedupe_Filter_Tag', ['tag_id' => $values['contact_tag']]);
       }
-      foreach (range(1,3) as $index) {
-        if (!empty($values["filter_{$index}"])) {
-          $this->dedupe_run->addFilter($values["filter_{$index}"], $values);
-        }
+      foreach ($values['filters'] as $filter) {
+        $this->dedupe_run->addFilter($filter, $values);
       }
 
-      // finally: run agains
+      // finally: run again
       $this->dedupe_run->find($values);
     }
 
     $this->addStats();
+    $this->addMatchPreview(25);
+
     parent::postProcess();
   }
 
@@ -228,14 +212,56 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   }
 
   /**
-   * Get a list of filter options
+   * Add a number of tuples for sample display
+   *
+   * @param $count  int number of tuples to add
+   * @param $offset int offset/paging
    */
-  protected function getFilterOptions() {
-    // TODO: implement
-    return [
-        ''     => E::ts("None"),
-        'TODO' => E::ts("Some Filter")
-    ];
+  public function addMatchPreview($count, $offset = 0) {
+    $render_tuples = [];
+    $tuples = $this->dedupe_run->getTuples($count, $offset);
+    if (empty($tuples)) {
+      $this->assign('tuples', $render_tuples);
+      return;
+    }
+
+    // load all these contacts
+    $all_contact_ids = [];
+    foreach ($tuples as $main_contact_id => $contact_ids) {
+      $all_contact_ids[] = $main_contact_id;
+      foreach ($contact_ids as $contact_id) {
+        $all_contact_ids[] = $contact_id;
+      }
+    }
+    $all_contacts = civicrm_api3('Contact','get', [
+        'id'         => ['IN' => $all_contact_ids],
+        'sequential' => 0,
+        'return'     => 'contact_type,contact_sub_type,display_name,id'
+    ])['values'];
+
+    // compile rows
+    foreach ($tuples as $main_contact_id => $contact_ids) {
+      $tuple = [];
+      $tuple['main'] = $all_contacts[$main_contact_id];
+      $tuple['main']['image'] = $this->getContactImage($all_contacts[$main_contact_id]);
+      $tuple['other'] = [];
+      foreach ($contact_ids as $contact_id) {
+        $other = $all_contacts[$contact_id];
+        $other['image'] = $this->getContactImage($all_contacts[$contact_id]);
+        $tuple['other'][] = $other;
+      }
+      $render_tuples[] = $tuple;
+    }
+    $this->assign('tuples', $render_tuples);
+  }
+
+  /**
+   * Generate the contact image with the overview popup
+   * @param $contact array contact_data
+   * @return string HTML code for image
+   */
+  protected function getContactImage($contact) {
+    return CRM_Contact_BAO_Contact_Utils::getImage(empty($contact['contact_sub_type']) ? $contact['contact_type'] : $contact['contact_sub_type'], FALSE, $contact['id']);
   }
 
   /**

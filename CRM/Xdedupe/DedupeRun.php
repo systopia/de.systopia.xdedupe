@@ -55,6 +55,38 @@ class CRM_Xdedupe_DedupeRun
   }
 
   /**
+   * Get a number of contact tuples
+   *
+   * @param $count  int number of tuples to add
+   * @param $offset int offset/paging
+   * @param $picker CRM_Xdedupe_Picker use this picker to determine the main contact
+   * @return array [main_contact_id => duplicates' contact ids]
+   */
+  public function getTuples($count, $offset = 0, $picker = NULL) {
+    $tuple_list = [];
+    $count  = (int) $count;
+    $offset = (int) $offset;
+    $table_name = $this->getTableName();
+    $query = CRM_Core_DAO::executeQuery("SELECT contact_ids, contact_id FROM `{$table_name}` LIMIT {$count} OFFSET {$offset}");
+    while ($query->fetch()) {
+      $contact_ids = explode(',', $query->contact_ids);
+      if ($picker) {
+        $main_contact_id = $picker->selectMainContact($contact_ids);
+      } else {
+        $main_contact_id = $query->contact_id;
+      }
+      // remove main contact from rest
+      $key = array_search($main_contact_id, $contact_ids);
+      unset($contact_ids[$key]);
+
+      // store
+      $tuple_list[$main_contact_id] = $contact_ids;
+    }
+
+    return $tuple_list;
+  }
+
+  /**
    * Get the number of contacts involved
    *
    * @return int number of tuples found
@@ -85,14 +117,6 @@ class CRM_Xdedupe_DedupeRun
       PRIMARY KEY ( `contact_id` ),
       INDEX `match_count` (match_count)
       ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
-  }
-
-  /**
-   * @param $limit
-   * @param int $offset
-   */
-  public function getContactSamples($limit, $offset = 0) {
-
   }
 
   /**
@@ -139,6 +163,7 @@ class CRM_Xdedupe_DedupeRun
     if (!empty($params['contact_type'])) {
       $WHERES[] = "contact.contact_type = '{$params['contact_type']}'";
     }
+    $WHERES[] = "(contact.is_deleted = 0 OR contact.is_deleted IS NULL)";
 
     // add the finders/filters
     foreach ($this->finders as $finder) {

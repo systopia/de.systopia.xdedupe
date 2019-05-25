@@ -55,18 +55,8 @@
     <div class="clear"></div>
   </div>
   <div class="crm-section">
-    <div class="label">{$form.filter_1.label}</div>
-    <div class="content">{$form.filter_1.html}</div>
-    <div class="clear"></div>
-  </div>
-  <div class="crm-section">
-    <div class="label">{$form.filter_2.label}</div>
-    <div class="content">{$form.filter_2.html}</div>
-    <div class="clear"></div>
-  </div>
-  <div class="crm-section">
-    <div class="label">{$form.filter_3.label}</div>
-    <div class="content">{$form.filter_3.html}</div>
+    <div class="label">{$form.filters.label}</div>
+    <div class="content">{$form.filters.html}</div>
     <div class="clear"></div>
   </div>
 </div>
@@ -94,7 +84,30 @@
 
 {* RESULTS *}
 <div class="xdedupe-config">
-  <h2>{ts domain="de.systopia.xdedupe" 1=$result_count 2=$contact_count}%1 results with %2 contacts{/ts}</h2>
+  {if $tuples}
+    <h2>{ts domain="de.systopia.xdedupe" 1=$result_count 2=$contact_count}%1 results with %2 contacts:{/ts}</h2>
+    <table class="xdedupe-preview">
+      {foreach from=$tuples item=tuple}
+        <tr>
+          <td>{$tuple.main.image} {$tuple.main.display_name}</td>
+          <td>
+            {foreach from=$tuple.other item=other}
+              {$other.image} {$other.display_name}<br/>
+            {/foreach}
+          </td>
+          <td>
+            <span>
+              <a href="#" class="action-item crm-hover-button no-popup" title="View">View</a>
+              <a href="#" class="action-item crm-hover-button no-popup" title="Merge">Merge</a>
+            </span>
+          </td>
+        </tr>
+      {/foreach}
+      </tbody>
+    </table>
+  {else}
+    <h2>{ts domain="de.systopia.xdedupe"}No duplicates found!{/ts}</h2>
+  {/if}
 </div>
 
 {* FOOTER *}
