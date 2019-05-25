@@ -87,6 +87,14 @@
   {if $tuples}
     <h2>{ts domain="de.systopia.xdedupe" 1=$result_count 2=$contact_count}%1 results with %2 contacts:{/ts}</h2>
     <table class="xdedupe-preview">
+      <thead>
+        <tr>
+          <th>Main Contact</th>
+          <th>Duplicate(s)</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
       {foreach from=$tuples item=tuple}
         <tr>
           <td>{$tuple.main.image} <a href="{$tuple.main.link}">{$tuple.main.display_name}</a></td>
