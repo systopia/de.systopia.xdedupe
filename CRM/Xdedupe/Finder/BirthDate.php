@@ -17,35 +17,49 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
+ * Find people by birth date
  */
-abstract class CRM_Xdedupe_Finder extends  CRM_Xdedupe_QueryPlugin {
+class CRM_Xdedupe_Finder_BirthDate extends CRM_Xdedupe_Finder {
+
   /**
-   * Get a list of all available finder classes
-   *
-   * @return array list of class names
+   * get the name of the finder
+   * @return string name
    */
-  public static function getFinders() {
-    // todo: use symfony
-    return [
-        'CRM_Xdedupe_Finder_Email',
-        'CRM_Xdedupe_Finder_LastName',
-        'CRM_Xdedupe_Finder_BirthDate',
-    ];
+  public function getName() {
+    return E::ts("Identical Birth Date");
   }
 
   /**
-   * Get a list of all available finder classes
-   *
-   * @return array class => name
+   * get an explanation what the finder does
+   * @return string name
    */
-  public static function getFinderList() {
-    $finder_list = [];
-    $finder_classes = self::getFinders();
-    foreach ($finder_classes as $finder_class) {
-      $finder = new $finder_class(null, null); // dirty, i know...
-      $finder_list[$finder_class] = $finder->getName();
-    }
-    return $finder_list;
+  public function getHelp() {
+    return E::ts("Looks for fully identical birth dates");
+  }
+
+  /**
+   * Add this finder's JOIN clauses to the list
+   *
+   * @param $joins array
+   */
+  public function addJOINS(&$joins) {
+  }
+
+  /**
+   * Add this finder's GROUP BY clauses to the list
+   *
+   * @param $groupbys array
+   */
+  public function addGROUPBYS(&$groupbys) {
+    $groupbys[] = "contact.birth_date";
+  }
+
+  /**
+   * Add this finder's WHERE clauses to the list
+   *
+   * @param $wheres array
+   */
+  public function addWHERES(&$wheres) {
+    $wheres[] = "contact.birth_date IS NOT NULL";
   }
 }

@@ -234,9 +234,10 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       }
     }
     $all_contacts = civicrm_api3('Contact','get', [
-        'id'         => ['IN' => $all_contact_ids],
-        'sequential' => 0,
-        'return'     => 'contact_type,contact_sub_type,display_name,id'
+        'id'           => ['IN' => $all_contact_ids],
+        'sequential'   => 0,
+        'option.limit' => 0,
+        'return'       => 'contact_type,contact_sub_type,display_name,id'
     ])['values'];
 
     // compile rows

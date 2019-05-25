@@ -189,7 +189,7 @@ class CRM_Xdedupe_DedupeRun
 
     $table_name = $this->getTableName();
     $sql = "
-    INSERT INTO `{$table_name}` (contact_id, match_count, contact_ids)
+    INSERT IGNORE INTO `{$table_name}` (contact_id, match_count, contact_ids)
     SELECT
      MIN(contact.id)                    AS contact_id,
      COUNT(DISTINCT(contact.id))        AS match_count,
