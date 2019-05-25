@@ -83,7 +83,7 @@
 
 
 {* RESULTS *}
-<div class="xdedupe-config">
+<div class="xdedupe-config" id="xdedupe-result">
   {if $tuples}
     <h2>{ts domain="de.systopia.xdedupe" 1=$result_count 2=$contact_count}%1 results with %2 contacts:{/ts}</h2>
     <table class="xdedupe-preview">
