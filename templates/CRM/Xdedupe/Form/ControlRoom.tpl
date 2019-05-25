@@ -89,16 +89,19 @@
     <table class="xdedupe-preview">
       {foreach from=$tuples item=tuple}
         <tr>
-          <td>{$tuple.main.image} {$tuple.main.display_name}</td>
+          <td>{$tuple.main.image} <a href="{$tuple.main.link}">{$tuple.main.display_name}</a></td>
           <td>
             {foreach from=$tuple.other item=other}
-              {$other.image} {$other.display_name}<br/>
+              {$other.image} <a href="{$other.link}">{$other.display_name}</a><br/>
             {/foreach}
           </td>
           <td>
             <span>
-              <a href="#" class="action-item crm-hover-button no-popup" title="View">View</a>
-              <a href="#" class="action-item crm-hover-button no-popup" title="Merge">Merge</a>
+              <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="View Comparison">View</a>
+              <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="Merge All">Merge</a>
+              {if $tuple.other|@count eq 1}
+              <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="Manual Merge">Manual</a>
+              {/if}
             </span>
           </td>
         </tr>

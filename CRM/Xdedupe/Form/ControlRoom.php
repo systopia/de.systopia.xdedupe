@@ -245,10 +245,12 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       $tuple = [];
       $tuple['main'] = $all_contacts[$main_contact_id];
       $tuple['main']['image'] = $this->getContactImage($all_contacts[$main_contact_id]);
+      $tuple['main']['link']  = CRM_Utils_System::url("civicrm/contact/view", 'reset=1&cid=' . $main_contact_id);
       $tuple['other'] = [];
       foreach ($contact_ids as $contact_id) {
         $other = $all_contacts[$contact_id];
         $other['image'] = $this->getContactImage($all_contacts[$contact_id]);
+        $other['link']  = CRM_Utils_System::url("civicrm/contact/view", 'reset=1&cid=' . $contact_id);
         $tuple['other'][] = $other;
       }
       $render_tuples[] = $tuple;
