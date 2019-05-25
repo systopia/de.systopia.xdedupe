@@ -17,33 +17,10 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
+ * Simple ExternalIdentifier Resolver
  */
-abstract class CRM_Xdedupe_Finder extends  CRM_Xdedupe_QueryPlugin {
-  /**
-   * Get a list of all available finder classes
-   *
-   * @return array list of class names
-   */
-  public static function getFinders() {
-    // todo: use symfony
-    return [
-        'CRM_Xdedupe_Finder_Email',
-    ];
-  }
-
-  /**
-   * Get a list of all available finder classes
-   *
-   * @return array class => name
-   */
-  public static function getFinderList() {
-    $finder_list = [];
-    $finder_classes = self::getFinders();
-    foreach ($finder_classes as $finder_class) {
-      $finder = new $finder_class(null, null); // dirty, i know...
-      $finder_list[$finder_class] = $finder->getName();
-    }
-    return $finder_list;
+class CRM_Xdedupe_Resolver_ExternalIdentifier extends CRM_Xdedupe_Resolver_SimpleAttribute {
+  public function __construct() {
+    parent::__construct('external_identifier');
   }
 }

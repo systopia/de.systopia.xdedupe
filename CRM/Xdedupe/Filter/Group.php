@@ -17,16 +17,25 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
+ * Implement a Group "Filter", i.e. will restrict the result set by group membership
  */
-class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
+class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter {
+
+  protected $group_id = NULL;
+
+  public function __construct($alias, $params) {
+    parent::__construct($alias, $params);
+    if (isset($params['group_id'])) {
+      $this->group_id = (int) $params['group_id'];
+    }
+  }
 
   /**
    * get the name of the finder
    * @return string name
    */
   public function getName() {
-    return E::ts("Identical Email");
+    return E::ts("Group %1", [1 => $this->group_id]);
   }
 
   /**
@@ -34,7 +43,7 @@ class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
    * @return string name
    */
   public function getHelp() {
-    return E::ts("Looks for fully identical email addresses");
+    return E::ts("Filter for contacts in the given group");
   }
 
   /**
@@ -43,16 +52,11 @@ class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
    * @param $joins array
    */
   public function addJOINS(&$joins) {
-    $joins[] = "LEFT JOIN civicrm_email {$this->alias} ON {$this->alias}.contact_id = contact.id";
-  }
-
-  /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
-   */
-  public function addGROUPBYS(&$groupbys) {
-    $groupbys[] = "{$this->alias}.email";
+    if ($this->group_id) {
+      $joins[] = "LEFT JOIN civicrm_group_contact {$this->alias} ON {$this->alias}.contact_id = contact.id 
+                                                                 AND {$this->alias}.group_id = {$this->group_id}
+                                                                 AND {$this->alias}.status = 'Added'";
+    }
   }
 
   /**
@@ -61,6 +65,6 @@ class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
    * @param $wheres array
    */
   public function addWHERES(&$wheres) {
-    $wheres[] = "{$this->alias}.email IS NOT NULL";
+    $wheres[] = "{$this->alias}.id IS NOT NULL";
   }
 }

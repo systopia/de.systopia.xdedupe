@@ -17,50 +17,48 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
+ * Abstract base class for query-modifying modules
  */
-class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
+abstract class CRM_Xdedupe_QueryPlugin {
+
+  protected $alias  = NULL;
+  protected $params = NULL;
+
+  public function __construct($alias, $params) {
+    $this->params = $params;
+    $this->alias  = $alias;
+  }
 
   /**
    * get the name of the finder
    * @return string name
    */
-  public function getName() {
-    return E::ts("Identical Email");
-  }
+  public abstract function getName();
 
   /**
    * get an explanation what the finder does
    * @return string name
    */
-  public function getHelp() {
-    return E::ts("Looks for fully identical email addresses");
-  }
+  public abstract function getHelp();
 
   /**
    * Add this finder's JOIN clauses to the list
    *
    * @param $joins array
    */
-  public function addJOINS(&$joins) {
-    $joins[] = "LEFT JOIN civicrm_email {$this->alias} ON {$this->alias}.contact_id = contact.id";
-  }
-
-  /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
-   */
-  public function addGROUPBYS(&$groupbys) {
-    $groupbys[] = "{$this->alias}.email";
-  }
+  public function addJOINS(&$joins) {}
 
   /**
    * Add this finder's WHERE clauses to the list
    *
    * @param $wheres array
    */
-  public function addWHERES(&$wheres) {
-    $wheres[] = "{$this->alias}.email IS NOT NULL";
-  }
+  public function addWHERES(&$wheres) {}
+
+  /**
+   * Add this finder's GROUP BY clauses to the list
+   *
+   * @param $groupbys array
+   */
+  public function addGROUPBYS(&$groupbys) {}
 }

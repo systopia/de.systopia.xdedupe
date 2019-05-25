@@ -81,7 +81,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         'contact_group',
         E::ts("Group"),
         $this->getGroups(),
-        TRUE,
+        FALSE,
         ['class' => 'huge']
     );
 
@@ -90,15 +90,16 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         'contact_tag',
         E::ts("Tag"),
         $this->getTags(),
-        TRUE,
+        FALSE,
         ['class' => 'huge']
     );
 
+    $filters =  ['' => E::ts('None')] + CRM_Xdedupe_Filter::getFilterList();
     $this->add(
         'select',
         'filter_1',
         E::ts("Match Condition 1"),
-        $this->getFilterOptions(),
+        $filters,
         FALSE,
         ['class' => 'huge']
     );
@@ -107,7 +108,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         'select',
         'filter_2',
         E::ts("Match Condition 2"),
-        $this->getFilterOptions(),
+        $filters,
         FALSE,
         ['class' => 'huge']
     );
@@ -116,7 +117,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         'select',
         'filter_3',
         E::ts("Match Condition 3"),
-        $this->getFilterOptions(),
+        $filters,
         FALSE,
         ['class' => 'huge']
     );
@@ -142,7 +143,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         'select',
         'auto_resolve',
         E::ts("Auto Resolve"),
-        [],
+        CRM_Xdedupe_Resolver::getResolverList(),
         FALSE,
         ['class' => 'huge crm-select2', 'multiple' => 'multiple']
     );
@@ -176,8 +177,30 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     $values = $this->exportValues();
 
     if ($this->cr_command == 'find') {
+      // re-compile runner
       $this->dedupe_run->clear();
-      $this->dedupe_run->addFinder('CRM_Xdedupe_Finder_Email', $values);
+
+      // add finders
+      foreach (range(1,3) as $index) {
+        if (!empty($values["finder_{$index}"])) {
+          $this->dedupe_run->addFinder($values["finder_{$index}"], $values);
+        }
+      }
+
+      // add filters
+      if (!empty($values['contact_group'])) {
+        $this->dedupe_run->addFilter('CRM_Xdedupe_Filter_Group', ['group_id' => $values['contact_group']]);
+      }
+      if (!empty($values['contact_tag'])) {
+        $this->dedupe_run->addFilter('CRM_Xdedupe_Filter_Tag', ['tag_id' => $values['contact_tag']]);
+      }
+      foreach (range(1,3) as $index) {
+        if (!empty($values["filter_{$index}"])) {
+          $this->dedupe_run->addFilter($values["filter_{$index}"], $values);
+        }
+      }
+
+      // finally: run agains
       $this->dedupe_run->find($values);
     }
 

@@ -17,16 +17,19 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
+ * Simple ExternalIdentifier Resolver
  */
-class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
+class CRM_Xdedupe_Resolver_DoNotMail extends CRM_Xdedupe_Resolver_MaxAttribute {
+  public function __construct() {
+    parent::__construct('do_not_mail');
+  }
 
   /**
    * get the name of the finder
    * @return string name
    */
   public function getName() {
-    return E::ts("Identical Email");
+    return E::ts("Do Not Mail");
   }
 
   /**
@@ -34,33 +37,6 @@ class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
    * @return string name
    */
   public function getHelp() {
-    return E::ts("Looks for fully identical email addresses");
-  }
-
-  /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
-   */
-  public function addJOINS(&$joins) {
-    $joins[] = "LEFT JOIN civicrm_email {$this->alias} ON {$this->alias}.contact_id = contact.id";
-  }
-
-  /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
-   */
-  public function addGROUPBYS(&$groupbys) {
-    $groupbys[] = "{$this->alias}.email";
-  }
-
-  /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
-   */
-  public function addWHERES(&$wheres) {
-    $wheres[] = "{$this->alias}.email IS NOT NULL";
+    return E::ts("Will preserve the Do Not Mail flag.");
   }
 }

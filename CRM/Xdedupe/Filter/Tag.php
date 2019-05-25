@@ -17,16 +17,25 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
+ * Implement a Tag filter, i.e. will restrict the result set by tag
  */
-class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
+class CRM_Xdedupe_Filter_Tag extends CRM_Xdedupe_Filter {
+
+  protected $tag_id = NULL;
+
+  public function __construct($alias, $params) {
+    parent::__construct($alias, $params);
+    if (isset($params['tag_id'])) {
+      $this->tag_id = (int) $params['tag_id'];
+    }
+  }
 
   /**
    * get the name of the finder
    * @return string name
    */
   public function getName() {
-    return E::ts("Identical Email");
+    return E::ts("Tag %1", [1 => $this->tag_id]);
   }
 
   /**
@@ -34,7 +43,7 @@ class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
    * @return string name
    */
   public function getHelp() {
-    return E::ts("Looks for fully identical email addresses");
+    return E::ts("Filter for contacts in the given tag");
   }
 
   /**
@@ -43,16 +52,12 @@ class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
    * @param $joins array
    */
   public function addJOINS(&$joins) {
-    $joins[] = "LEFT JOIN civicrm_email {$this->alias} ON {$this->alias}.contact_id = contact.id";
-  }
+    if ($this->tag_id) {
+      $joins[] = "LEFT JOIN civicrm_entity_tag {$this->alias} ON {$this->alias}.entity_id = contact.id 
+                                                              AND {$this->alias}.entity_table = 'civicrm_contact'
+                                                              AND {$this->alias}.tag_id = {$this->tag_id}";
 
-  /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
-   */
-  public function addGROUPBYS(&$groupbys) {
-    $groupbys[] = "{$this->alias}.email";
+    }
   }
 
   /**
@@ -61,6 +66,6 @@ class CRM_Xdedupe_Finder_Email extends CRM_Xdedupe_Finder {
    * @param $wheres array
    */
   public function addWHERES(&$wheres) {
-    $wheres[] = "{$this->alias}.email IS NOT NULL";
+    $wheres[] = "{$this->alias}.id IS NOT NULL";
   }
 }

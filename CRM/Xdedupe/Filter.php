@@ -17,19 +17,18 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
+ * Implement a "Filter", i.e. a class that will restrict the set of duplicates found
  */
-abstract class CRM_Xdedupe_Finder extends  CRM_Xdedupe_QueryPlugin {
+abstract class CRM_Xdedupe_Filter extends  CRM_Xdedupe_QueryPlugin {
+
   /**
    * Get a list of all available finder classes
    *
    * @return array list of class names
    */
-  public static function getFinders() {
+  public static function getFilters() {
     // todo: use symfony
-    return [
-        'CRM_Xdedupe_Finder_Email',
-    ];
+    return [];
   }
 
   /**
@@ -37,13 +36,13 @@ abstract class CRM_Xdedupe_Finder extends  CRM_Xdedupe_QueryPlugin {
    *
    * @return array class => name
    */
-  public static function getFinderList() {
-    $finder_list = [];
-    $finder_classes = self::getFinders();
-    foreach ($finder_classes as $finder_class) {
-      $finder = new $finder_class(null, null); // dirty, i know...
-      $finder_list[$finder_class] = $finder->getName();
+  public static function getFilterList() {
+    $filter_list = [];
+    $filter_classes = self::getFilters();
+    foreach ($filter_classes as $filter_class) {
+      $filter = new $filter_class(null, null); // dirty, i know...
+      $filter_list[$filter_class] = $filter->getName();
     }
-    return $finder_list;
+    return $filter_list;
   }
 }

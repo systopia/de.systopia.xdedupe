@@ -150,7 +150,7 @@ class CRM_Xdedupe_DedupeRun
       $filter->addJOINS($JOINS);
       $filter->addWHERES($WHERES);
     }
-    $JOINS = implode('\n', $JOINS);
+    $JOINS = implode(" \n", $JOINS);
     if (empty($WHERES)) {
       $WHERES = 'TRUE';
     } else {
