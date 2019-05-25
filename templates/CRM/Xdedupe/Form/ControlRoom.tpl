@@ -99,8 +99,8 @@
             <span>
               <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="View Comparison">View</a>
               <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="Merge All">Merge</a>
-              {if $tuple.other|@count eq 1}
-              <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="Manual Merge">Manual</a>
+              {if $tuple.main.mergelink}
+              <a href="{$tuple.main.mergelink}" class="action-item crm-hover-button no-popup" title="Manual Merge">Manual</a>
               {/if}
             </span>
           </td>

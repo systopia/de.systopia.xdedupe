@@ -253,6 +253,13 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         $other['link']  = CRM_Utils_System::url("civicrm/contact/view", 'reset=1&cid=' . $contact_id);
         $tuple['other'][] = $other;
       }
+
+      // add merge link
+      if (count($tuple['other']) == 1
+           && $tuple['main']['contact_type'] == $tuple['other'][0]['contact_type']) {
+        $tuple['main']['mergelink'] = CRM_Utils_System::url("civicrm/contact/merge", "reset=1&cid={$tuple['main']['id']}&oid={$tuple['other'][0]['id']}");
+      }
+
       $render_tuples[] = $tuple;
     }
     $this->assign('tuples', $render_tuples);
