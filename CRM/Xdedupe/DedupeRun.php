@@ -17,10 +17,11 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * This is the main dedupe algorithm
+ * This is the part of the algorithm
  */
-class CRM_Xdedupe_DedupeRun
-{
+class CRM_Xdedupe_DedupeRun {
+
+  const MAX_TABLE_RETENTION = "2 days";
 
   /** name of the underlying temp table*/
   protected $identifier;
@@ -33,6 +34,32 @@ class CRM_Xdedupe_DedupeRun
     }
     $this->identifier = $identifier;
     $this->verifyTable();
+  }
+
+  /**
+   * Remove old tables from previous runs
+   */
+  public function cleanupDB() {
+    $own_table_name     = $this->getTableName();
+    $deletion_threshold = strtotime("now - " . self::MAX_TABLE_RETENTION);
+
+    $dsn = DB::parseDSN(CIVICRM_DSN);
+    $table_query = CRM_Core_DAO::executeQuery("SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '{$dsn['database']}'  AND TABLE_NAME LIKE 'tmp_xdedupe_%'");
+    while ($table_query->fetch()) {
+      $table_name = $table_query->TABLE_NAME;
+      if ($table_name == $own_table_name) continue; // don't want to drop our own table
+
+      // parse table name
+      if (preg_match("/^tmp_xdedupe_(?<date>[0-9]{14})_(?<hash>[0-9a-f]{32})$/", $table_name, $match)) {
+        $table_date = strtotime($match['date']);
+        if ($table_date < $deletion_threshold) {
+          // this table is too old => drop it
+          CRM_Core_DAO::executeQuery("DROP TABLE `{$table_name}`");
+        }
+      } else {
+        CRM_Core_Error::debug_log_message("Unrecognised table found: '{$table_name}'. Please clean up manually.");
+      }
+    }
   }
 
   /**

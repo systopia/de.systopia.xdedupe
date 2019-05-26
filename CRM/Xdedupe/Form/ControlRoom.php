@@ -33,6 +33,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     // find/create run
     $dedupe_run = CRM_Utils_Request::retrieve('dedupe_run', 'String');
     $this->dedupe_run = new CRM_Xdedupe_DedupeRun($dedupe_run);
+    $this->dedupe_run->cleanupDB();
 
     // add finder criteria
     $this->add('hidden', 'dedupe_run', $this->dedupe_run->getID());
@@ -139,7 +140,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       ),
       array(
           'type' => 'merge',
-          'name' => E::ts('Merge'),
+          'name' => E::ts('Merge All'),
           'isDefault' => FALSE,
       ),
     ));
