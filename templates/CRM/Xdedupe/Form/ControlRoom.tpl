@@ -81,34 +81,58 @@
   </div>
 </div>
 
-
 {* RESULTS *}
-<div class="xdedupe-config" id="xdedupe-result">
+<br/>
+<table class="xdedupe-result crm-ajax-table">
+  <thead>
+  <tr>
+    <th data-data="main_contact">{ts domain="de.systopia.xdedupe"}Main Contact{/ts}</th>
+    <th data-data="duplicates">{ts domain="de.systopia.xdedupe"}Duplicates{/ts}</th>
+    <th data-data="links" data-orderable="false">&nbsp;</th>
+  </tr>
+  </thead>
+</table>
+
+{literal}
+<script type="text/javascript">
+  (function($) {
+    CRM.$('table.xdedupe-result').data({
+      "ajax": {
+        "url": {/literal}'{$xdedupe_data_url}'{literal},
+      }
+    });
+  })(CRM.$);
+</script>
+{/literal}
+
+
+{* RESULTS }
+<div class="xdedupe-config xdedupe-result" id="xdedupe-result">
   {if $tuples}
     <h2>{ts domain="de.systopia.xdedupe" 1=$result_count 2=$contact_count}%1 results with %2 contacts:{/ts}</h2>
-    <table class="xdedupe-preview">
+    <table id="xdedupe_preview_table" class="xdedupe-preview">
       <thead>
         <tr>
-          <th>Main Contact</th>
-          <th>Duplicate(s)</th>
+          <th>{ts domain="de.systopia.xdedupe"}Main Contact{/ts}</th>
+          <th>{ts domain="de.systopia.xdedupe"}Duplicates{/ts}</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
       {foreach from=$tuples item=tuple}
         <tr>
-          <td>{$tuple.main.image} <a href="{$tuple.main.link}">{$tuple.main.display_name}</a></td>
+          <td>{$tuple.main.image} <a target="_blank" href="{$tuple.main.link}>{$tuple.main.display_name}</a></td>
           <td>
             {foreach from=$tuple.other item=other}
-              {$other.image} <a href="{$other.link}">{$other.display_name}</a><br/>
+              {$other.image} <a target="_blank" href="{$other.link}">{$other.display_name}</a><br/>
             {/foreach}
           </td>
           <td>
             <span>
-              <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="View Comparison">View</a>
-              <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="Merge All">Merge</a>
+              <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="{ts domain="de.systopia.xdedupe"}View Comparison{/ts}">{ts domain="de.systopia.xdedupe"}Compare{/ts}</a>
+              <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="{ts domain="de.systopia.xdedupe"}Merge All{/ts}">{ts domain="de.systopia.xdedupe"}Merge{/ts}</a>
               {if $tuple.main.mergelink}
-              <a href="{$tuple.main.mergelink}" class="action-item crm-hover-button no-popup" title="Manual Merge">Manual</a>
+              <a href="{$tuple.main.mergelink}" class="action-item crm-hover-button no-popup" title="{ts domain="de.systopia.xdedupe"}CiviCRM's Manual Merge{/ts}">{ts domain="de.systopia.xdedupe"}Manual{/ts}</a>
               {/if}
             </span>
           </td>
@@ -120,8 +144,10 @@
     <h2>{ts domain="de.systopia.xdedupe"}No duplicates found!{/ts}</h2>
   {/if}
 </div>
+*}
 
 {* FOOTER *}
 <div class="crm-submit-buttons">
 {include file="CRM/common/formButtons.tpl" location="bottom"}
 </div>
+

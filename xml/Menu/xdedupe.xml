@@ -6,4 +6,9 @@
     <title>Control Room</title>
     <access_arguments>administer CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/ajax/xdedupetuples</path>
+    <page_callback>CRM_Xdedupe_Form_ControlRoom::getTupleRowsAJAX</page_callback>
+    <access_arguments>administer CiviCRM</access_arguments>
+  </item>
 </menu>

@@ -21,22 +21,31 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
+  const TUPLES_PER_PAGE = 50;
+  private static $null = NULL;
+
   /**
    * @var CRM_Xdedupe_DedupeRun the current dedupe session
    */
   protected $dedupe_run = NULL;
   protected $cr_command = NULL;
+  protected $offset     = 0;
 
   public function buildQuickForm() {
     CRM_Utils_System::setTitle(E::ts("Extendend Dedupe - Control Room"));
 
     // find/create run
-    $dedupe_run = CRM_Utils_Request::retrieve('dedupe_run', 'String');
+    $dedupe_run   = CRM_Utils_Request::retrieve('dedupe_run', 'String');
+    $this->offset = CRM_Utils_Request::retrieve('paging_offset', 'Integer', self::$null, FALSE, 0);
     $this->dedupe_run = new CRM_Xdedupe_DedupeRun($dedupe_run);
     $this->dedupe_run->cleanupDB();
 
+    // add field for run ID
+    $this->assign('xdedupe_data_url',CRM_Utils_System::url("civicrm/ajax/xdedupetuples", "dedupe_run={$dedupe_run}"));
+    $this->add('hidden', 'dedupe_run',    $this->dedupe_run->getID());
+    $this->add('hidden', 'paging_offset', $this->offset);
+
     // add finder criteria
-    $this->add('hidden', 'dedupe_run', $this->dedupe_run->getID());
     $finders = ['' => E::ts('None')] + CRM_Xdedupe_Finder::getFinderList();
 
     // add finder criteria
@@ -130,31 +139,24 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         ['class' => 'huge crm-select2', 'multiple' => 'multiple']
     );
 
-
-
-    $this->addButtons(array(
-      array(
-        'type' => 'find',
-        'name' => E::ts('Find'),
-        'isDefault' => TRUE,
-      ),
-      array(
-          'type' => 'merge',
-          'name' => E::ts('Merge All'),
-          'isDefault' => FALSE,
-      ),
-    ));
-
-    // add some stats
-    $this->addStats();
-
-    // add preview
-    $this->addMatchPreview(50);
+    // build buttons
+    $buttons = [
+        [
+            'type'      => 'find',
+            'name'      => E::ts('Find'),
+            'isDefault' => TRUE,
+        ],
+        [
+            'type'      => 'merge',
+            'name'      => E::ts('Merge All'),
+            'isDefault' => FALSE,
+        ]
+    ];
+    $this->addButtons($buttons);
 
     // let's add some style...
     CRM_Core_Resources::singleton()->addStyleFile('de.systopia.xdedupe', 'css/xdedupe.css');
 
-    // export form elements
     parent::buildQuickForm();
   }
 
@@ -185,10 +187,15 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
       // finally: run again
       $this->dedupe_run->find($values);
-    }
 
-    $this->addStats();
-    $this->addMatchPreview(50);
+    } elseif ($this->cr_command == 'nextpage') {
+      $this->offset += self::TUPLES_PER_PAGE;
+      $this->getElement('paging_offset')->setValue($this->offset);
+
+    } elseif ($this->cr_command == 'prevpage') {
+      $this->offset = max(0, ($this->offset - self::TUPLES_PER_PAGE));
+      $this->getElement('paging_offset')->setValue($this->offset);
+    }
 
     parent::postProcess();
   }
@@ -197,74 +204,99 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    * Re-route our commands to submit
    */
   public function handle($command) {
-    if ($command == 'find' || $command == 'merge') {
+    if (in_array($command, ['find', 'merge', 'nextpage', 'prevpage'])) {
       $this->cr_command = $command;
       $command = 'submit';
     }
     return parent::handle($command);
   }
-
+  
   /**
-   * Pass the current statistics to the form
+   * AJAX call to get the data for tuple data
    */
-  public function addStats() {
-    $this->assign("result_count",  $this->dedupe_run->getTupleCount());
-    $this->assign("contact_count", $this->dedupe_run->getContactCount());
-  }
+  public static function getTupleRowsAJAX() {
+    $params = CRM_Core_Page_AJAX::defaultSortAndPagerParams();
+    $params += CRM_Core_Page_AJAX::validateParams(['dedupe_run' => 'String']);
+    CRM_Core_Error::debug_log_message("params : " . json_encode($params));
 
-  /**
-   * Add a number of tuples for sample display
-   *
-   * @param $count  int number of tuples to add
-   * @param $offset int offset/paging
-   */
-  public function addMatchPreview($count, $offset = 0) {
-    $render_tuples = [];
-    $tuples = $this->dedupe_run->getTuples($count, $offset);
-    if (empty($tuples)) {
-      $this->assign('tuples', $render_tuples);
-      return;
-    }
+    $dedupe_run = new CRM_Xdedupe_DedupeRun($params['dedupe_run']);
+    $tuples = $dedupe_run->getTuples($params['rp'], $params['offset']);
 
     // load all these contacts
-    $all_contact_ids = [];
-    foreach ($tuples as $main_contact_id => $contact_ids) {
-      $all_contact_ids[] = $main_contact_id;
-      foreach ($contact_ids as $contact_id) {
-        $all_contact_ids[] = $contact_id;
+    $records = [];
+    if (!empty($tuples)) {
+      $all_contact_ids = [];
+      foreach ($tuples as $main_contact_id => $contact_ids) {
+        $all_contact_ids[] = $main_contact_id;
+        foreach ($contact_ids as $contact_id) {
+          $all_contact_ids[] = $contact_id;
+        }
+      }
+      $all_contacts = civicrm_api3('Contact','get', [
+          'id'           => ['IN' => $all_contact_ids],
+          'sequential'   => 0,
+          'option.limit' => 0,
+          'return'       => 'contact_type,contact_sub_type,display_name,id'
+      ])['values'];
+
+      // compile rows
+      foreach ($tuples as $main_contact_id => $contact_ids) {
+        $record = [];
+
+        // render main contact
+        $contact = $all_contacts[$main_contact_id];
+        $image   = CRM_Contact_BAO_Contact_Utils::getImage(empty($contact['contact_sub_type']) ? $contact['contact_type'] : $contact['contact_sub_type'], FALSE, $contact['id']);
+        $url     = CRM_Utils_System::url("civicrm/contact/view", 'reset=1&cid=' . $contact['id']);
+        $record['main_contact'] = "{$image} <a target=\"_blank\" href=\"{$url}\">{$contact['display_name']}</a>";
+
+        // render other contacts
+        $lines = [];
+        foreach ($contact_ids as $contact_id) {
+          $contact = $all_contacts[$contact_id];
+          $image   = CRM_Contact_BAO_Contact_Utils::getImage(empty($contact['contact_sub_type']) ? $contact['contact_type'] : $contact['contact_sub_type'], FALSE, $contact['id']);
+          $url     = CRM_Utils_System::url("civicrm/contact/view", 'reset=1&cid=' . $contact['id']);
+          $lines[] = "{$image} <a target=\"_blank\" href=\"{$url}\">{$contact['display_name']}</a>";
+        }
+        $record['duplicates'] = implode('<br/>', $lines);
+
+        // add links
+        $links = [];
+
+        // add compare link
+        $caption = E::ts("Compare");
+        $title   = E::ts("View Contact Comparison");
+        $link    = "TODO";
+        $links[] = "<a href=\"{$link}\" class=\"action-item crm-hover-button\" title=\"{$title}\">{$caption}</a>";
+
+        // add merge link
+        $caption = E::ts("Merge");
+        $title   = E::ts("Merge with X-Dedupe");
+        $link    = "TODO";
+        $links[] = "<a href=\"{$link}\" class=\"action-item crm-hover-button\" title=\"{$title}\">{$caption}</a>";
+
+        // add manual merge link
+        if (count($contact_ids) == 1) {
+          $first_contact_ids = reset($contact_ids);
+          $caption = E::ts("Manual");
+          $title   = E::ts("CiviCRM's manual merge");
+          $link    = CRM_Utils_System::url("civicrm/contact/merge", "reset=1&cid={$main_contact_id}&oid={$first_contact_ids}");
+          $links[] = "<a href=\"{$link}\" class=\"action-item crm-hover-button\" title=\"{$title}\">{$caption}</a>";
+        }
+
+        // compile links
+        $record['links'] = "<ul>" . implode(' ', $links) . "</ul>";
+        $records[] = $record;
       }
     }
-    $all_contacts = civicrm_api3('Contact','get', [
-        'id'           => ['IN' => $all_contact_ids],
-        'sequential'   => 0,
-        'option.limit' => 0,
-        'return'       => 'contact_type,contact_sub_type,display_name,id'
-    ])['values'];
 
-    // compile rows
-    foreach ($tuples as $main_contact_id => $contact_ids) {
-      $tuple = [];
-      $tuple['main'] = $all_contacts[$main_contact_id];
-      $tuple['main']['image'] = $this->getContactImage($all_contacts[$main_contact_id]);
-      $tuple['main']['link']  = CRM_Utils_System::url("civicrm/contact/view", 'reset=1&cid=' . $main_contact_id);
-      $tuple['other'] = [];
-      foreach ($contact_ids as $contact_id) {
-        $other = $all_contacts[$contact_id];
-        $other['image'] = $this->getContactImage($all_contacts[$contact_id]);
-        $other['link']  = CRM_Utils_System::url("civicrm/contact/view", 'reset=1&cid=' . $contact_id);
-        $tuple['other'][] = $other;
-      }
-
-      // add merge link
-      if (count($tuple['other']) == 1
-           && $tuple['main']['contact_type'] == $tuple['other'][0]['contact_type']) {
-        $tuple['main']['mergelink'] = CRM_Utils_System::url("civicrm/contact/merge", "reset=1&cid={$tuple['main']['id']}&oid={$tuple['other'][0]['id']}");
-      }
-
-      $render_tuples[] = $tuple;
-    }
-    $this->assign('tuples', $render_tuples);
+    $total_count = $dedupe_run->getTupleCount();
+    CRM_Utils_JSON::output([
+        'data'            => $records,
+        'recordsTotal'    => $total_count,
+        'recordsFiltered' => $total_count
+    ]);
   }
+
 
   /**
    * Generate the contact image with the overview popup
