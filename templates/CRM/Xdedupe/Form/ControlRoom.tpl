@@ -81,6 +81,11 @@
   </div>
 </div>
 
+{* BUTTONS *}
+<div class="crm-submit-buttons">
+  {include file="CRM/common/formButtons.tpl" location="bottom"}
+</div>
+
 {* RESULTS *}
 <br/>
 <table class="xdedupe-result crm-ajax-table">
@@ -105,49 +110,4 @@
 </script>
 {/literal}
 
-
-{* RESULTS }
-<div class="xdedupe-config xdedupe-result" id="xdedupe-result">
-  {if $tuples}
-    <h2>{ts domain="de.systopia.xdedupe" 1=$result_count 2=$contact_count}%1 results with %2 contacts:{/ts}</h2>
-    <table id="xdedupe_preview_table" class="xdedupe-preview">
-      <thead>
-        <tr>
-          <th>{ts domain="de.systopia.xdedupe"}Main Contact{/ts}</th>
-          <th>{ts domain="de.systopia.xdedupe"}Duplicates{/ts}</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-      {foreach from=$tuples item=tuple}
-        <tr>
-          <td>{$tuple.main.image} <a target="_blank" href="{$tuple.main.link}>{$tuple.main.display_name}</a></td>
-          <td>
-            {foreach from=$tuple.other item=other}
-              {$other.image} <a target="_blank" href="{$other.link}">{$other.display_name}</a><br/>
-            {/foreach}
-          </td>
-          <td>
-            <span>
-              <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="{ts domain="de.systopia.xdedupe"}View Comparison{/ts}">{ts domain="de.systopia.xdedupe"}Compare{/ts}</a>
-              <a href="#xdedupe-result" class="action-item crm-hover-button no-popup" title="{ts domain="de.systopia.xdedupe"}Merge All{/ts}">{ts domain="de.systopia.xdedupe"}Merge{/ts}</a>
-              {if $tuple.main.mergelink}
-              <a href="{$tuple.main.mergelink}" class="action-item crm-hover-button no-popup" title="{ts domain="de.systopia.xdedupe"}CiviCRM's Manual Merge{/ts}">{ts domain="de.systopia.xdedupe"}Manual{/ts}</a>
-              {/if}
-            </span>
-          </td>
-        </tr>
-      {/foreach}
-      </tbody>
-    </table>
-  {else}
-    <h2>{ts domain="de.systopia.xdedupe"}No duplicates found!{/ts}</h2>
-  {/if}
-</div>
-*}
-
-{* FOOTER *}
-<div class="crm-submit-buttons">
-{include file="CRM/common/formButtons.tpl" location="bottom"}
-</div>
 

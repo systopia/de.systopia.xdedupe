@@ -210,7 +210,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     }
     return parent::handle($command);
   }
-  
+
   /**
    * AJAX call to get the data for tuple data
    */
