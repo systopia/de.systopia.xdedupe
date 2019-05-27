@@ -25,11 +25,20 @@ abstract class CRM_Xdedupe_Resolver {
    * Select the main contact from a set of contacts
    *
    * @param $main_contact_id   int   the main contact ID
-   * @param $other_contact_ids array list of other contact IDs
+   * @param $other_contact_id  int   other contact ID
    * @return boolean TRUE, if there was a conflict to be resolved
    * @throws Exception if the conflict couldn't be resolved
    */
-  public abstract function resolve($main_contact_id, $other_contact_ids);
+  public abstract function resolve($main_contact_id, $other_contact_id);
+
+  /**
+   * Report the contact attributes that this resolver requires
+   *
+   * @return array list of contact attributes
+   */
+  public function getContactAttributes() {
+    return [];
+  }
 
   /**
    * get the name of the finder
