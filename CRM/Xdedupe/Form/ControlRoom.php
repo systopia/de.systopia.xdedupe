@@ -42,6 +42,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
     // add field for run ID
     $this->assign('xdedupe_data_url',CRM_Utils_System::url("civicrm/ajax/xdedupetuples", "dedupe_run={$dedupe_run}"));
+    $this->assign('dedupe_run_id', $dedupe_run);
     $this->add('hidden', 'dedupe_run',    $this->dedupe_run->getID());
     $this->add('hidden', 'paging_offset', $this->offset);
 
@@ -197,6 +198,9 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       $this->getElement('paging_offset')->setValue($this->offset);
     }
 
+    $this->assign('result_count',  $this->dedupe_run->getTupleCount());
+    $this->assign('contact_count', $this->dedupe_run->getContactCount());
+
     parent::postProcess();
   }
 
@@ -271,8 +275,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         // add merge link
         $caption = E::ts("Merge");
         $title   = E::ts("Merge with X-Dedupe");
-        $link    = "TODO";
-        $links[] = "<a href=\"{$link}\" class=\"action-item crm-hover-button\" title=\"{$title}\">{$caption}</a>";
+        $links[] = "<a href=\"\" class=\"action-item crm-hover-button xdedupe-merge-individual\" title=\"{$title}\">{$caption}</a>";
 
         // add manual merge link
         if (count($contact_ids) == 1) {

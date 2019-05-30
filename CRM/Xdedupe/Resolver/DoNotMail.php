@@ -20,8 +20,8 @@ use CRM_Xdedupe_ExtensionUtil as E;
  * Simple ExternalIdentifier Resolver
  */
 class CRM_Xdedupe_Resolver_DoNotMail extends CRM_Xdedupe_Resolver_MaxAttribute {
-  public function __construct() {
-    parent::__construct('do_not_mail');
+  public function __construct($merge) {
+    parent::__construct($merge, 'do_not_mail');
   }
 
   /**

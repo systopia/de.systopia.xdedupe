@@ -88,6 +88,7 @@
 
 {* RESULTS *}
 <br/>
+<h1 id="xdedupe_results">{ts domain="de.systopia.xdedupe" 1=$result_count 2=$contact_count}Found %1 results with %2 contacts:{/ts}</h1>
 <table class="xdedupe-result crm-ajax-table">
   <thead>
   <tr>
@@ -107,6 +108,34 @@
       }
     });
   })(CRM.$);
+
+  // 'merge' button handler
+  cj("table.xdedupe-result").click(function(e) {
+    if (cj(e.target).is("a.xdedupe-merge-individual")) {
+      // this is the merge button click -> gather data
+      let main_contact_id = '1';
+      let other_contact_ids = '2,3';
+      let force_merge = cj("#force_merge").prop('checked') ? "1" : "0";
+      let resolvers = cj("#auto_resolve").val();
+      if (resolvers == null) {
+        resolvers = [];
+      }
+      CRM.api3("Xdedupe", "merge", {
+        "main_contact_id": main_contact_id,
+        "other_contact_ids": other_contact_ids,
+        "force_merge": force_merge,
+        "resolvers": resolvers.join(','),
+        "dedupe_run": "{/literal}{$dedupe_run_id}{literal}"
+      }).success(function(result) {
+        console.log("yeah1");
+      }).error(function(result) {
+        console.log("nooo");
+      });
+      console.log(e.target);
+      e.preventDefault();
+    }
+  });
+
 </script>
 {/literal}
 

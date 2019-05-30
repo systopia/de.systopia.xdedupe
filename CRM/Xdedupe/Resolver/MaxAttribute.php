@@ -19,12 +19,15 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Implements Max resolver, i.e. take the highest of the values
  */
-abstract class CRM_Xdedupe_Resolver_MaxAttribute extends CRM_Xdedupe_Resolver {
+abstract class CRM_Xdedupe_Resolver_MaxAttribute extends CRM_Xdedupe_Resolver_SimpleAttribute {
 
-  protected $attribute_name;
-
-  public function __construct($attribute_name) {
-    $this->attribute_name = $attribute_name;
+  /**
+   * Report the contact attributes that this resolver requires
+   *
+   * @return array list of contact attributes
+   */
+  public function getContactAttributes() {
+    return [$this->attribute_name];
   }
 
   /**

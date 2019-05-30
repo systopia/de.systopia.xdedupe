@@ -21,8 +21,18 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 abstract class CRM_Xdedupe_Resolver {
 
+  /** @var $merge CRM_Xdedupe_Merge  */
+  protected $merge = NULL;
+
+  public function __construct($merge) {
+    $this->merge = $merge;
+  }
+
   /**
-   * Select the main contact from a set of contacts
+   * Resolve the merge conflicts by editing the contact
+   *
+   * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
+   *  $this->merge->unloadContact($contact_id)
    *
    * @param $main_contact_id   int   the main contact ID
    * @param $other_contact_id  int   other contact ID
@@ -74,7 +84,7 @@ abstract class CRM_Xdedupe_Resolver {
     $resolver_list = [];
     $resolver_classes = self::getResolvers();
     foreach ($resolver_classes as $resolver_class) {
-      $resolver = new $resolver_class();
+      $resolver = new $resolver_class(NULL);
       $resolver_list[$resolver_class] = $resolver->getName();
     }
     return $resolver_list;

@@ -69,18 +69,11 @@ function _civicrm_api3_xdedupe_merge_spec(&$spec) {
 function civicrm_api3_xdedupe_merge($params) {
   try {
     $merger = new CRM_Xdedupe_Merge($params);
-
+    $merger->multiMerge($params['main_contact_id'], explode(',', $params['other_contact_ids']));
+    $result = $merger->getStats();
+    return civicrm_api3_create_success($result);
+  } catch (Exception $ex) {
+    throw new CiviCRM_API3_Exception($ex->getMessage(), $ex->getCode());
   }
-//
-//  try {
-//    $result = CRM_Mailingtools_AnonymousOpen::processAnonymousOpenEvent($params['mid']);
-//    if ($result) {
-//      return civicrm_api3_create_success("Anonymous open event recorded.");
-//    } else {
-//      return civicrm_api3_create_success("Anonymous open tracking disabled.");
-//    }
-//  } catch (Exception $ex) {
-//    throw new CiviCRM_API3_Exception($ex->getMessage(), $ex->getCode());
-//  }
 }
 

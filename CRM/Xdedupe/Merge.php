@@ -19,7 +19,7 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * This is the actual merge process
  */
-class CRM_Xdedupe_Merge{
+class CRM_Xdedupe_Merge {
 
   protected $resolvers = [];
   protected $required_contact_attributes = NULL;
@@ -50,7 +50,7 @@ class CRM_Xdedupe_Merge{
         /** @var $resolver CRM_Xdedupe_Resolver */
         $resolver = new $resolver_class($this);
         $this->resolvers[] = $resolver;
-        $required_contact_attributes += $resolver->getContactAttributes();
+        $required_contact_attributes = array_merge($required_contact_attributes, $resolver->getContactAttributes());
       } else {
         $this->logError("Resolver class '{$resolver_class}' not found!");
       }
@@ -73,6 +73,15 @@ class CRM_Xdedupe_Merge{
     if ($this->merge_log_handle) {
       fclose($this->merge_log_handle);
     }
+  }
+
+  /**
+   * Get the stats from all the merges performed by this object
+   *
+   * @return array stats
+   */
+  public function getStats() {
+    return $this->stats;
   }
 
   /**
@@ -100,13 +109,30 @@ class CRM_Xdedupe_Merge{
    * @param $other_contact_ids array other contact IDs
    */
   public function multiMerge($main_contact_id, $other_contact_ids) {
-    // do some verification here
-    $this->loadContacts([$main_contact_id] + $other_contact_ids);
+    // first check for really bad judgement:
+    if (in_array($main_contact_id, $other_contact_ids)) {
+      throw new Exception("Cannot merge contact(s) with itself!");
+    }
+
+    // do some more verification here
+    $contact_ids = $other_contact_ids;
+    $contact_ids[] = $main_contact_id;
+    $this->loadContacts($contact_ids);
     $main_contact = $this->getContact($main_contact_id);
     if (!empty($main_contact['is_deleted'])) {
       $this->logError("Main contact [{$main_contact_id}] is deleted. This is wrong!");
       return;
     }
+
+    // TODO: run multi-resolvers? problem is, that it might resolve contacts that then don't get merged after all...
+    //
+    //    foreach ($this->resolvers as $resolver) {
+    //      $changes = $resolver->resolve($main_contact_id, $other_contact_ids);
+    //      if ($changes) {
+    //        $this->stats['conflicts_resolved'] += 1;
+    //        $this->unloadContact($main_contact_id);
+    //      }
+    //    }
 
     // now simply merge all contacts individually:
     foreach ($other_contact_ids as $other_contact_id) {
@@ -123,6 +149,11 @@ class CRM_Xdedupe_Merge{
    * @param $other_contact_id int other contact ID
    */
   public function merge($main_contact_id, $other_contact_id) {
+    if ($main_contact_id == $other_contact_id) {
+      // nothing to do here
+      return;
+    }
+
     // first: verify that the contact's are "fit" for merging
     $this->loadContacts([$main_contact_id, $other_contact_id]);
     $main_contact = $this->getContact($main_contact_id);
@@ -140,28 +171,38 @@ class CRM_Xdedupe_Merge{
       // then: run resolvers
       /** @var $resolver CRM_Xdedupe_Resolver */
       foreach ($this->resolvers as $resolver) {
-        $changes = $resolver->resolve($main_contact_id, $other_contact_id);
+        $changes = $resolver->resolve($main_contact_id, [$other_contact_id]);
         if ($changes) {
           $this->stats['conflicts_resolved'] += 1;
-          $this->unloadContact($main_contact_id);
         }
       }
 
       // now: run the merge
-      civicrm_api3('Contact', 'merge', [
+      $result = civicrm_api3('Contact', 'merge', [
           'to_keep_id'   => $main_contact_id,
           'to_remove_id' => $other_contact_id,
           'mode'         => ($this->force_merge ? '' : 'safe')
       ]);
 
+      if (count($result['values']['skipped'])) {
+        $this->stats['errors'][] = E::ts("Remaining Conflicts");
+        $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
+      } elseif (count($result['values']['merged'])) {
+        $this->stats['contacts_merged'] += 1;
+        $this->stats['tuples_merged']   += 1;
+      } else {
+        $this->stats['errors'][] = E::ts("Merge API Error");
+        $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
+      }
+
     } catch (Exception $ex) {
-      // TODO error handling
+      $this->stats['errors'][] = $ex->getMessage();
+      $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
     }
 
     // finally: update the stats
     $this->unloadContact($main_contact_id);
     $this->unloadContact($other_contact_id);
-    // TODO
   }
 
 

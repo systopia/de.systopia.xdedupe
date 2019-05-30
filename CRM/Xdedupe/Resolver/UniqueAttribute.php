@@ -17,25 +17,9 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implements a resolver for basic contact fields
+ * Implements a resolver for unique values
  */
-abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver {
-
-  protected $attribute_name;
-
-  public function __construct($merge, $attribute_name) {
-    parent::__construct($merge);
-    $this->attribute_name = $attribute_name;
-  }
-
-  /**
-   * Report the contact attributes that this resolver requires
-   *
-   * @return array list of contact attributes
-   */
-  public function getContactAttributes() {
-    return [$this->attribute_name];
-  }
+abstract class CRM_Xdedupe_Resolver_UniqueAttribute extends CRM_Xdedupe_Resolver_SimpleAttribute {
 
   /**
    * Resolve the merge conflicts by editing the contact
@@ -43,8 +27,8 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
    * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
    *  $this->merge->unloadContact($contact_id)
    *
-   * @param $main_contact_id   int   the main contact ID
-   * @param $other_contact_id  int   other contact ID
+   * @param $main_contact_id    int   the main contact ID
+   * @param $other_contact_ids  array other contact ID
    * @return boolean TRUE, if there was a conflict to be resolved
    * @throws Exception if the conflict couldn't be resolved
    */
@@ -65,10 +49,6 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
       // main contact's attribute is set, delete the others
       return $this->unsetValueForContacts($other_contact_ids);
     }
-
-    $other_contact = $this->merge->getContact($other_contact_id);
-    // TODO: implement
-    throw new Exception("IMPLEMENT ME");
   }
 
   /**
@@ -82,14 +62,57 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
   protected function setValueForContacts($contact_ids, $value) {
     $change = FALSE;
     foreach ($contact_ids as $contact_id) {
-      $contact = $this->merge->getContact($contact_id);
       $current_value = $this->getValueFromContacts([$contact_id]);
       if (!$this->isValueEqual($current_value, $value)) {
         // we need to set the value
-
-
+        $change = TRUE;
+        civicrm_api3('Contact', 'create', [
+            'id'                  => $contact_id,
+            $this->attribute_name => $value]);
+        $this->merge->unloadContact($contact_id);
       }
     }
+    return $change;
+  }
+
+  /**
+   * Unset the given value for these contacts
+   *
+   * @param $contact_ids array  contact IDs
+   *
+   * @return TRUE if a change was performed
+   */
+  protected function unsetValueForContacts($contact_ids) {
+    $change = FALSE;
+    foreach ($contact_ids as $contact_id) {
+      $current_value = $this->getValueFromContacts([$contact_id]);
+      if ($current_value) {
+        // we need to unset the value
+        $change = TRUE;
+        civicrm_api3('Contact', 'create', [
+            'id'                  => $contact_id,
+            $this->attribute_name => '']);
+        $this->merge->unloadContact($contact_id);
+      }
+    }
+    return $change;
+  }
+
+  /**
+   * Get the first non-empty value from the given contacts
+   *
+   * @param $contact_ids array contact_ids
+   * @return string first attribute value
+   */
+  protected function getValueFromContacts($contact_ids) {
+    foreach ($contact_ids as $contact_id) {
+      $contact = $this->merge->getContact($contact_id);
+      if (!empty($contact[$this->attribute_name])) {
+        return $contact[$this->attribute_name];
+      }
+    }
+    // no attribute found?
+    return '';
   }
 
   /**
