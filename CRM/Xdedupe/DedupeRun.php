@@ -140,9 +140,10 @@ class CRM_Xdedupe_DedupeRun {
     $table_name = $this->getTableName();
     CRM_Core_DAO::executeQuery("
       CREATE TABLE IF NOT EXISTS `{$table_name}`(
-       `contact_id`  int unsigned NOT NULL        COMMENT 'proposed main contact ID',
-       `match_count` int unsigned NOT NULL        COMMENT 'number of contacts',
-       `contact_ids` varchar(255) NOT NULL        COMMENT 'all contact ids, comma separated',
+       `contact_id`   int unsigned NOT NULL        COMMENT 'proposed main contact ID',
+       `match_count`  int unsigned NOT NULL        COMMENT 'number of contacts',
+       `contact_ids`  varchar(255) NOT NULL        COMMENT 'all contact ids, comma separated',
+       `merged_count` int unsigned DEFAULT NULL    COMMENT 'will be set to the number of contacts merged',
       PRIMARY KEY ( `contact_id` ),
       INDEX `match_count` (match_count)
       ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
@@ -245,5 +246,16 @@ class CRM_Xdedupe_DedupeRun {
     $main_contact_id = (int) $main_contact_id;
     $table_name = $this->getTableName();
     CRM_Core_DAO::executeQuery("DELETE FROM `{$table_name}` WHERE contact_id = {$main_contact_id}");
+  }
+
+  /**
+   * Update the merged_count column in the box
+   * @param $main_contact_id  int main contact ID
+   * @param $merged_count     int amount of contacts merged
+   */
+  public function setContactsMerged($main_contact_id, $merged_count) {
+    $merged_count = (int) $merged_count;
+    $table_name = $this->getTableName();
+    CRM_Core_DAO::executeQuery("UPDATE `{$table_name}` SET merged_count = {$merged_count} WHERE contact_id = {$main_contact_id}");
   }
 }

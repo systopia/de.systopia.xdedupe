@@ -194,7 +194,6 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       CRM_Xdedupe_MergeJob::launchMergeRunner($this->dedupe_run->getID(), [
         'force_merge' => empty($values['force_merge']) ? '0' : '1',
         'resolvers'   => $values['auto_resolve'],
-        'dedupe_run'  => $this->dedupe_run->getID(),
       ]);
     }
 
