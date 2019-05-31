@@ -286,6 +286,10 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
           $links[] = "<a href=\"{$link}\" class=\"action-item crm-hover-button\" title=\"{$title}\">{$caption}</a>";
         }
 
+        // add 'fake' link for IDs
+        $links[] = "<span style=\"display: none;\" class=\"xdedupe-main-contact-id\">{$main_contact_id}</span>";
+        $links[] = "<span style=\"display: none;\" class=\"xdedupe-other-contact-ids\">" . implode(',', $contact_ids) . "</span>";
+
         // compile links
         $record['links'] = "<ul>" . implode(' ', $links) . "</ul>";
         $records[] = $record;

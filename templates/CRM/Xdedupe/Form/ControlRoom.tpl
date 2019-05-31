@@ -113,8 +113,8 @@
   cj("table.xdedupe-result").click(function(e) {
     if (cj(e.target).is("a.xdedupe-merge-individual")) {
       // this is the merge button click -> gather data
-      let main_contact_id = '1';
-      let other_contact_ids = '2,3';
+      let main_contact_id   = cj(e.target).parent().find("span.xdedupe-main-contact-id").text();
+      let other_contact_ids = cj(e.target).parent().find("span.xdedupe-other-contact-ids").text();
       let force_merge = cj("#force_merge").prop('checked') ? "1" : "0";
       let resolvers = cj("#auto_resolve").val();
       if (resolvers == null) {
@@ -127,9 +127,16 @@
         "resolvers": resolvers.join(','),
         "dedupe_run": "{/literal}{$dedupe_run_id}{literal}"
       }).success(function(result) {
-        console.log("yeah1");
+        let ts = CRM.ts('de.systopia.xdedupe');
+        if (result.tuples_merged > 0) {
+          CRM.alert(ts("Tuple was merged"), ts("Success"), 'info');
+          // TODO: refresh table
+        } else {
+          CRM.alert(ts("Merge failed: ") + result.errors, ts("Failed"), 'info');
+        }
       }).error(function(result) {
-        console.log("nooo");
+        let ts = CRM.ts('de.systopia.xdedupe');
+        CRM.alert(ts("XDedupe Merge failed: " . result.error_msg), ts("Error"), 'error');
       });
       console.log(e.target);
       e.preventDefault();

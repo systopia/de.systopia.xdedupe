@@ -43,8 +43,8 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
    * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
    *  $this->merge->unloadContact($contact_id)
    *
-   * @param $main_contact_id   int   the main contact ID
-   * @param $other_contact_id  int   other contact ID
+   * @param $main_contact_id    int     the main contact ID
+   * @param $other_contact_ids  array   other contact IDs
    * @return boolean TRUE, if there was a conflict to be resolved
    * @throws Exception if the conflict couldn't be resolved
    */

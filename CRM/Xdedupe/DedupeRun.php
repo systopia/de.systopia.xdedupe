@@ -204,11 +204,11 @@ class CRM_Xdedupe_DedupeRun {
       $filter->addJOINS($JOINS);
       $filter->addWHERES($WHERES);
     }
-    $JOINS = implode(" \n", $JOINS);
+    $JOINS = implode(" \n    ", $JOINS);
     if (empty($WHERES)) {
       $WHERES = 'TRUE';
     } else {
-      $WHERES = '(' . implode(') AND (', $WHERES) . ')';
+      $WHERES = '(' . implode(") \n      AND (", $WHERES) . ')';
     }
     if (empty($GROUP_BYS)) {
       $GROUP_BYS = '';
@@ -234,5 +234,16 @@ class CRM_Xdedupe_DedupeRun {
 
     // run query
     CRM_Core_DAO::executeQuery($sql);
+  }
+
+  /**
+   * Remove the tuple identified by the main contact ID
+   *
+   * @param $main_contact_id int    contact ID
+   */
+  public function removeTuple($main_contact_id) {
+    $main_contact_id = (int) $main_contact_id;
+    $table_name = $this->getTableName();
+    CRM_Core_DAO::executeQuery("DELETE FROM `{$table_name}` WHERE contact_id = {$main_contact_id}");
   }
 }

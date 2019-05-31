@@ -136,7 +136,10 @@ class CRM_Xdedupe_Merge {
 
     // now simply merge all contacts individually:
     foreach ($other_contact_ids as $other_contact_id) {
-      $this->merge($main_contact_id, $other_contact_id);
+      $merge_succeeded = $this->merge($main_contact_id, $other_contact_id, TRUE);
+      if ($merge_succeeded) {
+        $this->stats['tuples_merged'] += 1;
+      }
     }
   }
 
@@ -147,11 +150,13 @@ class CRM_Xdedupe_Merge {
    *
    * @param $main_contact_id  int main contact ID
    * @param $other_contact_id int other contact ID
+   * @param $part_of_tuple    boolean is this pair part of an x-tuple?
+   * @return boolean merge succeeded?
    */
-  public function merge($main_contact_id, $other_contact_id) {
+  public function merge($main_contact_id, $other_contact_id, $part_of_tuple = FALSE) {
     if ($main_contact_id == $other_contact_id) {
       // nothing to do here
-      return;
+      return FALSE;
     }
 
     // first: verify that the contact's are "fit" for merging
@@ -159,14 +164,15 @@ class CRM_Xdedupe_Merge {
     $main_contact = $this->getContact($main_contact_id);
     if (!empty($main_contact['is_deleted'])) {
       $this->logError("Main contact [{$main_contact_id}] is deleted. This is wrong!");
-      return;
+      return FALSE;
     }
     $other_contact = $this->getContact($other_contact_id);
     if (!empty($other_contact['is_deleted'])) {
       $this->logError("Other contact [{$other_contact_id}] is deleted. This is wrong!");
-      return;
+      return FALSE;
     }
 
+    $merge_succeeded = FALSE;
     try {
       // then: run resolvers
       /** @var $resolver CRM_Xdedupe_Resolver */
@@ -188,8 +194,11 @@ class CRM_Xdedupe_Merge {
         $this->stats['errors'][] = E::ts("Remaining Conflicts");
         $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
       } elseif (count($result['values']['merged'])) {
+        $merge_succeeded = TRUE;
         $this->stats['contacts_merged'] += 1;
-        $this->stats['tuples_merged']   += 1;
+        if (!$part_of_tuple) {
+          $this->stats['tuples_merged'] += 1;
+        }
       } else {
         $this->stats['errors'][] = E::ts("Merge API Error");
         $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
@@ -203,6 +212,8 @@ class CRM_Xdedupe_Merge {
     // finally: update the stats
     $this->unloadContact($main_contact_id);
     $this->unloadContact($other_contact_id);
+
+    return $merge_succeeded;
   }
 
 

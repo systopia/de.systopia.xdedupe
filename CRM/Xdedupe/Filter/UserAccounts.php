@@ -17,36 +17,41 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implement a "Filter", i.e. a class that will restrict the set of duplicates found
+ * Implement a filter that includes contacts, that are in the dedupe exception list
  */
-abstract class CRM_Xdedupe_Filter extends  CRM_Xdedupe_QueryPlugin {
+class CRM_Xdedupe_Filter_UserAccounts extends CRM_Xdedupe_Filter {
 
   /**
-   * Get a list of all available finder classes
-   *
-   * @return array list of class names
+   * get the name of the finder
+   * @return string name
    */
-  public static function getFilters() {
-    // todo: use symfony
-    return [
-        'CRM_Xdedupe_Filter_DedupeException',
-        'CRM_Xdedupe_Filter_UserAccounts'
-    ];
+  public function getName() {
+    return E::ts("Exclude System Users");
   }
 
   /**
-   * Get a list of all available finder classes
-   *
-   * @return array class => name
+   * get an explanation what the finder does
+   * @return string name
    */
-  public static function getFilterList() {
-    $filter_list = [];
-    $filter_classes = self::getFilters();
-    foreach ($filter_classes as $filter_class) {
-      /** @var $filter CRM_Xdedupe_Filter */
-      $filter = new $filter_class(null, null); // dirty, i know...
-      $filter_list[$filter_class] = $filter->getName();
-    }
-    return $filter_list;
+  public function getHelp() {
+    return E::ts("Exclude contacts (not tuples!) that are connected to a user account.");
+  }
+
+  /**
+   * Add this finder's JOIN clauses to the list
+   *
+   * @param $joins array
+   */
+  public function addJOINS(&$joins) {
+    $joins[] = "LEFT JOIN civicrm_uf_match {$this->alias} ON {$this->alias}.contact_id = contact.id";
+  }
+
+  /**
+   * Add this finder's WHERE clauses to the list
+   *
+   * @param $wheres array
+   */
+  public function addWHERES(&$wheres) {
+    $wheres[] = "{$this->alias}.uf_id IS NULL";
   }
 }

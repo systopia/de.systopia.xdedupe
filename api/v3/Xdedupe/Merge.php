@@ -71,7 +71,19 @@ function civicrm_api3_xdedupe_merge($params) {
     $merger = new CRM_Xdedupe_Merge($params);
     $merger->multiMerge($params['main_contact_id'], explode(',', $params['other_contact_ids']));
     $result = $merger->getStats();
-    return civicrm_api3_create_success($result);
+
+    if (!empty($result['tuples_merged']) && !empty($params['dedupe_run'])) {
+      // merge successful -> remove from dedupe run
+      try {
+        $dedupe_run = new CRM_Xdedupe_DedupeRun($params['dedupe_run']);
+        $dedupe_run->removeTuple($params['main_contact_id']);
+      } catch (Exception $ex) {
+        // probably means that the run doesn't exist, no problem
+      }
+    }
+
+    $null = NULL;
+    return civicrm_api3_create_success([], $params, 'Xdedupe', 'merge', $null, $result);
   } catch (Exception $ex) {
     throw new CiviCRM_API3_Exception($ex->getMessage(), $ex->getCode());
   }
