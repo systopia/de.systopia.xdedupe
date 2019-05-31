@@ -189,13 +189,13 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       // finally: run again
       $this->dedupe_run->find($values);
 
-    } elseif ($this->cr_command == 'nextpage') {
-      $this->offset += self::TUPLES_PER_PAGE;
-      $this->getElement('paging_offset')->setValue($this->offset);
-
-    } elseif ($this->cr_command == 'prevpage') {
-      $this->offset = max(0, ($this->offset - self::TUPLES_PER_PAGE));
-      $this->getElement('paging_offset')->setValue($this->offset);
+    } elseif ($this->cr_command == 'merge') {
+      // call merge runner
+      CRM_Xdedupe_MergeJob::launchMergeRunner($this->dedupe_run->getID(), [
+        'force_merge' => empty($values['force_merge']) ? '0' : '1',
+        'resolvers'   => $values['auto_resolve'],
+        'dedupe_run'  => $this->dedupe_run->getID(),
+      ]);
     }
 
     $this->assign('result_count',  $this->dedupe_run->getTupleCount());
