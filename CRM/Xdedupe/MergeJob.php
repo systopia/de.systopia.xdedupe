@@ -14,7 +14,7 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
-define('XDEDUPE_BATCH_SIZE', 1);
+define('XDEDUPE_BATCH_SIZE', 50);
 
 use CRM_Xdedupe_ExtensionUtil as E;
 
@@ -46,8 +46,9 @@ class CRM_Xdedupe_MergeJob {
     ));
 
     // fill queue
+    unset($params['dedupe_run']);
     $dedupe_run = new CRM_Xdedupe_DedupeRun($dedupe_run_id);
-    $count  = $dedupe_run->getTupleCount();
+    $count = $dedupe_run->getTupleCount();
     $offset = 0;
     while ($offset < $count) {
       $tuples = $dedupe_run->getTuples(XDEDUPE_BATCH_SIZE, $offset);
@@ -113,18 +114,33 @@ class CRM_Xdedupe_MergeJob {
     switch ($this->mode) {
       case 'merge':
         // this one needs a lock
+        $dedupe_run = new CRM_Xdedupe_DedupeRun($this->dedupe_run_id);
         $merger = new CRM_Xdedupe_Merge($this->params);
         foreach ($this->tuples as $main_contact_id => $other_contact_ids) {
           // call the
+          $merged_before = $merger->getStats()['contacts_merged'];
           $merger->multiMerge($main_contact_id, $other_contact_ids);
+          $tuples_merged = $merger->getStats()['contacts_merged'] - $merged_before;
+          $dedupe_run->setContactsMerged($main_contact_id, $tuples_merged);
         }
-        $context->log->info("Merged: " . json_encode($merger->getStats()));
         break;
 
       case 'summary':
-        $context->log->info("Done");
-//        CRM_Core_Error::debug_log_message("STATS: " . json_encode($context['xdedupe']));
-//        CRM_Core_Session::setStatus("DONE:" . $context['xdedupe']);
+        $dedupe_run      = new CRM_Xdedupe_DedupeRun($this->dedupe_run_id);
+        $table_name      = $dedupe_run->getTableName();
+        $tuple_count     = $dedupe_run->getTupleCount();
+        $tuples_merged   = CRM_Core_DAO::singleValueQuery("SELECT COUNT(merged_count) FROM `{$table_name}` WHERE merged_count IS NOT NULL;");
+        $contact_count   = $dedupe_run->getContactCount() - $tuple_count; // don't count the main contacts
+        $contacts_merged = CRM_Core_DAO::singleValueQuery("SELECT SUM(merged_count) FROM `{$table_name}`;");
+        CRM_Core_Session::setStatus(E::ts("Merged %1 of %2 tuples, %3 of %4 contacts.", [
+            1 => $tuples_merged,
+            2 => $tuple_count,
+            3 => $contacts_merged,
+            4 => $contact_count
+        ]), E::ts("Merge Finished"), 'alert');
+
+        // clear table
+        $dedupe_run->clear();
         break;
 
       default:
