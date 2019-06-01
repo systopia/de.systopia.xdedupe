@@ -29,6 +29,14 @@ abstract class CRM_Xdedupe_Resolver {
   }
 
   /**
+   * Get the merge object, this is running in
+   * @return CRM_Xdedupe_Merge context
+   */
+  public function getContext() {
+    return $this->merge;
+  }
+
+  /**
    * Resolve the merge conflicts by editing the contact
    *
    * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
@@ -71,7 +79,8 @@ abstract class CRM_Xdedupe_Resolver {
     // todo: use symfony
     return [
         'CRM_Xdedupe_Resolver_ExternalIdentifier',
-        'CRM_Xdedupe_Resolver_DoNotMail',
+        'CRM_Xdedupe_Resolver_Language',
+//        'CRM_Xdedupe_Resolver_DoNotMail',
     ];
   }
 

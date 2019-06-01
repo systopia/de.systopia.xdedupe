@@ -76,46 +76,6 @@ abstract class CRM_Xdedupe_Resolver_UniqueAttribute extends CRM_Xdedupe_Resolver
   }
 
   /**
-   * Unset the given value for these contacts
-   *
-   * @param $contact_ids array  contact IDs
-   *
-   * @return TRUE if a change was performed
-   */
-  protected function unsetValueForContacts($contact_ids) {
-    $change = FALSE;
-    foreach ($contact_ids as $contact_id) {
-      $current_value = $this->getValueFromContacts([$contact_id]);
-      if ($current_value) {
-        // we need to unset the value
-        $change = TRUE;
-        civicrm_api3('Contact', 'create', [
-            'id'                  => $contact_id,
-            $this->attribute_name => '']);
-        $this->merge->unloadContact($contact_id);
-      }
-    }
-    return $change;
-  }
-
-  /**
-   * Get the first non-empty value from the given contacts
-   *
-   * @param $contact_ids array contact_ids
-   * @return string first attribute value
-   */
-  protected function getValueFromContacts($contact_ids) {
-    foreach ($contact_ids as $contact_id) {
-      $contact = $this->merge->getContact($contact_id);
-      if (!empty($contact[$this->attribute_name])) {
-        return $contact[$this->attribute_name];
-      }
-    }
-    // no attribute found?
-    return '';
-  }
-
-  /**
    * Check if the two values for this attribute are to be considered equal
    *
    * Override if needed.
