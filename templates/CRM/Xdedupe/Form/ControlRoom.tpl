@@ -130,7 +130,12 @@
         let ts = CRM.ts('de.systopia.xdedupe');
         if (result.tuples_merged > 0) {
           CRM.alert(ts("Tuple was merged"), ts("Success"), 'info');
-          // TODO: refresh table
+          // refresh table
+          // TODO: find out how to trigger ajax table reload
+          if (!window.location.href.endsWith('#xdedupe_results')) {
+            window.location.replace(window.location.href + '#xdedupe_results');
+          }
+          window.location.reload();
         } else {
           CRM.alert(ts("Merge failed: ") + result.errors, ts("Failed"), 'info');
         }
