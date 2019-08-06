@@ -34,6 +34,16 @@
     <div class="content">{$form.finder_3.html}</div>
     <div class="clear"></div>
   </div>
+  <div class="crm-section">
+    <div class="label">{$form.finder_4.label}</div>
+    <div class="content">{$form.finder_4.html}</div>
+    <div class="clear"></div>
+  </div>
+  <div class="crm-section">
+    <div class="label">{$form.finder_5.label}</div>
+    <div class="content">{$form.finder_5.html}</div>
+    <div class="clear"></div>
+  </div>
 </div>
 
 {* FILTERS *}

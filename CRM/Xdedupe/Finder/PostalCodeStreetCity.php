@@ -19,38 +19,25 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
  */
-abstract class CRM_Xdedupe_Finder extends  CRM_Xdedupe_QueryPlugin {
-  /**
-   * Get a list of all available finder classes
-   *
-   * @return array list of class names
-   */
-  public static function getFinders() {
-    // todo: use symfony
-    return [
-        'CRM_Xdedupe_Finder_Email',
-        'CRM_Xdedupe_Finder_LastName',
-        'CRM_Xdedupe_Finder_BirthDate',
-        'CRM_Xdedupe_Finder_FirstName',
-        'CRM_Xdedupe_Finder_PostalCode',
-        'CRM_Xdedupe_Finder_PostalCodeCity',
-        'CRM_Xdedupe_Finder_PostalCodeStreet',
-        'CRM_Xdedupe_Finder_PostalCodeStreetCity',
-    ];
+class CRM_Xdedupe_Finder_PostalCodeStreetCity extends CRM_Xdedupe_Finder_Address {
+
+  public function __construct($alias, $params) {
+    parent::__construct($alias, $params, ['postal_code', 'street_address', 'city']);
   }
 
   /**
-   * Get a list of all available finder classes
-   *
-   * @return array class => name
+   * get the name of the finder
+   * @return string name
    */
-  public static function getFinderList() {
-    $finder_list = [];
-    $finder_classes = self::getFinders();
-    foreach ($finder_classes as $finder_class) {
-      $finder = new $finder_class(null, null); // dirty, i know...
-      $finder_list[$finder_class] = $finder->getName();
-    }
-    return $finder_list;
+  public function getName() {
+    return E::ts("Postal Code, Street Address and City");
+  }
+
+  /**
+   * get an explanation what the finder does
+   * @return string name
+   */
+  public function getHelp() {
+    return E::ts("Looks for identical postal code, street address, and city");
   }
 }

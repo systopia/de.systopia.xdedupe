@@ -77,6 +77,24 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         ['class' => 'huge']
     );
 
+    $this->add(
+        'select',
+        'finder_4',
+        E::ts("Quaternary Criteria"),
+        $finders,
+        FALSE,
+        ['class' => 'huge']
+    );
+
+    $this->add(
+        'select',
+        'finder_5',
+        E::ts("Quinary Criteria"),
+        $finders,
+        FALSE,
+        ['class' => 'huge']
+    );
+
     // add filter elements
     $this->add(
         'select',
@@ -169,7 +187,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       $this->dedupe_run->clear();
 
       // add finders
-      foreach (range(1,3) as $index) {
+      foreach (range(1,5) as $index) {
         if (!empty($values["finder_{$index}"])) {
           $this->dedupe_run->addFinder($values["finder_{$index}"], $values);
         }
