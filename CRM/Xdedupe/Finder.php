@@ -30,6 +30,7 @@ abstract class CRM_Xdedupe_Finder extends  CRM_Xdedupe_QueryPlugin {
     return [
         'CRM_Xdedupe_Finder_Email',
         'CRM_Xdedupe_Finder_LastName',
+        'CRM_Xdedupe_Finder_OrganizationName',
         'CRM_Xdedupe_Finder_BirthDate',
         'CRM_Xdedupe_Finder_FirstName',
         'CRM_Xdedupe_Finder_PostalCode',
