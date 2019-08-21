@@ -129,7 +129,7 @@ class CRM_Xdedupe_MergeJob {
         $dedupe_run      = new CRM_Xdedupe_DedupeRun($this->dedupe_run_id);
         $table_name      = $dedupe_run->getTableName();
         $tuple_count     = $dedupe_run->getTupleCount();
-        $tuples_merged   = CRM_Core_DAO::singleValueQuery("SELECT COUNT(merged_count) FROM `{$table_name}` WHERE merged_count IS NOT NULL;");
+        $tuples_merged   = CRM_Core_DAO::singleValueQuery("SELECT COUNT(merged_count) FROM `{$table_name}` WHERE merged_count > 0;");
         $contact_count   = $dedupe_run->getContactCount() - $tuple_count; // don't count the main contacts
         $contacts_merged = CRM_Core_DAO::singleValueQuery("SELECT SUM(merged_count) FROM `{$table_name}`;");
         CRM_Core_Session::setStatus(E::ts("Merged %1 of %2 tuples, %3 of %4 contacts.", [

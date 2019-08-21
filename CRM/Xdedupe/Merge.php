@@ -173,6 +173,7 @@ class CRM_Xdedupe_Merge {
     }
 
     $merge_succeeded = FALSE;
+    $transaction = new CRM_Core_Transaction();
     try {
       // then: run resolvers
       /** @var $resolver CRM_Xdedupe_Resolver */
@@ -191,23 +192,28 @@ class CRM_Xdedupe_Merge {
       ]);
 
       if (count($result['values']['skipped'])) {
+        $transaction->rollback(); // merge didn't work
         $this->stats['errors'][] = E::ts("Remaining Conflicts");
         $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
       } elseif (count($result['values']['merged'])) {
         $merge_succeeded = TRUE;
+        $transaction->commit(); // merge worked
         $this->stats['contacts_merged'] += 1;
         if (!$part_of_tuple) {
           $this->stats['tuples_merged'] += 1;
         }
       } else {
+        $transaction->rollback(); // this is weird
         $this->stats['errors'][] = E::ts("Merge API Error");
         $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
       }
 
     } catch (Exception $ex) {
+      $transaction->rollback(); // something's wrong
       $this->stats['errors'][] = $ex->getMessage();
       $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
     }
+
 
     // finally: update the stats
     $this->unloadContact($main_contact_id);
