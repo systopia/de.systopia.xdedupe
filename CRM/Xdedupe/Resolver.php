@@ -80,6 +80,7 @@ abstract class CRM_Xdedupe_Resolver {
     return [
         'CRM_Xdedupe_Resolver_ExternalIdentifier',
         'CRM_Xdedupe_Resolver_Language',
+        'CRM_Xdedupe_Resolver_OrganisationName',
 //        'CRM_Xdedupe_Resolver_DoNotMail',
     ];
   }

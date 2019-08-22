@@ -38,32 +38,49 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
   }
 
   /**
-   * Resolve the merge conflicts by editing the contact
-   *
-   * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
-   *  $this->>getContext()->unloadContact($contact_id)
+   * Resolve the merge conflicts setting the winning attribute to the main contact
+   *  and everybody else to NULL
    *
    * @param $main_contact_id    int     the main contact ID
    * @param $other_contact_ids  array   other contact IDs
    * @return boolean TRUE, if there was a conflict to be resolved
    * @throws Exception if the conflict couldn't be resolved
    */
-  public function resolve($main_contact_id, $other_contact_ids) {
+  public function resolveKingOfTheHill($main_contact_id, $other_contact_ids) {
     $main_contact  = $this->getContext()->getContact($main_contact_id);
-    if (empty($main_contact[$this->attribute_name])) {
-      // contact itself doesn't have it => pick one from the others
-      $value = $this->getValueFromContacts($other_contact_ids);
-      if ($value) {
-        $this->unsetValueForContacts($other_contact_ids);
-        $this->setValueForContacts([$main_contact_id], $value);
-        return TRUE;
-      } else {
-        // the others don't have a value either => no conflict
-        return FALSE;
-      }
+    $all_contact_ids = array_merge([$main_contact_id], $other_contact_ids);
+    $all_values = $this->getDistinctValuesFromContacts($all_contact_ids);
+    if (count($all_values) > 1) {
+      $value = $this->getBestValue($all_values, $main_contact_id);
+      $change = FALSE;
+      $change |= $this->unsetValueForContacts($other_contact_ids);
+      $change |= $this->setValueForContacts([$main_contact_id], $value);
+      return $change;
+
     } else {
-      // main contact's attribute is set, delete the others
-      return $this->unsetValueForContacts($other_contact_ids);
+      // nothing to do
+      return FALSE;
+    }
+  }
+
+  /**
+   * Resolve the merge conflicts setting the winning attribute to every contact
+   *
+   * @param $main_contact_id    int     the main contact ID
+   * @param $other_contact_ids  array   other contact IDs
+   * @return boolean TRUE, if there was a conflict to be resolved
+   * @throws Exception if the conflict couldn't be resolved
+   */
+  public function resolveTheGreatEqualiser($main_contact_id, $other_contact_ids) {
+    $all_contact_ids = array_merge([$main_contact_id], $other_contact_ids);
+    $all_values = $this->getDistinctValuesFromContacts($all_contact_ids);
+    if (count($all_values) > 1) {
+      $value = $this->getBestValue($all_values, $main_contact_id);
+      return $this->setValueForContacts($all_contact_ids, $value);
+
+    } else {
+      // nothing to do
+      return FALSE;
     }
   }
 
@@ -110,7 +127,7 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
   }
 
   /**
-   * Get the first non-empty value from the given contacts
+   * Get the all non-empty values from the given contacts
    *
    * @param $contact_ids array contact_ids
    * @return             array list off different values for the attribute
@@ -130,11 +147,40 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
   }
 
   /**
+   * Get the different values from the contacts in the contact list
+   *
+   * @param $contact_ids array contact_ids
+   * @return             array value => [contact IDs]
+   */
+  protected function getDistinctValuesFromContacts($contact_ids) {
+    $values = [];
+    foreach ($contact_ids as $contact_id) {
+      $contact = $this->getContext()->getContact($contact_id);
+      $value = CRM_Utils_Array::value($this->attribute_name, $contact);
+      if (!$this->isValueEmpty($value)) {
+        $values[$value][] = $contact_id;
+      }
+    }
+    return $values;
+  }
+
+  /**
+   * Define whether the given value is considered empty
+   *
+   * @param $value string the value
+   * @return boolean is this value empty
+   */
+  protected function isValueEmpty($value) {
+    return $value === NULL || $value === '';
+  }
+
+  /**
    * Unset the given value for these contacts
    *
    * @param $contact_ids array  contact IDs
    *
    * @return TRUE if a change was performed
+   * @throws CiviCRM_API3_Exception
    */
   protected function unsetValueForContacts($contact_ids) {
     $change = FALSE;
@@ -162,6 +208,46 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
    */
   protected function isValueEqual($value1, $value2) {
     return $value1 == $value2;
+  }
+
+  /**
+   * Get a value to represent the best of those values.
+   *  The returned value does not have to be contained in the given values
+   *
+   * @param $values          array value => [contact IDs] - the values, and which contact they're used by
+   * @param $main_contact_id int   the main contact ID (in case of doubt)
+   * @return string the resulting value
+   */
+  protected function getBestValue($values, $main_contact_id) {
+    // default implementation: pick the highest valued one
+    $winning_rating = PHP_INT_MIN;
+    $winning_value  = NULL;
+    foreach ($values as $value => $contact_ids) {
+      $rating = $this->getValueRating($value, $contact_ids, $main_contact_id);
+      if ($rating > $winning_rating) {
+        $winning_rating = $rating;
+        $winning_value = $value;
+      }
+    }
+    return $winning_value;
+  }
+
+  /**
+   * Rate the given value, meant to be overwritten.
+   *
+   * Default implementation: pick the main contact's one
+   *
+   * @param $value            string value to be rated
+   * @param $contact_ids      array list of contact_ids using it
+   * @param $main_contact_id
+   * @return int rating -> the higher the better
+   */
+  protected function getValueRating($value, $contact_ids, $main_contact_id) {
+    if (in_array($main_contact_id, $contact_ids)) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
   /**
