@@ -40,6 +40,14 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     $this->dedupe_run = new CRM_Xdedupe_DedupeRun($dedupe_run);
     $this->dedupe_run->cleanupDB();
 
+    // if this is a new form, set the most recently used configuration
+    if (!$dedupe_run) {
+      $last_configuration = self::getUserSettings()->get('xdedup_last_configuration');
+      if ($last_configuration) {
+        $this->setDefaults($last_configuration);
+      }
+    }
+
     // add field for run ID
     $this->assign('xdedupe_data_url',CRM_Utils_System::url("civicrm/ajax/xdedupetuples", "dedupe_run={$dedupe_run}"));
     $this->assign('dedupe_run_id', $dedupe_run);
@@ -181,6 +189,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
   public function postProcess() {
     $values = $this->exportValues();
+    self::getUserSettings()->set('xdedup_last_configuration', $values);
 
     if ($this->cr_command == 'find') {
       // re-compile runner
@@ -378,4 +387,11 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     return $tag_list;
   }
 
+  /**
+   * Get the current user's settings
+   * @return \Civi\Core\SettingsBag
+   */
+  public static function getUserSettings() {
+    return Civi::service('settings_manager')->getBagByContact(CRM_Core_Config::domainID(), CRM_Core_Session::getLoggedInContactID());
+  }
 }
