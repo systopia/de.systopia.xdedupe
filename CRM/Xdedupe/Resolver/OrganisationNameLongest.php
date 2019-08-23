@@ -20,7 +20,7 @@ use CRM_Xdedupe_ExtensionUtil as E;
  * Implements a resolver for Organisation Name
  *   selects the longer name, and with more variety (upper/lower case)
  */
-class CRM_Xdedupe_Resolver_OrganisationName extends CRM_Xdedupe_Resolver_SimpleAttribute {
+class CRM_Xdedupe_Resolver_OrganisationNameLongest extends CRM_Xdedupe_Resolver_SimpleAttribute {
 
   public function __construct($merge) {
     parent::__construct($merge, 'organization_name');
@@ -31,7 +31,7 @@ class CRM_Xdedupe_Resolver_OrganisationName extends CRM_Xdedupe_Resolver_SimpleA
    * @return string name
    */
   public function getName() {
-    return E::ts("Main Organisation Name");
+    return E::ts("Longest Organisation Name");
   }
 
   /**
@@ -39,7 +39,7 @@ class CRM_Xdedupe_Resolver_OrganisationName extends CRM_Xdedupe_Resolver_SimpleA
    * @return string name
    */
   public function getHelp() {
-    return E::ts("In case of conflicts, keep the organisation name of the main contact.");
+    return E::ts("Will resolve the Organization Name by selecting the longer one, with better formatting.");
   }
 
 
@@ -70,11 +70,7 @@ class CRM_Xdedupe_Resolver_OrganisationName extends CRM_Xdedupe_Resolver_SimpleA
    * @return int rating -> the higher the better
    */
   protected function getValueRating($value, $contact_ids, $main_contact_id) {
-    // we want to keep the main contact's one...
-    if (in_array($main_contact_id, $contact_ids)) {
-      return 1;
-    } else {
-      return 0;
-    }
+    // pick the one used by most contacts, and of multiple ones, pick the longest
+    return strlen($value) + count($contact_ids) * 1000;
   }
 }
