@@ -34,14 +34,14 @@ class CRM_Xdedupe_Picker_Oldest extends CRM_Xdedupe_Picker {
    * @return string name
    */
   public function getHelp() {
-    return E::ts("Picks the contact if the smallest CiviCRM ID");
+    return E::ts("Picks the contact with the lowest CiviCRM ID");
   }
 
   /**
    * Select the main contact from a set of contacts
    *
    * @param $contact_ids array list of contact IDs
-   * @return int one of the contacts in the list
+   * @return int|null one of the contacts in the list. null means "can't decide"
    */
   public function selectMainContact($contact_ids) {
     return min($contact_ids);

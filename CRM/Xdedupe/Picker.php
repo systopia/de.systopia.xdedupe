@@ -25,7 +25,7 @@ abstract class CRM_Xdedupe_Picker {
    * Select the main contact from a set of contacts
    *
    * @param $contact_ids array list of contact IDs
-   * @return int one of the contacts in the list
+   * @return int|null one of the contacts in the list. null means "can't decide"
    */
   public abstract function selectMainContact($contact_ids);
 
