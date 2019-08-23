@@ -21,10 +21,6 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 class CRM_Xdedupe_Resolver_DropSamePhones extends CRM_Xdedupe_Resolver {
 
-  public function __construct($merge) {
-    parent::__construct($merge, 'organization_name');
-  }
-
   /**
    * get the name of the finder
    * @return string name

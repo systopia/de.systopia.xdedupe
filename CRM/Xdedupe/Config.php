@@ -73,6 +73,7 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
         'CRM_Xdedupe_Resolver_Language',
         'CRM_Xdedupe_Resolver_OrganisationName',
         'CRM_Xdedupe_Resolver_DropSamePhones',
+        'CRM_Xdedupe_Resolver_BumpAddressConflicts',
     ]);
   }
 
@@ -85,4 +86,30 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
     ]);
   }
 
+  /**
+   * The 'conflict' location type is specificially created to remove location type conflicts by
+   *  moving the second address to this new location type
+   */
+  public static function getConflictLocationTypeID() {
+    static $conflict_location_type_id = NULL;
+    if ($conflict_location_type_id === NULL) {
+      $location_type = civicrm_api3('LocationType', 'get', ['name' => 'Conflict']);
+      if (empty($location_type['id'])) {
+        // create it
+        $result = civicrm_api3('LocationType', 'create', [
+            'name'         => 'Conflict',
+            'display_name' => E::ts('Conflict'),
+            'vcard_name'   => 'UNKNOWN',
+            'is_reserved'  => '0',
+            'is_active'    => '1',
+            'is_default'   => '0',
+            'description'  => E::ts("XDedupe location type conflict. Please clean up!"),
+        ]);
+        $conflict_location_type_id = $result['id'];
+      } else {
+        $conflict_location_type_id = $location_type['id'];
+      }
+    }
+    return $conflict_location_type_id;
+  }
 }
