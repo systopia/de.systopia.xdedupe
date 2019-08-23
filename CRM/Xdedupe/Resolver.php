@@ -81,6 +81,7 @@ abstract class CRM_Xdedupe_Resolver {
         'CRM_Xdedupe_Resolver_ExternalIdentifier',
         'CRM_Xdedupe_Resolver_Language',
         'CRM_Xdedupe_Resolver_OrganisationName',
+        'CRM_Xdedupe_Resolver_DropSamePhones',
 //        'CRM_Xdedupe_Resolver_DoNotMail',
     ];
   }
