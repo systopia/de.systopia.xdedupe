@@ -17,6 +17,7 @@
 require_once 'xdedupe.civix.php';
 use CRM_Xdedupe_ExtensionUtil as E;
 
+
 /**
  * Implements hook_civicrm_config().
  *
@@ -24,6 +25,9 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 function xdedupe_civicrm_config(&$config) {
   _xdedupe_civix_civicrm_config($config);
+
+  require_once 'CRM/Xdedupe/Config.php';
+  \Civi::dispatcher()->addSubscriber(new CRM_Xdedupe_Config());
 }
 
 /**

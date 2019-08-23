@@ -26,18 +26,9 @@ abstract class CRM_Xdedupe_Finder extends  CRM_Xdedupe_QueryPlugin {
    * @return array list of class names
    */
   public static function getFinders() {
-    // todo: use symfony
-    return [
-        'CRM_Xdedupe_Finder_Email',
-        'CRM_Xdedupe_Finder_LastName',
-        'CRM_Xdedupe_Finder_OrganizationName',
-        'CRM_Xdedupe_Finder_BirthDate',
-        'CRM_Xdedupe_Finder_FirstName',
-        'CRM_Xdedupe_Finder_PostalCode',
-        'CRM_Xdedupe_Finder_PostalCodeCity',
-        'CRM_Xdedupe_Finder_PostalCodeStreet',
-        'CRM_Xdedupe_Finder_PostalCodeStreetCity',
-    ];
+    $finder_list = [];
+    \Civi::dispatcher()->dispatch('civi.xdedupe.finders', \Civi\Core\Event\GenericHookEvent::create(['list' => &$finder_list]));
+    return $finder_list;
   }
 
   /**

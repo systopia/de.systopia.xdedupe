@@ -76,14 +76,9 @@ abstract class CRM_Xdedupe_Resolver {
    * @return array list of class names
    */
   public static function getResolvers() {
-    // todo: use symfony
-    return [
-        'CRM_Xdedupe_Resolver_ExternalIdentifier',
-        'CRM_Xdedupe_Resolver_Language',
-        'CRM_Xdedupe_Resolver_OrganisationName',
-        'CRM_Xdedupe_Resolver_DropSamePhones',
-//        'CRM_Xdedupe_Resolver_DoNotMail',
-    ];
+    $resolver_list = [];
+    \Civi::dispatcher()->dispatch('civi.xdedupe.resolvers', \Civi\Core\Event\GenericHookEvent::create(['list' => &$resolver_list]));
+    return $resolver_list;
   }
 
   /**

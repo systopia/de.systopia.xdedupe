@@ -47,10 +47,9 @@ abstract class CRM_Xdedupe_Picker {
    * @return array list of class names
    */
   public static function getPickers() {
-    // todo: use symfony
-    return [
-        'CRM_Xdedupe_Picker_Oldest',
-    ];
+    $picker_list = [];
+    \Civi::dispatcher()->dispatch('civi.xdedupe.pickers', \Civi\Core\Event\GenericHookEvent::create(['list' => &$picker_list]));
+    return $picker_list;
   }
 
   /**

@@ -27,11 +27,9 @@ abstract class CRM_Xdedupe_Filter extends  CRM_Xdedupe_QueryPlugin {
    * @return array list of class names
    */
   public static function getFilters() {
-    // todo: use symfony
-    return [
-        'CRM_Xdedupe_Filter_DedupeException',
-        'CRM_Xdedupe_Filter_UserAccounts'
-    ];
+    $filter_list = [];
+    \Civi::dispatcher()->dispatch('civi.xdedupe.filters', \Civi\Core\Event\GenericHookEvent::create(['list' => &$filter_list]));
+    return $filter_list;
   }
 
   /**
@@ -40,6 +38,7 @@ abstract class CRM_Xdedupe_Filter extends  CRM_Xdedupe_QueryPlugin {
    * @return array class => name
    */
   public static function getFilterList() {
+
     $filter_list = [];
     $filter_classes = self::getFilters();
     foreach ($filter_classes as $filter_class) {
