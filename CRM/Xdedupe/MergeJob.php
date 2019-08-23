@@ -47,11 +47,12 @@ class CRM_Xdedupe_MergeJob {
 
     // fill queue
     unset($params['dedupe_run']);
+    $pickers = CRM_Xdedupe_Picker::getPickerInstances($params['pickers']);
     $dedupe_run = new CRM_Xdedupe_DedupeRun($dedupe_run_id);
     $count = $dedupe_run->getTupleCount();
     $offset = 0;
     while ($offset < $count) {
-      $tuples = $dedupe_run->getTuples(XDEDUPE_BATCH_SIZE, $offset);
+      $tuples = $dedupe_run->getTuples(XDEDUPE_BATCH_SIZE, $offset, $pickers);
       $queue->createItem(new CRM_Xdedupe_MergeJob('merge', $dedupe_run_id, $params, $offset, $tuples));
       $offset += XDEDUPE_BATCH_SIZE;
     }

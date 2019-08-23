@@ -88,10 +88,10 @@ class CRM_Xdedupe_DedupeRun {
    *
    * @param $count  int number of tuples to add
    * @param $offset int offset/paging
-   * @param $picker CRM_Xdedupe_Picker use this picker to determine the main contact
+   * @param $pickers array CRM_Xdedupe_Pickers to use to determine the main contact
    * @return array [main_contact_id => duplicates' contact ids]
    */
-  public function getTuples($count, $offset = 0, $picker = NULL) {
+  public function getTuples($count, $offset = 0, $pickers = []) {
     $tuple_list = [];
     $count  = (int) $count;
     $offset = (int) $offset;
@@ -99,11 +99,16 @@ class CRM_Xdedupe_DedupeRun {
     $query = CRM_Core_DAO::executeQuery("SELECT contact_ids, contact_id FROM `{$table_name}` LIMIT {$count} OFFSET {$offset}");
     while ($query->fetch()) {
       $contact_ids = explode(',', $query->contact_ids);
-      if ($picker) {
+      $main_contact_id = NULL;
+      foreach ($pickers as $picker) {
         $main_contact_id = $picker->selectMainContact($contact_ids);
-      } else {
+        if ($main_contact_id !== NULL) break;
+      }
+      if (!$main_contact_id) {
+        // fallback is the minimum contact ID
         $main_contact_id = $query->contact_id;
       }
+
       // remove main contact from rest
       $key = array_search($main_contact_id, $contact_ids);
       unset($contact_ids[$key]);
@@ -140,7 +145,7 @@ class CRM_Xdedupe_DedupeRun {
     $table_name = $this->getTableName();
     CRM_Core_DAO::executeQuery("
       CREATE TABLE IF NOT EXISTS `{$table_name}`(
-       `contact_id`   int unsigned NOT NULL        COMMENT 'proposed main contact ID',
+       `contact_id`   int unsigned NOT NULL        COMMENT 'minimum contact ID for index, not necessarily the main contact',
        `match_count`  int unsigned NOT NULL        COMMENT 'number of contacts',
        `contact_ids`  varchar(255) NOT NULL        COMMENT 'all contact ids, comma separated',
        `merged_count` int unsigned DEFAULT NULL    COMMENT 'will be set to the number of contacts merged',

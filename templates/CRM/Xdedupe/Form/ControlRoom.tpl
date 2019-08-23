@@ -111,13 +111,25 @@
 
 {literal}
 <script type="text/javascript">
-  (function($) {
+
+  function xdedupe_update_table_link() {
+    let pickers = cj("#main_contact").val();
+    if (pickers == null) {
+      pickers = [];
+    }
+    console.log(pickers);
     CRM.$('table.xdedupe-result').data({
       "ajax": {
-        "url": {/literal}'{$xdedupe_data_url}'{literal},
+        "url": '{/literal}{$xdedupe_data_url}{literal}&pickers=' + pickers.join(','),
       }
     });
+  }
+
+  // trigger this function
+  (function($) {
+    xdedupe_update_table_link();
   })(CRM.$);
+  cj("#main_contact").change(xdedupe_update_table_link);
 
   // 'merge' button handler
   cj("table.xdedupe-result").click(function(e) {
@@ -130,11 +142,16 @@
       if (resolvers == null) {
         resolvers = [];
       }
+      let pickers = cj("#main_contact").val();
+      if (pickers == null) {
+        pickers = [];
+      }
       CRM.api3("Xdedupe", "merge", {
         "main_contact_id": main_contact_id,
         "other_contact_ids": other_contact_ids,
         "force_merge": force_merge,
         "resolvers": resolvers.join(','),
+        "pickers": pickers.join(','),
         "dedupe_run": "{/literal}{$dedupe_run_id}{literal}"
       }).success(function(result) {
         let ts = CRM.ts('de.systopia.xdedupe');

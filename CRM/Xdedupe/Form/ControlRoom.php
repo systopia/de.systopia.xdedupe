@@ -219,8 +219,9 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     } elseif ($this->cr_command == 'merge') {
       // call merge runner
       CRM_Xdedupe_MergeJob::launchMergeRunner($this->dedupe_run->getID(), [
-        'force_merge' => empty($values['force_merge']) ? '0' : '1',
-        'resolvers'   => $values['auto_resolve'],
+          'force_merge' => empty($values['force_merge']) ? '0' : '1',
+          'resolvers'   => $values['auto_resolve'],
+          'pickers'     => $values['main_contact'],
       ]);
     }
 
@@ -246,11 +247,12 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    */
   public static function getTupleRowsAJAX() {
     $params = CRM_Core_Page_AJAX::defaultSortAndPagerParams();
-    $params += CRM_Core_Page_AJAX::validateParams(['dedupe_run' => 'String']);
-    CRM_Core_Error::debug_log_message("params : " . json_encode($params));
+    $params += CRM_Core_Page_AJAX::validateParams(['dedupe_run' => 'String', 'pickers' => 'String']);
+    // CRM_Core_Error::debug_log_message("params : " . json_encode($params));
 
     $dedupe_run = new CRM_Xdedupe_DedupeRun($params['dedupe_run']);
-    $tuples = $dedupe_run->getTuples($params['rp'], $params['offset']);
+    $pickers = CRM_Xdedupe_Picker::getPickerInstances(explode(',', $params['pickers']));
+    $tuples = $dedupe_run->getTuples($params['rp'], $params['offset'], $pickers);
 
     // load all these contacts
     $records = [];

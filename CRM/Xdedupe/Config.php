@@ -83,6 +83,7 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
   public function addBuiltinPickers(GenericHookEvent $xdedupe_list) {
     $xdedupe_list->list = array_merge($xdedupe_list->list, [
         'CRM_Xdedupe_Picker_Oldest',
+        'CRM_Xdedupe_Picker_Youngest',
     ]);
   }
 

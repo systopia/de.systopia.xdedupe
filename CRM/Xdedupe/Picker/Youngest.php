@@ -19,14 +19,14 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Implement a "ContactPicker", i.e. a class that will identify the main contact from a list of contacts
  */
-class CRM_Xdedupe_Picker_Oldest extends CRM_Xdedupe_Picker {
+class CRM_Xdedupe_Picker_Youngest extends CRM_Xdedupe_Picker {
 
   /**
    * get the name of the finder
    * @return string name
    */
   public function getName() {
-    return E::ts("Oldest (by CiviCRM ID)");
+    return E::ts("Youngest (by CiviCRM ID)");
   }
 
   /**
@@ -34,7 +34,7 @@ class CRM_Xdedupe_Picker_Oldest extends CRM_Xdedupe_Picker {
    * @return string name
    */
   public function getHelp() {
-    return E::ts("Picks the contact with the lowest CiviCRM ID");
+    return E::ts("Picks the contact with the highest CiviCRM ID");
   }
 
   /**
@@ -44,6 +44,6 @@ class CRM_Xdedupe_Picker_Oldest extends CRM_Xdedupe_Picker {
    * @return int|null one of the contacts in the list. null means "can't decide"
    */
   public function selectMainContact($contact_ids) {
-    return min($contact_ids);
+    return max($contact_ids);
   }
 }
