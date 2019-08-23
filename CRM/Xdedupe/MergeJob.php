@@ -14,7 +14,7 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
-define('XDEDUPE_BATCH_SIZE', 50);
+define('XDEDUPE_BATCH_SIZE', 10);
 
 use CRM_Xdedupe_ExtensionUtil as E;
 

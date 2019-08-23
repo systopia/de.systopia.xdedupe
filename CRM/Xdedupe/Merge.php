@@ -42,7 +42,10 @@ class CRM_Xdedupe_Merge {
     // get resolvers and the required attributes
     $this->resolvers = [];
     $required_contact_attributes = ['is_deleted', 'contact_type'];
-    $resolver_classes = explode(',', CRM_Utils_Array::value('resolvers', $params, ''));
+    $resolver_classes = CRM_Utils_Array::value('resolvers', $params, '');
+    if (is_string($resolver_classes)) {
+      $resolver_classes = explode(',', $resolver_classes);
+    }
     foreach ($resolver_classes as $resolver_class) {
       $resolver_class = trim($resolver_class);
       if (empty($resolver_class)) continue;
@@ -67,6 +70,8 @@ class CRM_Xdedupe_Merge {
       $this->merge_log = tempnam('/tmp', 'xdedupe_merge');
     }
     $this->merge_log_handle = fopen($this->merge_log, 'a');
+
+    $this->log("Initialised merger: " . json_encode($params));
   }
 
   public function __destruct() {
@@ -109,6 +114,8 @@ class CRM_Xdedupe_Merge {
    * @param $other_contact_ids array other contact IDs
    */
   public function multiMerge($main_contact_id, $other_contact_ids) {
+    $this->log("Merging [{$main_contact_id}] with [" . implode(',', $other_contact_ids) . ']');
+
     // first check for really bad judgement:
     if (in_array($main_contact_id, $other_contact_ids)) {
       throw new Exception("Cannot merge contact(s) with itself!");

@@ -236,7 +236,7 @@ class CRM_Xdedupe_DedupeRun {
     HAVING match_count > 1";
 
     // TODO: remove logging
-    CRM_Core_Error::debug_log_message("find: $sql");
+    // CRM_Core_Error::debug_log_message("find: $sql");
 
     // run query
     CRM_Core_DAO::executeQuery($sql);
