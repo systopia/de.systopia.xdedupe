@@ -29,6 +29,13 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
   }
 
   /**
+   * Get a human-readable attribute name
+   */
+  public function getAttributeName() {
+    return $this->attribute_name;
+  }
+
+  /**
    * Report the contact attributes that this resolver requires
    *
    * @return array list of contact attributes
@@ -103,7 +110,7 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
             $this->attribute_name => $value
         ]);
         $this->addMergeDetail(E::ts("Changed '%1' from '%2' to '%3' in contact [%4] to avoid merge conflicts", [
-            1 => $this->attribute_name,
+            1 => $this->getAttributeName(),
             2 => $current_value,
             3 => $value,
             4 => $contact_id]));
@@ -198,7 +205,7 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
             'id'                  => $contact_id,
             $this->attribute_name => '']);
         $this->addMergeDetail(E::ts("Cleared '%1' value '%2' in contact [%3] to avoid merge conflicts", [
-            1 => $this->attribute_name,
+            1 => $this->getAttributeName(),
             2 => $current_value,
             3 => $contact_id]));
         $this->getContext()->unloadContact($contact_id);
@@ -264,7 +271,7 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
    * @return string name
    */
   public function getName() {
-    return E::ts("Select '%1'", [1 => $this->attribute_name]);
+    return E::ts("Select '%1'", [1 => $this->getAttributeName()]);
   }
 
   /**
