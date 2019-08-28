@@ -34,6 +34,14 @@ abstract class CRM_Xdedupe_Resolver_DetailMover extends CRM_Xdedupe_Resolver {
   protected abstract function getFieldList();
 
   /**
+   * Get a one-line representation of the detail data
+   *
+   * @param $detail array detail data
+   * @return string
+   */
+  protected abstract function getOneLiner($detail);
+
+  /**
    * Resolve the merge conflicts by editing the contact
    *
    * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
@@ -134,6 +142,11 @@ abstract class CRM_Xdedupe_Resolver_DetailMover extends CRM_Xdedupe_Resolver {
    */
   protected function deleteDetail($detail) {
     civicrm_api3($this->getEntity(), 'delete', ['id' => $detail['id']]);
+    $this->addMergeDetail(E::ts("Deleted %1 [%2] ('%4') from contact [%3] to avoid merge conflicts", [
+        1 => $this->getEntity(),
+        2 => $detail['id'],
+        3 => $detail['contact_id'],
+        4 => $this->getOneLiner($detail)]));
   }
 
   /**
@@ -147,5 +160,10 @@ abstract class CRM_Xdedupe_Resolver_DetailMover extends CRM_Xdedupe_Resolver {
         'contact_id' => $contact_id,
         'is_primary' => 0
     ]);
+    $this->addMergeDetail(E::ts("Moved %1 [%2] from contact [%3] to contact [%4] to avoid merge conflicts", [
+        1 => $this->getEntity(),
+        2 => $detail['id'],
+        3 => $detail['contact_id'],
+        4 => $contact_id]));
   }
 }

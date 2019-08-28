@@ -65,6 +65,10 @@ class CRM_Xdedupe_Resolver_DropSamePhones extends CRM_Xdedupe_Resolver {
           if ($main_contact_phone['phone'] != $phone['phone']) {
             // if these phones numerically the same, but not literally: that trips up the merger, so we delete
             civicrm_api3('Phone', 'delete', ['id' => $phone['id']]);
+            $this->addMergeDetail(E::ts("Deleted duplicate phone [%1] ('%3') from contact [%2] to avoid merge conflicts", [
+                1 => $phone['id'],
+                2 => $phone['contact_id'],
+                3 => $phone['phone']]));
             $changes = TRUE;
           }
         }
@@ -86,7 +90,7 @@ class CRM_Xdedupe_Resolver_DropSamePhones extends CRM_Xdedupe_Resolver {
     $query = civicrm_api3('Phone', 'get', [
         'contact_id'   => $contact_id,
         'option.limit' => 0,
-        'return'       => 'phone_numeric,id,location_type_id,phone']);
+        'return'       => 'contact_id,phone_numeric,id,location_type_id,phone']);
     foreach ($query['values'] as $phone) {
       $phones["{$phone['phone_numeric']}-{$phone['location_type_id']}"] = $phone;
     }

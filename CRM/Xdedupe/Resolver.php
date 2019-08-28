@@ -95,4 +95,14 @@ abstract class CRM_Xdedupe_Resolver {
     }
     return $resolver_list;
   }
+
+  /**
+   * Add a merge detail (detailed merge changes)
+   *
+   * @param $information string info
+   */
+  public function addMergeDetail($information) {
+    $resolver_name = $this->getName();
+    $this->merge->addMergeDetail("Resolver({$resolver_name}): {$information}");
+  }
 }

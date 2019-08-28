@@ -38,6 +38,17 @@ class CRM_Xdedupe_Resolver_IMMover extends CRM_Xdedupe_Resolver_DetailMover {
   }
 
   /**
+   * Get a one-line representation of the detail data
+   *
+   * @param $detail array detail data
+   * @return string
+   */
+  protected function getOneLiner($detail) {
+    $location_type = CRM_Xdedupe_Config::resolveLocationType($detail['location_type_id']);
+    return "{$detail['name']} ({$location_type})";
+  }
+
+  /**
    * Get the entity name
    * @return string
    */

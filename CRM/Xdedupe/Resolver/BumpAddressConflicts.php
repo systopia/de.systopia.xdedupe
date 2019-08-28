@@ -79,6 +79,9 @@ class CRM_Xdedupe_Resolver_BumpAddressConflicts extends CRM_Xdedupe_Resolver {
                   'id'               => $other_address_id,
                   'location_type_id' => CRM_Xdedupe_Config::getConflictLocationTypeID()
               ]);
+              $this->addMergeDetail(E::ts("Address [%1] from contact [%2] was bumped to 'conflict' location type.", [
+                  1 => $other_address_id,
+                  2 => $other_address['contact_id']]));
               return TRUE; // we cannot add more 'conflict' addresses
             }
           }

@@ -26,6 +26,7 @@ class CRM_Xdedupe_Merge {
   protected $force_merge = FALSE;
   protected $stats = [];
   protected $merge_log = NULL;
+  protected $merge_details = [];
   protected $merge_log_handle = NULL;
   protected $_contact_cache = [];
 
@@ -166,6 +167,9 @@ class CRM_Xdedupe_Merge {
       return FALSE;
     }
 
+    // prepare logs + co
+    $this->resetMergeDetails();
+
     // first: verify that the contact's are "fit" for merging
     $this->loadContacts([$main_contact_id, $other_contact_id]);
     $main_contact = $this->getContact($main_contact_id);
@@ -202,13 +206,19 @@ class CRM_Xdedupe_Merge {
         $transaction->rollback(); // merge didn't work
         $this->stats['errors'][] = E::ts("Remaining Conflicts");
         $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
+
       } elseif (count($result['values']['merged'])) {
+        // SUCCESS!
         $merge_succeeded = TRUE;
         $transaction->commit(); // merge worked
         $this->stats['contacts_merged'] += 1;
         if (!$part_of_tuple) {
           $this->stats['tuples_merged'] += 1;
         }
+        $this->createMergeDetailNote(
+            $main_contact_id,
+            E::ts("Merged contact [%1] into [%2]", [1 => $other_contact_id, 2 => $main_contact_id]));
+
       } else {
         $transaction->rollback(); // this is weird
         $this->stats['errors'][] = E::ts("Merge API Error");
@@ -279,5 +289,48 @@ class CRM_Xdedupe_Merge {
       $this->loadContacts([$contact_id]);
     }
     return $this->_contact_cache[$contact_id];
+  }
+
+  /**
+   * Reset the merge detail stack
+   */
+  public function resetMergeDetails() {
+    $this->merge_details = [];
+  }
+
+  /**
+   * Add a merge detail (detailed merge changes)
+   *
+   * @param $information string info
+   */
+  public function addMergeDetail($information) {
+    $this->merge_details[] = $information;
+  }
+
+  /**
+   * Get the list of recorded merge details
+   *
+   * @return array merge details
+   */
+  public function getMergeDetails() {
+    return $this->merge_details;
+  }
+
+  /**
+   * Create a new not with the contact adding the merge details
+   *
+   * @param $contact_id int    contact ID the merge detail should be recorded
+   * @param $subject    string the subject line
+   */
+  public function createMergeDetailNote($contact_id, $subject = "Merge Details") {
+    $merge_details = $this->getMergeDetails();
+    if (!empty($merge_details)) {
+      civicrm_api3('Note', 'create', [
+          'entity_id'    => $contact_id,
+          'entity_table' => 'civicrm_contact',
+          'note'         => implode("\n", $merge_details),
+          'subject'      => $subject
+      ]);
+    }
   }
 }

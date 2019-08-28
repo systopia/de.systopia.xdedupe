@@ -38,6 +38,16 @@ class CRM_Xdedupe_Resolver_WebsiteMover extends CRM_Xdedupe_Resolver_DetailMover
   }
 
   /**
+   * Get a one-line representation of the detail data
+   *
+   * @param $detail array detail data
+   * @return string
+   */
+  protected function getOneLiner($detail) {
+    return "{$detail['url']} ({$detail['website_type_id']})";
+  }
+
+  /**
    * Get the entity name
    * @return string
    */

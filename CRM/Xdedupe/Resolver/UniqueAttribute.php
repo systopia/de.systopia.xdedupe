@@ -69,6 +69,11 @@ abstract class CRM_Xdedupe_Resolver_UniqueAttribute extends CRM_Xdedupe_Resolver
         civicrm_api3('Contact', 'create', [
             'id'                  => $contact_id,
             $this->attribute_name => $value]);
+        $this->addMergeDetail(E::ts("Changed '%1' from '%2' to '%3' in contact [%4] to avoid merge conflicts", [
+            1 => $this->attribute_name,
+            2 => $current_value,
+            3 => $value,
+            4 => $contact_id]));
         $this->merge->unloadContact($contact_id);
       }
     }

@@ -56,7 +56,7 @@ class CRM_Xdedupe_Resolver_OrganisationName extends CRM_Xdedupe_Resolver_SimpleA
    */
   public function resolve($main_contact_id, $other_contact_ids) {
     // set all names to the chosen one
-    $this->resolveTheGreatEqualiser($main_contact_id, $other_contact_ids);
+    return $this->resolveTheGreatEqualiser($main_contact_id, $other_contact_ids);
   }
 
   /**
