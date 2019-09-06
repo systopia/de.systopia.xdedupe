@@ -44,6 +44,9 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     if (!$dedupe_run) {
       $last_configuration = self::getUserSettings()->get('xdedup_last_configuration');
       if ($last_configuration) {
+        foreach (['qfKey', 'entryURL', '_qf_default', '_qf_ControlRoom_find'] as $strip_attribute) {
+          unset($last_configuration[$strip_attribute]);
+        }
         $this->setDefaults($last_configuration);
       }
     }
@@ -189,6 +192,11 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
   public function postProcess() {
     $values = $this->exportValues();
+
+    // store clean values + store last configuration
+    foreach (['qfKey', 'entryURL', '_qf_default', '_qf_ControlRoom_find'] as $strip_attribute) {
+      unset($values[$strip_attribute]);
+    }
     self::getUserSettings()->set('xdedup_last_configuration', $values);
 
     if ($this->cr_command == 'find') {
