@@ -120,4 +120,33 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
     }
     return $conflict_location_type_id;
   }
+
+  /**
+   * Resolve the location type to a display string
+   *
+   * @param $location_type_id
+   * @return string
+   */
+  public static function resolveLocationType($location_type_id) {
+    static $location_types = NULL;
+
+    // look up location types
+    if ($location_types === NULL) {
+      $location_types = [];
+      $query = civicrm_api3('LocationType', 'get', [
+          'return'       => 'display_name,id',
+          'option.limit' => 0
+      ]);
+      foreach ($query['values'] as $location_type) {
+        $location_types[$location_type['id']] = $location_type['display_name'];
+      }
+    }
+
+    // resolve type
+    if (isset($location_types[$location_type_id])) {
+      return E::ts("%1 [%2]", [1 => $location_types[$location_type_id], 2 => $location_type_id]);
+    } else {
+      return E::ts("Location Type [%1]", [1 => $location_type_id]);
+    }
+  }
 }
