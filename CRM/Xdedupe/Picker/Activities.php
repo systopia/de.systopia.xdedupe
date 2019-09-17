@@ -21,13 +21,10 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 class CRM_Xdedupe_Picker_Activities extends CRM_Xdedupe_Picker {
 
-  protected $include_activity_ids = NULL;
-  protected $exclude_activity_ids = NULL;
-
-  public function __construct($include_activity_ids = NULL, $exclude_activity_ids = NULL) {
-    $this->include_activity_ids = $include_activity_ids;
-    $this->exclude_activity_ids = $exclude_activity_ids;
-  }
+  protected $include_activity_ids  = NULL;
+  protected $exclude_activity_ids  = NULL;
+  protected $minimum_activity_date = NULL;
+  protected $maximum_activity_date = NULL;
 
   /**
    * get the name of the finder
@@ -60,6 +57,12 @@ class CRM_Xdedupe_Picker_Activities extends CRM_Xdedupe_Picker {
     if (!empty($this->exclude_activity_ids)) {
       $id_list = implode(',',  $this->exclude_activity_ids);
       $where_clauses[] = "a.activity_type_id NOT IN ($id_list)";
+    }
+    if (!empty($this->minimum_activity_date)) {
+      $where_clauses[] = "a.activity_date_time >= ({$this->minimum_activity_date})";
+    }
+    if (!empty($this->maximum_activity_date)) {
+      $where_clauses[] = "a.activity_date_time <= ({$this->maximum_activity_date})";
     }
 
     // build where clause
@@ -97,5 +100,24 @@ class CRM_Xdedupe_Picker_Activities extends CRM_Xdedupe_Picker {
     }
 
     return $best_contact_id;
+  }
+
+  /**
+   * Will resolve the given activity type names
+   *
+   * @param $activity_type_names     array list of activity type names
+   * @return array|null list of activity type IDs
+   */
+  protected function resolveActivityTypes($activity_type_names) {
+    $activity_ids = NULL;
+    $query = civicrm_api3('OptionValue', 'get', [
+        'option_group_id' => 'activity_type',
+        'option.limit'    => 0,
+        'name'            => ['IN' => $activity_type_names],
+        'return'          => 'value,name']);
+    foreach ($query['values'] as $type) {
+      $activity_ids[] = $type['value'];
+    }
+    return $activity_ids;
   }
 }
