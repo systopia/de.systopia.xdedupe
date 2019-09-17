@@ -73,6 +73,7 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
     $xdedupe_list->list = array_merge($xdedupe_list->list, [
         'CRM_Xdedupe_Resolver_ExternalIdentifier',
         'CRM_Xdedupe_Resolver_Language',
+        'CRM_Xdedupe_Resolver_IndividualName',
         'CRM_Xdedupe_Resolver_OrganisationName',
         'CRM_Xdedupe_Resolver_OrganisationNameLongest',
         'CRM_Xdedupe_Resolver_DropSamePhones',
