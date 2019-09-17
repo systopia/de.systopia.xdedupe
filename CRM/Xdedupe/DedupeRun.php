@@ -112,6 +112,7 @@ class CRM_Xdedupe_DedupeRun {
       // remove main contact from rest
       $key = array_search($main_contact_id, $contact_ids);
       unset($contact_ids[$key]);
+      $contact_ids = array_values($contact_ids); // fix index
 
       // store
       $tuple_list[$main_contact_id] = $contact_ids;
@@ -235,11 +236,13 @@ class CRM_Xdedupe_DedupeRun {
     {$GROUP_BYS}
     HAVING match_count > 1";
 
-    // TODO: remove logging
-    // CRM_Core_Error::debug_log_message("find: $sql");
-
     // run query
     CRM_Core_DAO::executeQuery($sql);
+
+    // filter results
+    foreach ($this->filters as $filter) {
+      $filter->purgeResults($this);
+    }
   }
 
   /**
@@ -251,6 +254,23 @@ class CRM_Xdedupe_DedupeRun {
     $main_contact_id = (int) $main_contact_id;
     $table_name = $this->getTableName();
     CRM_Core_DAO::executeQuery("DELETE FROM `{$table_name}` WHERE contact_id = {$main_contact_id}");
+  }
+
+  /**
+   * Replae the tuple identified by $main_contact_id with this one
+   * @param $main_contact_id
+   * @param $new_tuple
+   */
+  public function updateTuple($main_contact_id, $new_tuple) {
+    if ($new_tuple && $main_contact_id) {
+      $new_main_contact_id = (int) min($new_tuple);
+      $contact_ids = implode(',', $new_tuple);
+      $table_name = $this->getTableName();
+      CRM_Core_DAO::executeQuery("UPDATE `{$table_name}` SET contact_id = %3, contact_ids = %2 WHERE contact_id = %1", [
+          1 => [$main_contact_id,     'Integer'],
+          2 => [$contact_ids,         'String'],
+          3 => [$new_main_contact_id, 'Integer']]);
+    }
   }
 
   /**

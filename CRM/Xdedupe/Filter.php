@@ -18,8 +18,18 @@ use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Implement a "Filter", i.e. a class that will restrict the set of duplicates found
+ *
+ *  You can either add criteria to the SQL finder query,
+ *  AND/OR filter the resulting duplicates
  */
 abstract class CRM_Xdedupe_Filter extends  CRM_Xdedupe_QueryPlugin {
+
+  /**
+   * Filter dedupe run, i.e. remove items that don't match the criteria
+   *
+   * @param $run CRM_Xdedupe_DedupeRun
+   */
+  public function purgeResults($run) {}
 
   /**
    * Get a list of all available finder classes
@@ -43,8 +53,10 @@ abstract class CRM_Xdedupe_Filter extends  CRM_Xdedupe_QueryPlugin {
     $filter_classes = self::getFilters();
     foreach ($filter_classes as $filter_class) {
       /** @var $filter CRM_Xdedupe_Filter */
-      $filter = new $filter_class(null, null); // dirty, i know...
-      $filter_list[$filter_class] = $filter->getName();
+      if (class_exists($filter_class)) {
+        $filter = new $filter_class(null, null); // dirty, i know...
+        $filter_list[$filter_class] = $filter->getName();
+      }
     }
     return $filter_list;
   }

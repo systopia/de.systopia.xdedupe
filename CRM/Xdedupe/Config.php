@@ -60,7 +60,9 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
   public function addBuiltinFilters(GenericHookEvent $xdedupe_list) {
     $xdedupe_list->list = array_merge($xdedupe_list->list, [
         'CRM_Xdedupe_Filter_DedupeException',
-        'CRM_Xdedupe_Filter_UserAccounts'
+        'CRM_Xdedupe_Filter_UserAccounts',
+        'CRM_Xdedupe_Filter_DisplayNameNinetyFiveSimilarity',
+        'CRM_Xdedupe_Filter_DisplayNameEightySimilarity'
     ]);
   }
 

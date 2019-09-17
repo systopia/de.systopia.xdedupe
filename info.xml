@@ -20,7 +20,7 @@
   <compatibility>
     <ver>5.0</ver>
   </compatibility>
-  <comments></comments>
+  <comments>This tool was initially funded by Amnesty International Vlaanderen and ProVeg International</comments>
   <civix>
     <namespace>CRM/Xdedupe</namespace>
   </civix>
