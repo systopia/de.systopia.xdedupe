@@ -93,6 +93,8 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
     $xdedupe_list->list = array_merge($xdedupe_list->list, [
         'CRM_Xdedupe_Picker_Oldest',
         'CRM_Xdedupe_Picker_Youngest',
+        'CRM_Xdedupe_Picker_PersonalActivities',
+        'CRM_Xdedupe_Picker_Activities',
     ]);
   }
 

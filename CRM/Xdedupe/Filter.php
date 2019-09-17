@@ -48,7 +48,6 @@ abstract class CRM_Xdedupe_Filter extends  CRM_Xdedupe_QueryPlugin {
    * @return array class => name
    */
   public static function getFilterList() {
-
     $filter_list = [];
     $filter_classes = self::getFilters();
     foreach ($filter_classes as $filter_class) {
