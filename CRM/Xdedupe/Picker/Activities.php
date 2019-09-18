@@ -74,8 +74,8 @@ class CRM_Xdedupe_Picker_Activities extends CRM_Xdedupe_Picker {
 
     $query = CRM_Core_DAO::executeQuery("
       SELECT 
-        COUNT(*)                 AS activity_count,
-        ANY_VALUE(ac.contact_id) AS contact_id
+        COUNT(*)      AS activity_count,
+        ac.contact_id AS contact_id
       FROM civicrm_activity_contact ac
       LEFT JOIN civicrm_activity    a   ON a.id = ac.activity_id 
       WHERE {$where_clause}
