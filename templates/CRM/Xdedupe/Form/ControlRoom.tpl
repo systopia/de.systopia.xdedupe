@@ -135,6 +135,15 @@
   cj("table.xdedupe-result").click(function(e) {
     if (cj(e.target).is("a.xdedupe-merge-individual")) {
       // this is the merge button click -> gather data
+      // first visualise the click:
+      cj(e.target).addClass("disabled")
+                  .animate( { backgroundColor: "#f00" }, 250 )
+                  .animate( { backgroundColor: "transparent" }, 250 )
+                  .animate( { backgroundColor: "#f00" }, 250 )
+                  .animate( { backgroundColor: "transparent" }, 250 )
+                  .animate( { backgroundColor: "#f00" }, 250 )
+                  .animate( { backgroundColor: "transparent" }, 250 )
+
       let main_contact_id   = cj(e.target).parent().find("span.xdedupe-main-contact-id").text();
       let other_contact_ids = cj(e.target).parent().find("span.xdedupe-other-contact-ids").text();
       let force_merge = cj("#force_merge").prop('checked') ? "1" : "0";

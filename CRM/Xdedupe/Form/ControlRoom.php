@@ -303,10 +303,10 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         $links = [];
 
         // add compare link
-        $caption = E::ts("Compare");
-        $title   = E::ts("View Contact Comparison");
-        $link    = "TODO";
-        $links[] = "<a href=\"{$link}\" class=\"action-item crm-hover-button\" title=\"{$title}\"><strike>{$caption}</strike></a>";
+//        $caption = E::ts("Compare");
+//        $title   = E::ts("View Contact Comparison");
+//        $link    = "TODO";
+//        $links[] = "<a href=\"{$link}\" class=\"action-item crm-hover-button\" title=\"{$title}\"><strike>{$caption}</strike></a>";
 
         // add merge link
         $caption = E::ts("Merge");
