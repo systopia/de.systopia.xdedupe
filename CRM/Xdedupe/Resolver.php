@@ -116,6 +116,6 @@ abstract class CRM_Xdedupe_Resolver {
    */
   public function addMergeDetail($information) {
     $resolver_name = $this->getName();
-    $this->merge->addMergeDetail("Resolver({$resolver_name}): {$information}");
+    $this->merge->addMergeDetail("{$information} (resolver '{$resolver_name}')");
   }
 }
