@@ -50,6 +50,10 @@ class CRM_Xdedupe_Picker_Activities extends CRM_Xdedupe_Picker {
    */
   public function selectMainContact($contact_ids) {
     $where_clauses = [];
+    if (!empty($contact_ids)) {
+      $contact_id_list = implode(',', $contact_ids);
+      $where_clauses[] = "ac.contact_id IN ({$contact_id_list})";
+    }
     if (!empty($this->include_activity_ids)) {
       $id_list = implode(',',  $this->include_activity_ids);
       $where_clauses[] = "a.activity_type_id IN ($id_list)";
@@ -77,7 +81,7 @@ class CRM_Xdedupe_Picker_Activities extends CRM_Xdedupe_Picker {
         COUNT(*)      AS activity_count,
         ac.contact_id AS contact_id
       FROM civicrm_activity_contact ac
-      LEFT JOIN civicrm_activity    a   ON a.id = ac.activity_id 
+      LEFT JOIN civicrm_activity a ON a.id = ac.activity_id 
       WHERE {$where_clause}
       GROUP BY ac.contact_id;");
 
