@@ -154,4 +154,26 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
       return E::ts("Location Type [%1]", [1 => $location_type_id]);
     }
   }
+
+  /**
+   * Get the merge activity type ID
+   *
+   * @return int|null
+   */
+  public static function getMergeActivityTypeID() {
+    static $merge_activity_id = NULL;
+    if ($merge_activity_id === NULL) {
+      try {
+        $merge_activity_id = civicrm_api3('OptionValue', 'getvalue', [
+            'return'          => 'value',
+            'option_group_id' => 'activity_type',
+            'name'            => 'Contact Merged'
+        ]);
+      } catch (Exception $ex) {
+        // doesn't exist
+        $merge_activity_id = 0;
+      }
+    }
+    return $merge_activity_id;
+  }
 }

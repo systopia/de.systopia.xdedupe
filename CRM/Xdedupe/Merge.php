@@ -215,9 +215,14 @@ class CRM_Xdedupe_Merge {
         if (!$part_of_tuple) {
           $this->stats['tuples_merged'] += 1;
         }
-        $this->createMergeDetailNote(
-            $main_contact_id,
-            E::ts("Merged contact [%1] into [%2]", [1 => $other_contact_id, 2 => $main_contact_id]));
+
+        // store merge details
+        $success = $this->updateMergeActivity($main_contact_id);
+        if (!$success) {
+          $this->createMergeDetailNote(
+              $main_contact_id,
+              E::ts("Merged contact [%1] into [%2]", [1 => $other_contact_id, 2 => $main_contact_id]));
+        }
 
       } else {
         $transaction->rollback(); // this is weird
@@ -308,12 +313,61 @@ class CRM_Xdedupe_Merge {
   }
 
   /**
-   * Get the list of recorded merge details
+   * The last activity
    *
    * @return array merge details
    */
-  public function getMergeDetails() {
+  public function getMergeDetails($main_contact_id) {
     return $this->merge_details;
+  }
+
+  /**
+   * Get the ID of the last merge activity.
+   * @param $contact_id integer contact ID
+   * @return null|integer activity id
+   */
+  public function getLastMergeActivityID($contact_id) {
+    $contact_id = (int) $contact_id;
+    $merge_activity_type_id = (int) CRM_Xdedupe_Config::getMergeActivityTypeID();
+    if (!$merge_activity_type_id || !$contact_id) {
+      return NULL;
+    }
+
+    // find activity
+    return CRM_Core_DAO::singleValueQuery("
+            SELECT activity.id AS activity_id 
+            FROM civicrm_activity activity
+            LEFT JOIN civicrm_activity_contact ac ON ac.activity_id = activity.id 
+            WHERE ac.contact_id = {$contact_id}
+              AND ac.record_type_id = 3
+              AND activity.activity_type_id = {$merge_activity_type_id}
+              -- AND activity.activity_date_time BETWEEN (NOW() - INTERVAL 10 SECOND) AND (NOW() + INTERVAL 10 SECOND) 
+            ORDER BY activity.id DESC
+            LIMIT 1;");
+  }
+
+
+  /**
+   * Copy the merge note into the details of the merge activity
+   *
+   * @return boolean if successfull
+   */
+  public function updateMergeActivity($main_contact_id) {
+    $merge_details = $this->getMergeDetails($main_contact_id);
+    if (!empty($merge_details)) {
+      $activity_id = $this->getLastMergeActivityID($main_contact_id);
+      if (!$activity_id) {
+        // not found
+        return FALSE;
+      }
+
+      // update activity
+      civicrm_api3('Activity', 'create', [
+          'id'      => $activity_id,
+          'details' => implode("<br/>", $merge_details),
+      ]);
+    }
+    return TRUE;
   }
 
   /**
@@ -323,7 +377,7 @@ class CRM_Xdedupe_Merge {
    * @param $subject    string the subject line
    */
   public function createMergeDetailNote($contact_id, $subject = "Merge Details") {
-    $merge_details = $this->getMergeDetails();
+    $merge_details = $this->getMergeDetails($contact_id);
     if (!empty($merge_details)) {
       civicrm_api3('Note', 'create', [
           'entity_id'    => $contact_id,
