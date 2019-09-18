@@ -105,6 +105,6 @@ abstract class CRM_Xdedupe_Resolver_UniqueAttribute extends CRM_Xdedupe_Resolver
    * @return string name
    */
   public function getHelp() {
-    return E::ts("Will resolve the '%1' attribute by simply taking the value in the following order: main contact, other contacts in increasing ID");
+    return E::ts("Will resolve the '%1' attribute by simply taking the value in the following order: main contact, other contacts in increasing ID", [1 => $this->attribute_name]);
   }
 }

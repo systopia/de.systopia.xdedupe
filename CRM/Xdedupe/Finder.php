@@ -38,10 +38,23 @@ abstract class CRM_Xdedupe_Finder extends  CRM_Xdedupe_QueryPlugin {
    */
   public static function getFinderList() {
     $finder_list = [];
+    $finder_instances = self::getFinderInstances();
+    foreach ($finder_instances as $finder) {
+      $finder_list[get_class($finder)] = $finder->getName();
+    }
+    return $finder_list;
+  }
+
+  /**
+   * Get an instance of each finder
+   */
+  public static function getFinderInstances() {
+    $finder_list = [];
     $finder_classes = self::getFinders();
     foreach ($finder_classes as $finder_class) {
-      $finder = new $finder_class(null, null); // dirty, i know...
-      $finder_list[$finder_class] = $finder->getName();
+      if (class_exists($finder_class)) {
+        $finder_list[] = new $finder_class(null, null); // dirty, i know...
+      }
     }
     return $finder_list;
   }

@@ -11,4 +11,10 @@
     <page_callback>CRM_Xdedupe_Form_ControlRoom::getTupleRowsAJAX</page_callback>
     <access_arguments>administer CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/xdedupe/modules</path>
+    <page_callback>CRM_Xdedupe_Page_ModuleList</page_callback>
+    <title>ModuleList</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
 </menu>

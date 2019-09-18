@@ -88,10 +88,23 @@ abstract class CRM_Xdedupe_Resolver {
    */
   public static function getResolverList() {
     $resolver_list = [];
+    $resolver_instances = self::getResolverInstances();
+    foreach ($resolver_instances as $resolver) {
+      $resolver_list[get_class($resolver)] = $resolver->getName();
+    }
+    return $resolver_list;
+  }
+
+  /**
+   * Get an instance of each finder
+   */
+  public static function getResolverInstances() {
+    $resolver_list = [];
     $resolver_classes = self::getResolvers();
     foreach ($resolver_classes as $resolver_class) {
-      $resolver = new $resolver_class(NULL);
-      $resolver_list[$resolver_class] = $resolver->getName();
+      if (class_exists($resolver_class)) {
+        $resolver_list[] = new $resolver_class(null); // dirty, i know...
+      }
     }
     return $resolver_list;
   }
