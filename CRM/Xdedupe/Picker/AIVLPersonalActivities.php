@@ -27,10 +27,23 @@ class CRM_Xdedupe_Picker_AIVLPersonalActivities extends CRM_Xdedupe_Picker_Activ
       'historic_recruitment', 'fraudWarning', 'Migration SDD mandaten', 'organizationDiscrepancy', 'Prenotificatie'];
 
   public function __construct() {
-    // look up activity ids
-    $this->exclude_activity_ids = $this->resolveActivityTypes(self::$exclude_names);
     $this->minimum_activity_date = "(NOW() - INTERVAL 5 YEAR)";
   }
+
+  /**
+   * Select the main contact from a set of contacts
+   *
+   * @param $contact_ids array list of contact IDs
+   * @return int|null one of the contacts in the list. null means "can't decide"
+   */
+  public function selectMainContact($contact_ids) {
+    // look up activity ids
+    if ($this->exclude_activity_ids === NULL) {
+      $this->exclude_activity_ids = $this->resolveActivityTypes(self::$exclude_names);
+    }
+    return parent::selectMainContact($contact_ids);
+  }
+
 
   /**
    * get the name of the finder

@@ -58,16 +58,22 @@ class CRM_Xdedupe_Resolver_Privacy extends CRM_Xdedupe_Resolver {
    */
   public function resolve($main_contact_id, $other_contact_ids) {
     $combined_settings = [];
+    $copied_opt_outs   = [];
+    $main_contact = $this->getContext()->getContact($main_contact_id);
     $all_contact_ids = array_merge($other_contact_ids, [$main_contact_id]);
 
     // combine the values
     foreach (self::$privacy_attributes as $attribute) {
       $combined_settings[$attribute] = 0;
       foreach ($all_contact_ids as $contact_id) {
-        $contact       = $this->getContext()->getContact($contact_id);
-        $current_value = CRM_Utils_Array::value($attribute, $contact, 0);
-        if (!empty($current_value)) {
+        $contact     = $this->getContext()->getContact($contact_id);
+        $other_value = CRM_Utils_Array::value($attribute, $contact, 0);
+        if (!empty($other_value)) {
           $combined_settings[$attribute] = 1;
+          if (empty($main_contact[$attribute])) {
+            // this opt_out will override to the main contact's
+            $copied_opt_outs[$attribute][] = $contact_id;
+          }
         }
       }
     }
@@ -89,6 +95,12 @@ class CRM_Xdedupe_Resolver_Privacy extends CRM_Xdedupe_Resolver {
         civicrm_api3('Contact', 'create', $contact_update);
         $this->getContext()->unloadContact($contact_id);
       }
+    }
+
+    // add detailed text
+    foreach ($copied_opt_outs as $attribute => $contact_ids) {
+      $contact_list = '[' . implode('], [', $contact_ids) . ']';
+      $this->getContext()->addMergeDetail(E::ts("Inherited {$attribute} from contact(s): %1", [1 => $contact_list]));
     }
 
     return TRUE;

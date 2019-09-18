@@ -80,10 +80,28 @@ class CRM_Xdedupe_Resolver_IndividualName extends CRM_Xdedupe_Resolver {
       if (!empty($contact_update)) {
         $contact_update['id'] = $contact_id;
         civicrm_api3('Contact','create', $contact_update);
+        $this->addMergeDetail(E::ts("Discarded name '%1' of contact [%2] in favour of '%3' in order to resolve merge conflicts", [
+            1 => $this->renderName($contact),
+            2 => $contact_id,
+            3 => $this->renderName($main_contact)]));
         $this->getContext()->unloadContact($contact_id);
       }
     }
 
     return TRUE;
+  }
+
+  /**
+   * Create a textual representation of the contact's name
+   *
+   * @param $contact array contact data
+   * @return string contact name
+   */
+  protected function renderName($contact) {
+    $name = '';
+    foreach (self::$name_attributes as $attribute) {
+      $name.= ' ' . CRM_Utils_Array::value($attribute, $contact, '');
+    }
+    return str_replace('/ +/', ' ', $name);
   }
 }
