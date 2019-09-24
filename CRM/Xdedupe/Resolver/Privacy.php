@@ -100,7 +100,7 @@ class CRM_Xdedupe_Resolver_Privacy extends CRM_Xdedupe_Resolver {
     // add detailed text
     foreach ($copied_opt_outs as $attribute => $contact_ids) {
       $contact_list = '[' . implode('], [', $contact_ids) . ']';
-      $this->getContext()->addMergeDetail(E::ts("Inherited {$attribute} from contact(s): %1", [1 => $contact_list]));
+      $this->addMergeDetail(E::ts("Inherited {$attribute} from contact(s): %1", [1 => $contact_list]));
     }
 
     return TRUE;

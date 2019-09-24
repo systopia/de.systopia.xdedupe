@@ -37,6 +37,14 @@ abstract class CRM_Xdedupe_Resolver {
   }
 
   /**
+   * Get the spec (i.e. class name) that refers to this resolver
+   * @return string spec string
+   */
+  public function getSpec() {
+    return get_class($this);
+  }
+
+  /**
    * Resolve the merge conflicts by editing the contact
    *
    * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
@@ -90,7 +98,7 @@ abstract class CRM_Xdedupe_Resolver {
     $resolver_list = [];
     $resolver_instances = self::getResolverInstances();
     foreach ($resolver_instances as $resolver) {
-      $resolver_list[get_class($resolver)] = $resolver->getName();
+      $resolver_list[$resolver->getSpec()] = $resolver->getName();
     }
     return $resolver_list;
   }
@@ -102,11 +110,35 @@ abstract class CRM_Xdedupe_Resolver {
     $resolver_list = [];
     $resolver_classes = self::getResolvers();
     foreach ($resolver_classes as $resolver_class) {
-      if (class_exists($resolver_class)) {
-        $resolver_list[] = new $resolver_class(null); // dirty, i know...
+      $resolver = self::getResolverInstance($resolver_class);
+      if ($resolver) {
+        $resolver_list[] = $resolver;
       }
     }
     return $resolver_list;
+  }
+
+  /**
+   * Generate a resolver instance
+   *
+   * @param $resolver_spec string spec or class name
+   * @param CRM_Xdedupe_Merge $merge merge object
+   * @return CRM_Xdedupe_Resolver|null resolver instance
+   */
+  public static function getResolverInstance($resolver_spec, $merge = NULL) {
+    $resolver_parameter = NULL;
+    if (strstr($resolver_spec, ':')) {
+      // this is a spec, i.e. a class name : parameter
+      list($resolver_spec, $resolver_parameter) = explode(':', $resolver_spec, 2);
+    }
+    if (class_exists($resolver_spec)) {
+      if ($resolver_parameter === NULL) {
+        return new $resolver_spec($merge);
+      } else {
+        return new $resolver_spec($merge, $resolver_parameter);
+      }
+    }
+    return NULL;
   }
 
   /**

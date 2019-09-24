@@ -84,6 +84,9 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
         'CRM_Xdedupe_Resolver_IMMover',
         'CRM_Xdedupe_Resolver_Privacy',
     ]);
+
+    // add configurable resolvers
+    CRM_Xdedupe_Resolver_MultiSelect::addAllResolvers($xdedupe_list->list);
   }
 
   /**

@@ -50,9 +50,8 @@ class CRM_Xdedupe_Merge {
     foreach ($resolver_classes as $resolver_class) {
       $resolver_class = trim($resolver_class);
       if (empty($resolver_class)) continue;
-      if (class_exists($resolver_class)) {
-        /** @var $resolver CRM_Xdedupe_Resolver */
-        $resolver = new $resolver_class($this);
+      $resolver = CRM_Xdedupe_Resolver::getResolverInstance($resolver_class, $this);
+      if ($resolver) {
         $this->resolvers[] = $resolver;
         $required_contact_attributes = array_merge($required_contact_attributes, $resolver->getContactAttributes());
       } else {
