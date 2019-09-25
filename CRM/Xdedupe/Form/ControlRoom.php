@@ -48,6 +48,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
           unset($last_configuration[$strip_attribute]);
         }
         $this->setDefaults($last_configuration);
+        Civi::log()->debug("pickers: " . json_encode($last_configuration['main_contact']));
       }
     }
 
@@ -158,7 +159,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         FALSE,
         ['class' => 'huge crm-select2', 'multiple' => 'multiple']
     );
-
+    $this->add('hidden', 'main_contact_ordered');
 
     $this->add(
         'select',
@@ -168,6 +169,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         FALSE,
         ['class' => 'huge crm-select2', 'multiple' => 'multiple']
     );
+    $this->add('hidden', 'auto_resolve_ordered');
 
     // build buttons
     $buttons = [
@@ -192,6 +194,12 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
   public function postProcess() {
     $values = $this->exportValues();
+
+    // workaround for missing order in multi-select fields:
+    $this->_submitValues['main_contact'] = $values['main_contact'] = empty($values['main_contact_ordered']) ? [] : explode(',', $values['main_contact_ordered']);
+    $this->_submitValues['auto_resolve'] = $values['auto_resolve'] = empty($values['auto_resolve_ordered']) ? [] : explode(',', $values['auto_resolve_ordered']);
+//    $values['auto_resolve'] = explode(',', $values['auto_resolve_ordered']);
+    Civi::log()->debug("pickers: " . json_encode($values['main_contact']));
 
     // store clean values + store last configuration
     foreach (['qfKey', 'entryURL', '_qf_default', '_qf_ControlRoom_find'] as $strip_attribute) {

@@ -83,11 +83,13 @@
     <div class="label">{$form.main_contact.label}&nbsp;<a onclick='CRM.help("{ts domain="de.systopia.xdedupe"}Main Contact{/ts}", {literal}{"id":"id-xdedupe-picker","file":"CRM\/Xdedupe\/Form\/ControlRoom"}{/literal}); return false;' href="#" title="{ts domain="de.systopia.xdedupe"}Help{/ts}" class="helpicon">&nbsp;</a></div>
     <div class="content">{$form.main_contact.html}</div>
     <div class="clear"></div>
+    {$form.main_contact_ordered.html}
   </div>
   <div class="crm-section">
     <div class="label">{$form.auto_resolve.label}&nbsp;<a onclick='CRM.help("{ts domain="de.systopia.xdedupe"}Resolver{/ts}", {literal}{"id":"id-xdedupe-resolver","file":"CRM\/Xdedupe\/Form\/ControlRoom"}{/literal}); return false;' href="#" title="{ts domain="de.systopia.xdedupe"}Help{/ts}" class="helpicon">&nbsp;</a></div>
     <div class="content">{$form.auto_resolve.html}</div>
     <div class="clear"></div>
+    {$form.auto_resolve_ordered.html}
   </div>
 </div>
 
@@ -112,12 +114,83 @@
 {literal}
 <script type="text/javascript">
 
+  // function orderedInsertElement(evt) {
+  //   let element = evt.params.data.element;
+  //   let $element = cj(element);
+  //   console.log(element);
+  //
+  //   $element.detach();
+  //   cj(this).append($element);
+  //   cj(this).trigger("change");
+  // }
+  // // fix select2 order problem:
+  // cj(document).on("click", orderedInsertElement);
+  // cj("[name=auto_resolve]").on("select2:select", orderedInsertElement);
+
+  /**
+   * Preserve select2 multi-select option order
+   *
+   * @see https://stackoverflow.com/questions/31431197/select2-how-to-prevent-tags-sorting
+   */
+  function setOrderedData(option_list, element_name) {
+    console.log(option_list);
+    let values = [];
+    for (let element in option_list) {
+      values.push(option_list[element].id);
+    }
+    console.log("#" + element_name + "_ordered");
+    console.log(values.join(','));
+    cj("[name=" + element_name + "_ordered]").val(values.join(','));
+  }
+
+  /**
+   * Restore select2 multi-select option order
+   *
+   * @see https://stackoverflow.com/questions/31431197/select2-how-to-prevent-tags-sorting
+   */
+  function restoreOrderedData(element_name) {
+    let option_list = cj("[name=" + element_name + "_ordered]").val().split(',');
+    let selection = Array();
+    for (let idx in option_list) {
+      console.log(idx);
+      console.log(option_list[idx]);
+      if (option_list[idx].length > 0) {
+        selection[idx] = option_list[idx];
+      }
+    }
+    console.log(selection);
+    cj("select[name^=" + element_name + "]")
+            .se(selection)
+            .change();
+  }
+
+  cj("select[name^=main_contact]").on("click", function() {
+    setOrderedData(cj("select[name^=main_contact]").select2('data'), 'main_contact');
+  });
+  cj("select[name^=auto_resolve]").on("click", function() {
+    setOrderedData(cj("select[name^=auto_resolve]").select2('data'), 'auto_resolve');
+  });
+
+  // set the order correctly upon load
+  cj(document).ready(function() {
+    restoreOrderedData('main_contact');
+    restoreOrderedData('auto_resolve');
+
+    // console.log("NOW");
+    // let values = cj("[name=main_contact_ordered]").val().split(',');
+    // console.log(values);
+    // cj("select[name^=main_contact]").select2('data', null);
+
+
+            //.select2('data', cj("[name=main_contact_ordered]").val().split(',')).change();
+  });
+
+
   function xdedupe_update_table_link() {
     let pickers = cj("#main_contact").val();
     if (pickers == null) {
       pickers = [];
     }
-    console.log(pickers);
     CRM.$('table.xdedupe-result').data({
       "ajax": {
         "url": '{/literal}{$xdedupe_data_url}{literal}&pickers=' + pickers.join(','),
