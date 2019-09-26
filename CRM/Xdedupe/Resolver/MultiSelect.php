@@ -74,7 +74,9 @@ class CRM_Xdedupe_Resolver_MultiSelect extends CRM_Xdedupe_Resolver {
     $field_name = "custom_{$this->custom_field_id}";
     $contact = $this->getContext()->getContact($contact_id);
     $values = CRM_Utils_Array::value($field_name, $contact, []);
-    if (!is_array($values)) {
+    if ($values === '' || $values === NULL || $values === FALSE) {
+      $values = [];
+    } elseif (!is_array($values)) {
       $values = [$values];
     }
     sort($values);
