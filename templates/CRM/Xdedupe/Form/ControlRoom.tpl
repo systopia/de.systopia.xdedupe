@@ -80,8 +80,12 @@
     <div class="clear"></div>
   </div>
   <div class="crm-section">
-    <div class="label">{$form.main_contact.label}&nbsp;<a onclick='CRM.help("{ts domain="de.systopia.xdedupe"}Main Contact{/ts}", {literal}{"id":"id-xdedupe-picker","file":"CRM\/Xdedupe\/Form\/ControlRoom"}{/literal}); return false;' href="#" title="{ts domain="de.systopia.xdedupe"}Help{/ts}" class="helpicon">&nbsp;</a></div>
-    <div class="content">{$form.main_contact.html}</div>
+    <div class="label">{$form.main_contact_1.label}&nbsp;<a onclick='CRM.help("{ts domain="de.systopia.xdedupe"}Main Contact{/ts}", {literal}{"id":"id-xdedupe-picker","file":"CRM\/Xdedupe\/Form\/ControlRoom"}{/literal}); return false;' href="#" title="{ts domain="de.systopia.xdedupe"}Help{/ts}" class="helpicon">&nbsp;</a></div>
+    <div class="content">
+      {foreach from=$picker_fields item=picker_field}
+        <div class="xdedupe-picker">{$form.$picker_field.html}</div>
+      {/foreach}
+    </div>
     <div class="clear"></div>
   </div>
   <div class="crm-section">
@@ -91,13 +95,14 @@
   </div>
 </div>
 
+<br/>
+
 {* BUTTONS *}
 <div class="crm-submit-buttons">
   {include file="CRM/common/formButtons.tpl" location="bottom"}
 </div>
 
 {* RESULTS *}
-<br/>
 <h1 id="xdedupe_results">{ts domain="de.systopia.xdedupe" 1=$result_count 2=$contact_count}Found %1 results with %2 contacts:{/ts}</h1>
 <table class="xdedupe-result crm-ajax-table">
   <thead>
@@ -109,15 +114,51 @@
   </thead>
 </table>
 
+{* BUTTONS *}
+<div class="crm-submit-buttons">
+  {include file="CRM/common/formButtons.tpl" location="bottom"}
+</div>
+
 {literal}
 <script type="text/javascript">
+  /**
+   * Make sure only one empty picker is showing
+   */
+  function xdedupe_show_pickers() {
+    // first: identify the last picker that has a value
+    let picker_count = cj("[name^=main_contact_]").length;
+    let last_picker = 0;
+    for (let i=1; i <= picker_count; i++) {
+      let selector = "[name^=main_contact_" + i + "]";
+      if (cj(selector).val().length > 0) {
+        last_picker = i;
+      }
+    }
+
+    // then: show every one before this, and hide every after
+    for (let i=1; i <= picker_count; i++) {
+      let selector = "[name^=main_contact_" + i + "]";
+      if (i <= last_picker + 1) {
+        cj(selector).parent().show();
+      } else {
+        cj(selector).parent().hide();
+      }
+    }
+  }
+  cj("[name^=main_contact_]")
+          .change(xdedupe_show_pickers)
+          .parent().hide();
+  xdedupe_show_pickers();
 
   function xdedupe_update_table_link() {
-    let pickers = cj("#main_contact").val();
-    if (pickers == null) {
-      pickers = [];
+    let picker_count = cj("[name^=main_contact_]").length;
+    let pickers = [];
+    for (let i=1; i <= picker_count; i++) {
+      let selector = "[name^=main_contact_" + i + "]";
+      if (cj(selector).val().length > 0) {
+        pickers.push(cj(selector).val());
+      }
     }
-    console.log(pickers);
     CRM.$('table.xdedupe-result').data({
       "ajax": {
         "url": '{/literal}{$xdedupe_data_url}{literal}&pickers=' + pickers.join(','),
@@ -179,7 +220,6 @@
         let ts = CRM.ts('de.systopia.xdedupe');
         CRM.alert(ts("XDedupe Merge failed: " . result.error_msg), ts("Error"), 'error');
       });
-      console.log(e.target);
       e.preventDefault();
     }
   });

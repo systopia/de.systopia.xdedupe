@@ -22,7 +22,8 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
   const TUPLES_PER_PAGE = 50;
-  private static $null = NULL;
+  const PICKER_COUNT    = 10;
+  private static $null  = NULL;
 
   /**
    * @var CRM_Xdedupe_DedupeRun the current dedupe session
@@ -46,6 +47,11 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       if ($last_configuration) {
         foreach (['qfKey', 'entryURL', '_qf_default', '_qf_ControlRoom_find'] as $strip_attribute) {
           unset($last_configuration[$strip_attribute]);
+        }
+        // split the pickers
+        $main_contact = CRM_Utils_Array::value('main_contact', $last_configuration, []);
+        foreach (range(1, self::PICKER_COUNT) as $i) {
+          $last_configuration["main_contact_{$i}"] = CRM_Utils_Array::value($i - 1, $main_contact, '');
         }
         $this->setDefaults($last_configuration);
       }
@@ -150,15 +156,19 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         E::ts("Force Merge")
     );
 
-    $this->add(
-        'select',
-        'main_contact',
-        E::ts("Main Contact"),
-        CRM_Xdedupe_Picker::getPickerList(),
-        FALSE,
-        ['class' => 'huge crm-select2', 'multiple' => 'multiple']
-    );
-
+    $picker_list = ['' => E::ts('- none -')] + CRM_Xdedupe_Picker::getPickerList();
+    $picker_field_list = [];
+    foreach (range(1, self::PICKER_COUNT) as $i) {
+      $picker_field_list[] = "main_contact_{$i}";
+      $this->add(
+          'select',
+          "main_contact_{$i}",
+          E::ts("Main Contact"),
+          $picker_list,
+          FALSE
+      );
+    }
+    $this->assign('picker_fields', $picker_field_list);
 
     $this->add(
         'select',
@@ -199,6 +209,18 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     foreach (['qfKey', 'entryURL', '_qf_default', '_qf_ControlRoom_find'] as $strip_attribute) {
       unset($values[$strip_attribute]);
     }
+
+    // join picker fields
+    $values['main_contact'] = [];
+    foreach (range(1, self::PICKER_COUNT) as $i) {
+      $picker = CRM_Utils_Array::value("main_contact_{$i}", $values);
+      if ($picker) {
+        $values['main_contact'][] = $picker;
+      }
+      unset($values["main_contact_{$i}"]);
+    }
+
+    // store settings by user
     self::getUserSettings()->set('xdedup_last_configuration', $values);
 
     if ($this->cr_command == 'find') {
