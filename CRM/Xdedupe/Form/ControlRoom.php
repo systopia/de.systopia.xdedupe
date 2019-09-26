@@ -174,11 +174,13 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         [
             'type'      => 'find',
             'name'      => E::ts('Find'),
+            'icon'      => 'fa-search',
             'isDefault' => TRUE,
         ],
         [
             'type'      => 'merge',
             'name'      => E::ts('Merge All'),
+            'icon'      => 'fa-compress',
             'isDefault' => FALSE,
         ]
     ];
