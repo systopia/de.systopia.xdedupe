@@ -207,7 +207,20 @@ class CRM_Xdedupe_Merge {
         $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
 
       } elseif (count($result['values']['merged'])) {
-        // SUCCESS!
+        // MERGE SUCCESSFUL!
+        try {
+          // finally: run postProcessors
+          foreach ($this->resolvers as $resolver) {
+            $resolver->postProcess($main_contact_id, [$other_contact_id]);
+          }
+        } catch (Exception $ex) {
+          $transaction->rollback(); // something's wrong
+          $this->stats['errors'][] = "Postprocessing Error: " . $ex->getMessage();
+          $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
+          return FALSE;
+        }
+
+        // ALL IS GOOD NOW!
         $merge_succeeded = TRUE;
         $transaction->commit(); // merge worked
         $this->stats['contacts_merged'] += 1;

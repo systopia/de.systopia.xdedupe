@@ -58,6 +58,15 @@ abstract class CRM_Xdedupe_Resolver {
   public abstract function resolve($main_contact_id, $other_contact_ids);
 
   /**
+   * Run some postprocessing, e.g. clean-up or similar, after the merge was successful
+   *
+   * @param $main_contact_id    int     the main contact ID
+   * @param $other_contact_ids  array   other contact IDs
+   * @throws Exception if the conflict couldn't be resolved
+   */
+  public function postProcess($main_contact_id, $other_contact_ids) {}
+
+  /**
    * Report the contact attributes that this resolver requires
    *
    * @return array list of contact attributes
