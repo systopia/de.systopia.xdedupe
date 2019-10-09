@@ -203,8 +203,29 @@ class CRM_Xdedupe_Merge {
 
       if (count($result['values']['skipped'])) {
         $transaction->rollback(); // merge didn't work
-        $this->stats['errors'][] = E::ts("Remaining Conflicts");
         $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
+        // get conflicts
+        $conflicts = [];
+        if (version_compare(CRM_Utils_System::version(), '5.16.0', '>=')) {
+          $conflicts = civicrm_api3('Contact', 'get_merge_conflicts', [
+              'to_keep_id'   => $main_contact_id,
+              'to_remove_id' => $other_contact_id]);
+          foreach ($conflicts['values'] as $merge_mode => $conflict_data) {
+            if (!empty($conflict_data['conflicts'])) {
+              foreach ($conflict_data['conflicts'] as $entity => $entity_conflicts) {
+                foreach ($entity_conflicts as $field_name => $field_conflict) {
+                  if ($entity == 'contact') {
+                    $this->stats['errors'][] = $field_conflict['title'];
+                  } else {
+                    $this->stats['errors'][] = "{$field_conflict['title']} ({$entity})";
+                  }
+                }
+              }
+            }
+          }
+        } else {
+          $this->stats['errors'][] = E::ts("Remaining Conflicts");
+        }
 
       } elseif (count($result['values']['merged'])) {
         // MERGE SUCCESSFUL!

@@ -178,12 +178,13 @@
       // this is the merge button click -> gather data
       // first visualise the click:
       cj(e.target).addClass("disabled")
-                  .animate( { backgroundColor: "#f00" }, 250 )
-                  .animate( { backgroundColor: "transparent" }, 250 )
-                  .animate( { backgroundColor: "#f00" }, 250 )
-                  .animate( { backgroundColor: "transparent" }, 250 )
-                  .animate( { backgroundColor: "#f00" }, 250 )
-                  .animate( { backgroundColor: "transparent" }, 250 )
+                  .animate( { backgroundColor: "#f00" }, 500 )
+                  .animate( { backgroundColor: "transparent" }, 500 )
+                  .animate( { backgroundColor: "#f00" }, 500 )
+                  .animate( { backgroundColor: "transparent" }, 500 )
+                  .animate( { backgroundColor: "#f00" }, 500 )
+                  .animate( { backgroundColor: "transparent" }, 500 )
+                  .removeClass("disabled");
 
       let main_contact_id   = cj(e.target).parent().find("span.xdedupe-main-contact-id").text();
       let other_contact_ids = cj(e.target).parent().find("span.xdedupe-other-contact-ids").text();
@@ -207,18 +208,22 @@
         let ts = CRM.ts('de.systopia.xdedupe');
         if (result.tuples_merged > 0) {
           CRM.alert(ts("Tuple was merged"), ts("Success"), 'info');
-          // refresh table
+          // refresh tablefailed
           // TODO: find out how to trigger ajax table reload
           if (!window.location.href.endsWith('#xdedupe_results')) {
             window.location.replace(window.location.href + '#xdedupe_results');
           }
           window.location.reload();
         } else {
-          CRM.alert(ts("Merge failed: ") + result.errors, ts("Failed"), 'info');
+          let errors = result.errors;
+          errors = errors.filter(function(el, index, arr) {
+            return index === arr.indexOf(el);
+          });
+          CRM.alert(ts("Merge failed. Remaining Conflicts: ") + errors.join(', '), ts("Merge Failed"), 'info');
         }
       }).error(function(result) {
         let ts = CRM.ts('de.systopia.xdedupe');
-        CRM.alert(ts("XDedupe Merge failed: " . result.error_msg), ts("Error"), 'error');
+        CRM.alert(ts("Merge failed: " . result.error_msg), ts("Error"), 'error');
       });
       e.preventDefault();
     }
