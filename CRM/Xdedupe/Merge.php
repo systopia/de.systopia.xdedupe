@@ -206,7 +206,7 @@ class CRM_Xdedupe_Merge {
         $this->stats['failed'][] = [$main_contact_id, $other_contact_id];
         // get conflicts
         $conflicts = [];
-        if (version_compare(CRM_Utils_System::version(), '5.16.0', '>=')) {
+        if (version_compare(CRM_Utils_System::version(), '5.18.0', '>=')) {
           $conflicts = civicrm_api3('Contact', 'get_merge_conflicts', [
               'to_keep_id'   => $main_contact_id,
               'to_remove_id' => $other_contact_id]);
