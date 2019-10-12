@@ -224,7 +224,7 @@ class CRM_Xdedupe_Merge {
             }
           }
         } else {
-          $this->stats['errors'][] = E::ts("Remaining Conflicts");
+          $this->stats['errors'][] = E::ts("unknown");
         }
 
       } elseif (count($result['values']['merged'])) {
