@@ -344,6 +344,10 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
           $title   = E::ts("CiviCRM's manual merge");
           $link    = CRM_Utils_System::url("civicrm/contact/merge", "reset=1&cid={$main_contact_id}&oid={$first_contact_ids}");
           $links[] = "<a href=\"{$link}\" class=\"action-item crm-hover-button\" title=\"{$title}\">{$caption}</a>";
+
+          $caption = E::ts("Exclude");
+          $title   = E::ts("Mark as 'not a duplicate'");
+          $links[] = "<a href=\"\" class=\"action-item crm-hover-button xdedupe-mark-exception\" title=\"{$title}\">{$caption}</a>";
         }
 
         // add 'fake' link for IDs

@@ -226,6 +226,22 @@
         CRM.alert(ts("Merge failed: " . result.error_msg), ts("Error"), 'error');
       });
       e.preventDefault();
+
+    } else if (cj(e.target).is("a.xdedupe-mark-exception")) {
+      // this is the request to mark the tuple as non-dupes
+      let main_contact_id   = cj(e.target).parent().find("span.xdedupe-main-contact-id").text();
+      let other_contact_ids = cj(e.target).parent().find("span.xdedupe-other-contact-ids").text();
+      cj.post({/literal}"{crmURL p='civicrm/ajax/rest' q='className=CRM_Contact_Page_AJAX&fnName=processDupes' h=0 }"{literal},
+              {cid: main_contact_id, oid: other_contact_ids, op: 'dupe-nondupe'},
+              function( result ) {
+                // reload on success
+                if (!window.location.href.endsWith('#xdedupe_results')) {
+                  window.location.replace(window.location.href + '#xdedupe_results');
+                }
+                window.location.reload();
+              },
+              'json');
+      e.preventDefault();
     }
   });
 
