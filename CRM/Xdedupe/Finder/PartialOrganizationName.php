@@ -24,7 +24,7 @@ class CRM_Xdedupe_Finder_PartialOrganizationName extends CRM_Xdedupe_Finder {
   /**
    * @var int number of prefix characters to be considered, if negative check the suffix
    */
-  protected $substring_length = -8;
+  protected $substring_length = 5;
 
   /**
    * @var int number of prefix characters to be considered, if negative check the suffix
@@ -66,7 +66,11 @@ class CRM_Xdedupe_Finder_PartialOrganizationName extends CRM_Xdedupe_Finder {
    * @param $groupbys array
    */
   public function addGROUPBYS(&$groupbys) {
-    $groupbys[] = "SUBSTR(contact.organization_name, {$this->substring_length})";
+    if ($this->substring_length < 0) {
+      $groupbys[] = "SUBSTR(contact.organization_name, {$this->substring_length})";
+    } else {
+      $groupbys[] = "SUBSTR(contact.organization_name, 1, {$this->substring_length})";
+    }
   }
 
   /**
