@@ -237,6 +237,7 @@ class CRM_Xdedupe_DedupeRun {
     HAVING match_count > 1";
 
     // run query
+    //Civi::log()->debug($sql);
     CRM_Core_DAO::executeQuery($sql);
 
     // filter results
