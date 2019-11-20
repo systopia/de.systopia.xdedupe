@@ -53,6 +53,8 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
         'CRM_Xdedupe_Finder_PostalCodeStreet',
         'CRM_Xdedupe_Finder_PostalCodeStreetCity',
         'CRM_Xdedupe_Finder_PartialOrganizationName',
+        'CRM_Xdedupe_Finder_SanitisedPostalCodeStreet',
+        'CRM_Xdedupe_Finder_SanitisedPostalCodeStreetCity',
     ]);
   }
 
