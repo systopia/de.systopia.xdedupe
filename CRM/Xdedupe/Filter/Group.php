@@ -22,11 +22,15 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter {
 
   protected $group_id = NULL;
+  protected $include  = TRUE;
 
   public function __construct($alias, $params) {
     parent::__construct($alias, $params);
     if (isset($params['group_id'])) {
       $this->group_id = (int) $params['group_id'];
+    }
+    if (isset($params['exclude'])) {
+      $this->include = FALSE;
     }
   }
 
@@ -65,6 +69,10 @@ class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter {
    * @param $wheres array
    */
   public function addWHERES(&$wheres) {
-    $wheres[] = "{$this->alias}.id IS NOT NULL";
+    if ($this->include) {
+      $wheres[] = "{$this->alias}.id IS NOT NULL";
+    } else {
+      $wheres[] = "{$this->alias}.id IS NULL";
+    }
   }
 }

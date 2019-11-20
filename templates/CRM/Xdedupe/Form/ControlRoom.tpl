@@ -60,6 +60,11 @@
     <div class="clear"></div>
   </div>
   <div class="crm-section">
+    <div class="label">{$form.contact_group_exclude.label}</div>
+    <div class="content">{$form.contact_group_exclude.html}</div>
+    <div class="clear"></div>
+  </div>
+  <div class="crm-section">
     <div class="label">{$form.contact_tag.label}</div>
     <div class="content">{$form.contact_tag.html}</div>
     <div class="clear"></div>

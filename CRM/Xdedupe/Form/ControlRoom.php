@@ -133,6 +133,15 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
     $this->add(
         'select',
+        'contact_group_exclude',
+        E::ts("Exclude Group"),
+        $this->getGroups(),
+        FALSE,
+        ['class' => 'huge']
+    );
+
+    $this->add(
+        'select',
         'contact_tag',
         E::ts("Tag"),
         $this->getTags(),
@@ -237,6 +246,9 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       // add filters
       if (!empty($values['contact_group'])) {
         $this->dedupe_run->addFilter('CRM_Xdedupe_Filter_Group', ['group_id' => $values['contact_group']]);
+      }
+      if (!empty($values['contact_group_exclude'])) {
+        $this->dedupe_run->addFilter('CRM_Xdedupe_Filter_Group', ['group_id' => $values['contact_group_exclude'], 'exclude' => true]);
       }
       if (!empty($values['contact_tag'])) {
         $this->dedupe_run->addFilter('CRM_Xdedupe_Filter_Tag', ['tag_id' => $values['contact_tag']]);
@@ -396,14 +408,17 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    * Get the list of all (active) groups
    */
   protected function getGroups() {
-    $group_list = ['' => E::ts("None")];
-    $groups = civicrm_api3('Group', 'get', [
-        'is_active'    => 1,
-        'option.limit' => 0,
-        'return'       => 'id,name'
-    ]);
-    foreach ($groups['values'] as $group) {
-      $group_list[$group['id']] = $group['name'];
+    static $group_list = NULL;
+    if ($group_list === NULL) {
+      $group_list = ['' => E::ts("None")];
+      $groups = civicrm_api3('Group', 'get', [
+          'is_active'    => 1,
+          'option.limit' => 0,
+          'return'       => 'id,name'
+      ]);
+      foreach ($groups['values'] as $group) {
+        $group_list[$group['id']] = $group['name'];
+      }
     }
     return $group_list;
   }
