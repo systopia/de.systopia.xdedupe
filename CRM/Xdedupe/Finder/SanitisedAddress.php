@@ -22,8 +22,8 @@ use CRM_Xdedupe_ExtensionUtil as E;
 abstract class CRM_Xdedupe_Finder_SanitisedAddress extends CRM_Xdedupe_Finder_Address {
 
   protected $filter_strings = [
-      'street_address' => [',', ';', '-', ' ', "\\'"],
-      'city'           => [],
+      'street_address' => [',', ';', '-', ' ', "\\'", '.', '/'],
+      'city'           => ['-', ' '],
   ];
 
   /**
