@@ -125,10 +125,10 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
     $this->add(
         'select',
         'contact_group',
-        E::ts("Group"),
+        E::ts("Restrict to Group"),
         $this->getGroups(),
         FALSE,
-        ['class' => 'huge']
+        ['class' => 'huge crm-select2']
     );
 
     $this->add(
@@ -137,16 +137,16 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
         E::ts("Exclude Group"),
         $this->getGroups(),
         FALSE,
-        ['class' => 'huge']
+        ['class' => 'huge crm-select2']
     );
 
     $this->add(
         'select',
         'contact_tag',
-        E::ts("Tag"),
+        E::ts("Restrict to Tag"),
         $this->getTags(),
         FALSE,
-        ['class' => 'huge']
+        ['class' => 'huge crm-select2']
     );
 
     $this->add(
@@ -428,10 +428,11 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
       $groups     = civicrm_api3('Group', 'get', [
           'is_active'    => 1,
           'option.limit' => 0,
-          'return'       => 'id,name'
+          'option.sort'  => 'title asc',
+          'return'       => 'id,title'
       ]);
       foreach ($groups['values'] as $group) {
-        $group_list[$group['id']] = $group['name'];
+        $group_list[$group['id']] = "{$group['title']} [{$group['id']}]";
       }
     }
     return $group_list;
@@ -450,7 +451,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
         'return'       => 'id,name'
     ]);
     foreach ($tags['values'] as $tag) {
-      $tag_list[$tag['id']] = $tag['name'];
+      $tag_list[$tag['id']] = "{$tag['name']} [{$tag['id']}]";
     }
     return $tag_list;
   }
