@@ -135,17 +135,18 @@ cj("table.xdedupe-result").click(function(e) {
         // this is the request to mark the tuple as non-dupes
         let main_contact_id   = cj(e.target).parent().find("span.xdedupe-main-contact-id").text();
         let other_contact_ids = cj(e.target).parent().find("span.xdedupe-other-contact-ids").text();
-        // TODO: create API call to add to exclude list, AND remove from run
+        // TODO: proper way: create API call to add to exclude list, AND remove from run
         //   _then_ we can use xdedupe_refresh_table() instead of location.reload()
         let ajax_url = cj("<div/>").html(CRM.vars['xdedupe_controlroom'].exclude_tuple_url).text();
         cj.post(ajax_url,
             {cid: main_contact_id, oid: other_contact_ids, op: 'dupe-nondupe'},
             function( result ) {
-                // crudely reload the page
-                if (!window.location.href.endsWith('#xdedupe_results')) {
-                    window.location.replace(window.location.href + '#xdedupe_results');
-                }
-                window.location.reload();
+                cj(e.target).closest("tr").hide();
+                // alternative: crudely reload the page
+                // if (!window.location.href.endsWith('#xdedupe_results')) {
+                //     window.location.replace(window.location.href + '#xdedupe_results');
+                // }
+                // window.location.reload();
             }, 'json');
         e.preventDefault();
     }
