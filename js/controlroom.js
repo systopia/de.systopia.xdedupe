@@ -126,7 +126,10 @@ cj("table.xdedupe-result").click(function(e) {
                 errors = errors.filter(function(el, index, arr) {
                     return index === arr.indexOf(el);
                 });
-                CRM.alert(ts("Merge failed. Remaining Conflicts: ") + errors.join(', '), ts("Merge Failed"), 'info');
+                //let contact_name = CRM.api3('Contact', 'getvalue', {params: {return: 'display_name', id: main_contact_id}});
+                let contact_name = CRM.api3('Contact', 'getvalue', {return: 'display_name', id: main_contact_id}).then(function(contact_name) {
+                    CRM.alert(ts("Merge of '" + contact_name.result + "' failed. Remaining Conflicts: ") + errors.join(', '), ts("Merge Failed"), 'error');
+                });
             }
         }).error(function(result) {
             let ts = CRM.ts('de.systopia.xdedupe');
