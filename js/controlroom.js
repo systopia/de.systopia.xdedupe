@@ -42,6 +42,11 @@ cj("[name^=main_contact_]")
     .parent().hide();
 xdedupe_show_pickers();
 
+/**
+ * Refresh the AJAX table link to reflect the current settings
+ *
+ * @returns {string}
+ */
 function xdedupe_update_table_link() {
     let picker_count = cj("[name^=main_contact_]").length;
     let pickers = [];
@@ -51,11 +56,20 @@ function xdedupe_update_table_link() {
             pickers.push(cj(selector).val());
         }
     }
+    let url = CRM.vars['xdedupe_controlroom'].xdedupe_data_url + '&pickers=' + pickers.join(',');
     CRM.$('table.xdedupe-result').data({
         "ajax": {
-            "url": CRM.vars['xdedupe_controlroom'].xdedupe_data_url + '&pickers=' + pickers.join(','),
+            "url": url,
         }
     });
+    return url;
+}
+
+/**
+ * Trigger a refresh of the AJAX table
+ */
+function xdedupe_refresh_table() {
+    CRM.$('table.xdedupe-result').DataTable().ajax.url(xdedupe_update_table_link()).draw();
 }
 
 // trigger this function
@@ -100,12 +114,13 @@ cj("table.xdedupe-result").click(function(e) {
             let ts = CRM.ts('de.systopia.xdedupe');
             if (result.tuples_merged > 0) {
                 CRM.alert(ts("Tuple was merged"), ts("Success"), 'info');
+                xdedupe_refresh_table();
                 // refresh tablefailed
-                // TODO: find out how to trigger ajax table reload
-                if (!window.location.href.endsWith('#xdedupe_results')) {
-                    window.location.replace(window.location.href + '#xdedupe_results');
-                }
-                window.location.reload();
+                //// TODO: find out how to trigger ajax table reload
+                // if (!window.location.href.endsWith('#xdedupe_results')) {
+                //     window.location.replace(window.location.href + '#xdedupe_results');
+                // }
+                // window.location.reload();
             } else {
                 let errors = result.errors;
                 errors = errors.filter(function(el, index, arr) {
