@@ -19,25 +19,27 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Main command&control form to trigger automatic merge processes.
  */
-class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
+class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
+{
 
   const TUPLES_PER_PAGE = 50;
-  const PICKER_COUNT    = 10;
-  private static $null  = NULL;
+  const PICKER_COUNT = 10;
+  private static $null = NULL;
 
   /**
    * @var CRM_Xdedupe_DedupeRun the current dedupe session
    */
   protected $dedupe_run = NULL;
   protected $cr_command = NULL;
-  protected $offset     = 0;
+  protected $offset = 0;
 
-  public function buildQuickForm() {
+  public function buildQuickForm()
+  {
     CRM_Utils_System::setTitle(E::ts("Extendend Dedupe - Control Room"));
 
     // find/create run
-    $dedupe_run   = CRM_Utils_Request::retrieve('dedupe_run', 'String');
-    $this->offset = CRM_Utils_Request::retrieve('paging_offset', 'Integer', self::$null, FALSE, 0);
+    $dedupe_run       = CRM_Utils_Request::retrieve('dedupe_run', 'String');
+    $this->offset     = CRM_Utils_Request::retrieve('paging_offset', 'Integer', self::$null, FALSE, 0);
     $this->dedupe_run = new CRM_Xdedupe_DedupeRun($dedupe_run);
     $this->dedupe_run->cleanupDB();
 
@@ -58,9 +60,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     }
 
     // add field for run ID
-    $this->assign('xdedupe_data_url',CRM_Utils_System::url("civicrm/ajax/xdedupetuples", "dedupe_run={$dedupe_run}"));
-    $this->assign('dedupe_run_id', $dedupe_run);
-    $this->add('hidden', 'dedupe_run',    $this->dedupe_run->getID());
+    $this->add('hidden', 'dedupe_run', $this->dedupe_run->getID());
     $this->add('hidden', 'paging_offset', $this->offset);
 
     // add finder criteria
@@ -68,12 +68,12 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
     // add finder criteria
     $this->add(
-      'select',
-      'finder_1',
-      E::ts("Main Criteria"),
+        'select',
+        'finder_1',
+        E::ts("Main Criteria"),
         $finders,
-      TRUE,
-      ['class' => 'huge']
+        TRUE,
+        ['class' => 'huge']
     );
 
     $this->add(
@@ -165,7 +165,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         E::ts("Force Merge")
     );
 
-    $picker_list = ['' => E::ts('- none -')] + CRM_Xdedupe_Picker::getPickerList();
+    $picker_list       = ['' => E::ts('- none -')] + CRM_Xdedupe_Picker::getPickerList();
     $picker_field_list = [];
     foreach (range(1, self::PICKER_COUNT) as $i) {
       $picker_field_list[] = "main_contact_{$i}";
@@ -208,10 +208,19 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     // let's add some style...
     CRM_Core_Resources::singleton()->addStyleFile('de.systopia.xdedupe', 'css/xdedupe.css');
 
+    // add the JS logic
+    CRM_Core_Resources::singleton()->addScriptFile(E::LONG_NAME, 'js/controlroom.js');
+    CRM_Core_Resources::singleton()->addVars('xdedupe_controlroom', [
+        'xdedupe_data_url'  => CRM_Utils_System::url("civicrm/ajax/xdedupetuples", "dedupe_run={$dedupe_run}"),
+        'exclude_tuple_url' => CRM_Utils_System::url("civicrm/ajax/rest", "className=CRM_Contact_Page_AJAX&fnName=processDupes"),
+        'dedupe_run_id'     => $dedupe_run,
+    ]);
+
     parent::buildQuickForm();
   }
 
-  public function postProcess() {
+  public function postProcess()
+  {
     $values = $this->exportValues();
 
     // store clean values + store last configuration
@@ -237,7 +246,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       $this->dedupe_run->clear();
 
       // add finders
-      foreach (range(1,5) as $index) {
+      foreach (range(1, 5) as $index) {
         if (!empty($values["finder_{$index}"])) {
           $this->dedupe_run->addFinder($values["finder_{$index}"], $values);
         }
@@ -269,7 +278,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
       ]);
     }
 
-    $this->assign('result_count',  $this->dedupe_run->getTupleCount());
+    $this->assign('result_count', $this->dedupe_run->getTupleCount());
     $this->assign('contact_count', $this->dedupe_run->getContactCount());
 
     parent::postProcess();
@@ -278,10 +287,11 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   /**
    * Re-route our commands to submit
    */
-  public function handle($command) {
+  public function handle($command)
+  {
     if (in_array($command, ['find', 'merge', 'nextpage', 'prevpage'])) {
       $this->cr_command = $command;
-      $command = 'submit';
+      $command          = 'submit';
     }
     return parent::handle($command);
   }
@@ -289,14 +299,15 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   /**
    * AJAX call to get the data for tuple data
    */
-  public static function getTupleRowsAJAX() {
+  public static function getTupleRowsAJAX()
+  {
     $params = CRM_Core_Page_AJAX::defaultSortAndPagerParams();
     $params += CRM_Core_Page_AJAX::validateParams(['dedupe_run' => 'String', 'pickers' => 'String']);
     // CRM_Core_Error::debug_log_message("params : " . json_encode($params));
 
     $dedupe_run = new CRM_Xdedupe_DedupeRun($params['dedupe_run']);
-    $pickers = CRM_Xdedupe_Picker::getPickerInstances(explode(',', $params['pickers']));
-    $tuples = $dedupe_run->getTuples($params['rp'], $params['offset'], $pickers);
+    $pickers    = CRM_Xdedupe_Picker::getPickerInstances(explode(',', $params['pickers']));
+    $tuples     = $dedupe_run->getTuples($params['rp'], $params['offset'], $pickers);
 
     // load all these contacts
     $records = [];
@@ -308,7 +319,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
           $all_contact_ids[] = $contact_id;
         }
       }
-      $all_contacts = civicrm_api3('Contact','get', [
+      $all_contacts = civicrm_api3('Contact', 'get', [
           'id'           => ['IN' => $all_contact_ids],
           'sequential'   => 0,
           'option.limit' => 0,
@@ -320,9 +331,9 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         $record = [];
 
         // render main contact
-        $contact = $all_contacts[$main_contact_id];
-        $image   = CRM_Contact_BAO_Contact_Utils::getImage(empty($contact['contact_sub_type']) ? $contact['contact_type'] : $contact['contact_sub_type'], FALSE, $contact['id']);
-        $url     = CRM_Utils_System::url("civicrm/contact/view", 'reset=1&cid=' . $contact['id']);
+        $contact                = $all_contacts[$main_contact_id];
+        $image                  = CRM_Contact_BAO_Contact_Utils::getImage(empty($contact['contact_sub_type']) ? $contact['contact_type'] : $contact['contact_sub_type'], FALSE, $contact['id']);
+        $url                    = CRM_Utils_System::url("civicrm/contact/view", 'reset=1&cid=' . $contact['id']);
         $record['main_contact'] = "{$image} <a target=\"_blank\" href=\"{$url}\">{$contact['display_name']}</a>";
 
         // render other contacts
@@ -352,10 +363,10 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
         // add manual merge link
         if (count($contact_ids) == 1) {
           $first_contact_ids = reset($contact_ids);
-          $caption = E::ts("Manual");
-          $title   = E::ts("CiviCRM's manual merge");
-          $link    = CRM_Utils_System::url("civicrm/contact/merge", "reset=1&cid={$main_contact_id}&oid={$first_contact_ids}");
-          $links[] = "<a href=\"{$link}\" class=\"action-item crm-hover-button\" title=\"{$title}\">{$caption}</a>";
+          $caption           = E::ts("Manual");
+          $title             = E::ts("CiviCRM's manual merge");
+          $link              = CRM_Utils_System::url("civicrm/contact/merge", "reset=1&cid={$main_contact_id}&oid={$first_contact_ids}");
+          $links[]           = "<a href=\"{$link}\" class=\"action-item crm-hover-button\" title=\"{$title}\">{$caption}</a>";
 
           $caption = E::ts("Exclude");
           $title   = E::ts("Mark as 'not a duplicate'");
@@ -368,7 +379,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
         // compile links
         $record['links'] = "<ul>" . implode(' ', $links) . "</ul>";
-        $records[] = $record;
+        $records[]       = $record;
       }
     }
 
@@ -386,14 +397,16 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    * @param $contact array contact_data
    * @return string HTML code for image
    */
-  protected function getContactImage($contact) {
+  protected function getContactImage($contact)
+  {
     return CRM_Contact_BAO_Contact_Utils::getImage(empty($contact['contact_sub_type']) ? $contact['contact_type'] : $contact['contact_sub_type'], FALSE, $contact['id']);
   }
 
   /**
    * Get a list of filter options
    */
-  protected function getContactTypeOptions() {
+  protected function getContactTypeOptions()
+  {
     // todo: dynamic?
     return [
         ''             => E::ts("any"),
@@ -407,11 +420,12 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   /**
    * Get the list of all (active) groups
    */
-  protected function getGroups() {
+  protected function getGroups()
+  {
     static $group_list = NULL;
     if ($group_list === NULL) {
       $group_list = ['' => E::ts("None")];
-      $groups = civicrm_api3('Group', 'get', [
+      $groups     = civicrm_api3('Group', 'get', [
           'is_active'    => 1,
           'option.limit' => 0,
           'return'       => 'id,name'
@@ -426,9 +440,10 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   /**
    * Get the list of all active contact tags
    */
-  protected function getTags() {
+  protected function getTags()
+  {
     $tag_list = ['' => E::ts("None")];
-    $tags = civicrm_api3('Tag', 'get', [
+    $tags     = civicrm_api3('Tag', 'get', [
         'entity_table' => 'civicrm_contact',
         'is_active'    => 1,
         'option.limit' => 0,
@@ -444,7 +459,8 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    * Get the current user's settings
    * @return \Civi\Core\SettingsBag
    */
-  public static function getUserSettings() {
+  public static function getUserSettings()
+  {
     return Civi::service('settings_manager')->getBagByContact(CRM_Core_Config::domainID(), CRM_Core_Session::getLoggedInContactID());
   }
 }
