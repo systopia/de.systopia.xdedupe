@@ -17,12 +17,12 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implements a resolver for Organisation Name
+ * Implements a resolver for the contact source
  */
-class CRM_Xdedupe_Resolver_OrganisationName extends CRM_Xdedupe_Resolver_SimpleAttribute {
+class CRM_Xdedupe_Resolver_Source extends CRM_Xdedupe_Resolver_SimpleAttribute {
 
   public function __construct($merge) {
-    parent::__construct($merge, 'organization_name');
+    parent::__construct($merge, 'source');
   }
 
   /**
@@ -30,7 +30,7 @@ class CRM_Xdedupe_Resolver_OrganisationName extends CRM_Xdedupe_Resolver_SimpleA
    * @return string name
    */
   public function getName() {
-    return E::ts("Main Organisation Name");
+    return E::ts("Main Source");
   }
 
   /**
@@ -38,7 +38,7 @@ class CRM_Xdedupe_Resolver_OrganisationName extends CRM_Xdedupe_Resolver_SimpleA
    * @return string name
    */
   public function getHelp() {
-    return E::ts("In case of conflicts, keep the organisation name of the main contact.");
+    return E::ts("In case of conflicts, keep the source of the main contact.");
   }
 
 
@@ -56,6 +56,29 @@ class CRM_Xdedupe_Resolver_OrganisationName extends CRM_Xdedupe_Resolver_SimpleA
   public function resolve($main_contact_id, $other_contact_ids) {
     // set all names to the chosen one
     return $this->resolveTheGreatEqualiser($main_contact_id, $other_contact_ids);
+  }
+
+  /**
+   * Get the different values from the contacts in the contact list
+   * REMARK: Overwritten: API does not return source (in some versions)
+   *
+   * @param $contact_ids array contact_ids
+   * @return             array value => [contact IDs]
+   */
+  protected function getDistinctValuesFromContacts($contact_ids) {
+    $values = [];
+    $contact_id_list = implode(',', $contact_ids);
+    if (!empty($contact_id_list)) {
+      $query = CRM_Core_DAO::executeQuery("SELECT source AS source, id AS contact_id FROM civicrm_contact WHERE id IN({$contact_id_list})");
+      while($query->fetch()) {
+        if (isset($values[$query->source])) {
+          $values[$query->source][] = $query->contact_id;
+        } else {
+          $values[$query->source] = [$query->contact_id];
+        }
+      }
+    }
+    return $values;
   }
 
   /**
