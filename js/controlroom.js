@@ -115,12 +115,6 @@ cj("table.xdedupe-result").click(function(e) {
             if (result.tuples_merged > 0) {
                 CRM.alert(ts("Tuple was merged"), ts("Success"), 'info');
                 xdedupe_refresh_table();
-                // refresh tablefailed
-                //// TODO: find out how to trigger ajax table reload
-                // if (!window.location.href.endsWith('#xdedupe_results')) {
-                //     window.location.replace(window.location.href + '#xdedupe_results');
-                // }
-                // window.location.reload();
             } else {
                 let errors = result.errors;
                 errors = errors.filter(function(el, index, arr) {
@@ -145,8 +139,9 @@ cj("table.xdedupe-result").click(function(e) {
         cj.post(ajax_url,
         {cid: main_contact_id, oid: other_contact_ids, op: 'dupe-nondupe'},
         function( result ) {
-            // reload on success
-            console.log("YO");
+            // TODO: create API call to add to exclude list, AND remove from run
+            //   _then_ we can use xdedupe_refresh_table();
+            // until then we hav to do a reload
             if (!window.location.href.endsWith('#xdedupe_results')) {
                 window.location.replace(window.location.href + '#xdedupe_results');
             }
