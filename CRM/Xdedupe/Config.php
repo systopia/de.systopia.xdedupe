@@ -87,6 +87,7 @@ class CRM_Xdedupe_Config  implements EventSubscriberInterface {
         'CRM_Xdedupe_Resolver_WebsiteMover',
         'CRM_Xdedupe_Resolver_IMMover',
         'CRM_Xdedupe_Resolver_Privacy',
+        'CRM_Xdedupe_Resolver_Source',
     ]);
 
     // add configurable resolvers
