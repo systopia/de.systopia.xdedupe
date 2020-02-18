@@ -166,6 +166,9 @@ class CRM_Xdedupe_Merge {
       return FALSE;
     }
 
+    // isolate merge in log tables
+    $this->resetLogId();
+
     // prepare logs + co
     $this->resetMergeDetails();
 
@@ -368,13 +371,13 @@ class CRM_Xdedupe_Merge {
 
     // find activity
     return CRM_Core_DAO::singleValueQuery("
-            SELECT activity.id AS activity_id 
+            SELECT activity.id AS activity_id
             FROM civicrm_activity activity
-            LEFT JOIN civicrm_activity_contact ac ON ac.activity_id = activity.id 
+            LEFT JOIN civicrm_activity_contact ac ON ac.activity_id = activity.id
             WHERE ac.contact_id = {$contact_id}
               AND ac.record_type_id = 3
               AND activity.activity_type_id = {$merge_activity_type_id}
-              -- AND activity.activity_date_time BETWEEN (NOW() - INTERVAL 10 SECOND) AND (NOW() + INTERVAL 10 SECOND) 
+              -- AND activity.activity_date_time BETWEEN (NOW() - INTERVAL 10 SECOND) AND (NOW() + INTERVAL 10 SECOND)
             ORDER BY activity.id DESC
             LIMIT 1;");
   }
@@ -419,5 +422,17 @@ class CRM_Xdedupe_Merge {
           'subject'      => $subject
       ]);
     }
+  }
+
+  /**
+   * Regenerate @uniqueID, which is used for log_conn_id in log tables
+   */
+  private function resetLogId() {
+    CRM_Core_DAO::executeQuery('SET @uniqueID = %1', [
+      1 => [
+        uniqid() . CRM_Utils_String::createRandom(CRM_Utils_String::ALPHANUMERIC, 4),
+        'String',
+      ]
+    ]);
   }
 }
