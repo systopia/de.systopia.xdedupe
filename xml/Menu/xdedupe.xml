@@ -7,6 +7,15 @@
     <access_arguments>administer CiviCRM</access_arguments>
   </item>
   <item>
+    <path>civicrm/xdedupe/manage</path>
+    <page_callback>CRM_Xdedupe_Page_Manager</page_callback>
+    <title>XDedupe Configuration Manager</title>
+    <access_arguments>administer CiviCRM</access_arguments>
+    <desc>Manage your XDedupe Configurations</desc>
+    <adminGroup>System Settings</adminGroup>
+    <icon>admin/small/option.png</icon>
+  </item>
+  <item>
     <path>civicrm/ajax/xdedupetuples</path>
     <page_callback>CRM_Xdedupe_Form_ControlRoom::getTupleRowsAJAX</page_callback>
     <access_arguments>administer CiviCRM</access_arguments>
