@@ -49,21 +49,31 @@
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Description{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Manual Execution{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Unsupervised Execution{/ts}</th>
-      <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Last Run{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Selection Order{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1"></th>
     </tr>
   </thead>
   <tbody>
-  {foreach from=$configs item=config}
-    <tr class="{cycle values="odd-row,even-row"} {if not $config.enabled}xdedupe-plugin-disabled{/if}">
-      {assign var=config_id value=$config.id}
-      <td>[{$config.id}]</td>
-      <td>{$config.name}</td>
-      <td><div title="{$config.description}">{$config.short_desc}</div></td>
-      <td>{if $config.enabled}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
-      <td>{if $config.enabled}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
-      <td>{$config.last_runtime}</td>
+  {foreach from=$configs item=configuration}
+    <tr class="{cycle values="odd-row,even-row"}">
+      {assign var=config_id value=$configuration.id}
+      <td>[{$configuration.id}]</td>
+      <td>{$configuration.name}</td>
+      <td><div title="{$configuration.description}">{$configuration.short_desc}</div></td>
+      <td>
+        {if $configuration.is_manual}
+          <a href="{crmURL p='civicrm/xdedupe/controlroom' q="cid=$config_id"}" class="action-item crm-hover-button" title="{ts}Take the configuration to the control room{/ts}">{ts}Edit &amp; Run Manually{/ts}</a>
+        {else}
+          <a class="action-item crm-hover-button" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
+        {/if}
+      </td>
+      <td>
+        {if $configuration.is_automatic}
+          <a href="{crmURL p='civicrm/xdedupe/manage' q="run=$config_id"}" class="action-item crm-hover-button" title="{ts}Execute fully automatic merge{/ts}">{ts}Run Unsupervised Merge{/ts}</a>
+        {else}
+          <a class="action-item crm-hover-button" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
+        {/if}
+      </td>
       <td>
         <a class="crm-weight-arrow" href="{crmURL p='civicrm/xdedupe/manage' q="top=$config_id"}"><img src="{$config->resourceBase}i/arrow/first.gif" title="Move to top" alt="Move to top" class="order-icon"></a>&nbsp;
         <a class="crm-weight-arrow" href="{crmURL p='civicrm/xdedupe/manage' q="up=$config_id"}"><img src="{$config->resourceBase}i/arrow/up.gif" title="Move up one row" alt="Move up one row" class="order-icon"></a>&nbsp;
@@ -74,28 +84,20 @@
         <span class="btn-slide crm-hover-button">{ts}Actions{/ts}
           <ul class="panel">
             <li>
-              <!-- RUN -->
-              {if $config.is_manual}
-                <a href="{crmURL p='civicrm/xdedupe/controlroom' q="tid=$config_id"}" class="action-item crm-hover-button" title="{ts}Take the configuration to the control room{/ts}">{ts}Edit/Run{/ts}</a>
-              {/if}
-              {if $config.is_automatic}
-                <a href="{crmURL p='civicrm/xdedupe/manage' q="run=$config_id"}" class="action-item crm-hover-button" title="{ts}Execute fully automatic merge{/ts}">{ts}Merge All{/ts}</a>
-              {/if}
-
               <!-- ENABLE/DISABLE -->
-              {if $config.is_manual}
+              {if $configuration.is_manual}
                 <a href="{crmURL p='civicrm/xdedupe/manage' q="disable_manual=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Disable for manual execution{/ts}">{ts}Disable Manual{/ts}</a>
               {else}
                 <a href="{crmURL p='civicrm/xdedupe/manage' q="enable_manual=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Disable for manual execution{/ts}">{ts}Enable Manual{/ts}</a>
               {/if}
-              {if $config.is_automatic}
+              {if $configuration.is_automatic}
                 <a href="{crmURL p='civicrm/xdedupe/manage' q="disable_automatic=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Disable for automatic execution{/ts}">{ts}Disable Unsupervised{/ts}</a>
               {else}
                 <a href="{crmURL p='civicrm/xdedupe/manage' q="enable_automatic=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Disable for automatic execution{/ts}">{ts}Enable Unsupervised{/ts}</a>
               {/if}
 
               <!-- OTHER LIFECYCLE -->
-              <a href="{crmURL p='civicrm/xdedupe/manage' q="delete=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Delete Task{/ts}">{ts}Delete{/ts}</a>
+              <a href="{crmURL p='civicrm/xdedupe/manage' q="delete=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Delete Configuration{/ts}">{ts}Delete{/ts}</a>
             </li>
           </ul>
         </span>

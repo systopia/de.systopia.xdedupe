@@ -28,6 +28,7 @@ class CRM_Xdedupe_Configuration
         'description'  => 'String',
         'is_manual'    => 'Integer',
         'is_automatic' => 'Integer',
+        'weight'       => 'Integer',
     ];
 
     protected $configuration_id;
@@ -76,7 +77,7 @@ class CRM_Xdedupe_Configuration
     }
 
     /**
-     * Get a list of all tasks
+     * Get a list of all configurations
      *
      * @return array
      *      list of CRM_Xdedupe_Configuration objects
@@ -84,23 +85,6 @@ class CRM_Xdedupe_Configuration
     public static function getAll()
     {
         return self::getConfigurations('SELECT * FROM civicrm_xdedupe_configuration ORDER BY weight ASC');
-    }
-
-    /**
-     * Load a list of tasks based on the data yielded by the given SQL query
-     *
-     * @param integer $cid
-     *      configuration ID
-     *
-     * @return CRM_Xdedupe_Configuration|null
-     *      return a configuration object
-     */
-    public static function getConfiguration($cid)
-    {
-        $cid = (int)$cid;
-        if (empty($cid)) return NULL;
-        $configurations = self::getConfigurations("SELECT * FROM `civicrm_xdedupe_configuration` WHERE id = {$cid}");
-        return reset($configurations);
     }
 
     /**
@@ -114,7 +98,7 @@ class CRM_Xdedupe_Configuration
      */
     public static function getConfigurations($sql_query)
     {
-        $configs = [];
+        $configs              = [];
         $configuration_search = CRM_Core_DAO::executeQuery($sql_query);
         while ($configuration_search->fetch()) {
             $data = [];
@@ -131,6 +115,23 @@ class CRM_Xdedupe_Configuration
         }
 
         return $configs;
+    }
+
+    /**
+     * Load a list of configurations based on the data yielded by the given SQL query
+     *
+     * @param integer $cid
+     *      configuration ID
+     *
+     * @return CRM_Xdedupe_Configuration|null
+     *      return a configuration object
+     */
+    public static function getConfiguration($cid)
+    {
+        $cid = (int)$cid;
+        if (empty($cid)) return NULL;
+        $configurations = self::getConfigurations("SELECT * FROM `civicrm_xdedupe_configuration` WHERE id = {$cid}");
+        return reset($configurations);
     }
 
     /**
@@ -165,11 +166,11 @@ class CRM_Xdedupe_Configuration
         if (isset(self::$main_attributes[$attribute_name])) {
             $this->attributes[$attribute_name] = $value;
             if ($writeTrough && $this->configuration_id) {
-                                CRM_Core_DAO::executeQuery("UPDATE `civicrm_xdedupe_configuration`
+                CRM_Core_DAO::executeQuery("UPDATE `civicrm_xdedupe_configuration`
                                     SET `{$attribute_name}` = %1
                                     WHERE id = {$this->configuration_id}",
-                                    array(1 => array($value, self::$main_attributes[$attribute_name])));
-        }
+                    array(1 => array($value, self::$main_attributes[$attribute_name])));
+            }
         } else {
             throw new Exception("Attribute '{$attribute_name}' unknown", 1);
         }
@@ -205,22 +206,22 @@ class CRM_Xdedupe_Configuration
         // generate SQL
         if ($this->configuration_id) {
             $field_assignments = [];
-        foreach ($fields as $key => $value) {
-            $field_assignments[] = "`{$key}` = {$value}";
+            foreach ($fields as $key => $value) {
+                $field_assignments[] = "`{$key}` = {$value}";
+            }
+            $field_assignment_sql = implode(', ', $field_assignments);
+            $sql                  = "UPDATE `civicrm_xdedupe_configuration` SET {$field_assignment_sql} WHERE id = {$this->configuration_id}";
+        } else {
+            $columns = [];
+            $values  = [];
+            foreach ($fields as $key => $value) {
+                $columns[] = $key;
+                $values[]  = $value;
+            }
+            $columns_sql = implode(',', $columns);
+            $values_sql  = implode(',', $values);
+            $sql         = "INSERT INTO `civicrm_xdedupe_configuration` ({$columns_sql}) VALUES ({$values_sql});";
         }
-        $field_assignment_sql = implode(', ', $field_assignments);
-        $sql                  = "UPDATE `civicrm_xdedupe_configuration` SET {$field_assignment_sql} WHERE id = {$this->configuration_id}";
-    } else {
-        $columns = [];
-        $values  = [];
-        foreach ($fields as $key => $value) {
-            $columns[] = $key;
-            $values[]  = $value;
-        }
-        $columns_sql = implode(',', $columns);
-        $values_sql  = implode(',', $values);
-        $sql         = "INSERT INTO `civicrm_xdedupe_configuration` ({$columns_sql}) VALUES ({$values_sql});";
-    }
         error_log("STORE QUERY: " . $sql);
         error_log("STORE PARAM: " . json_encode($params));
         CRM_Core_DAO::executeQuery($sql, $params);
