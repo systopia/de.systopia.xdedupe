@@ -63,7 +63,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
             if ($confirmed) {
                 CRM_Xdedupe_Configuration::delete($delete_id);
             } else {
-                $task = CRM_Xdedupe_Configuration::getConfiguration($delete_id);
+                $task = CRM_Xdedupe_Configuration::get($delete_id);
                 $this->assign('delete', $this->renderConfiguration($task));
             }
         }
@@ -79,13 +79,13 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
             $disable_id = CRM_Utils_Request::retrieve("disable_{$mode}", 'Integer');
 
             if ($enable_id) {
-                $configuration = CRM_Xdedupe_Configuration::getConfiguration($enable_id);
+                $configuration = CRM_Xdedupe_Configuration::get($enable_id);
                 $configuration->setAttribute("is_{$mode}", 1);
                 $configuration->store();
             }
 
             if ($disable_id) {
-                $configuration = CRM_Xdedupe_Configuration::getConfiguration($disable_id);
+                $configuration = CRM_Xdedupe_Configuration::get($disable_id);
                 $configuration->setAttribute("is_{$mode}", 0);
                 $configuration->store();
             }

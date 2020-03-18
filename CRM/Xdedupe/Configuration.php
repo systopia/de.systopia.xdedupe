@@ -126,7 +126,7 @@ class CRM_Xdedupe_Configuration
      * @return CRM_Xdedupe_Configuration|null
      *      return a configuration object
      */
-    public static function getConfiguration($cid)
+    public static function get($cid)
     {
         $cid = (int)$cid;
         if (empty($cid)) return NULL;
@@ -155,6 +155,9 @@ class CRM_Xdedupe_Configuration
      */
     public function setConfig($config)
     {
+        foreach (self::$main_attributes as $attribute) {
+            unset($config[$attribute]);
+        }
         return $this->config = $config;
     }
 
