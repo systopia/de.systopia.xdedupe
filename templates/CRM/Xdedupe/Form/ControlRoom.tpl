@@ -18,7 +18,7 @@
 
 {* CONFIGURATION *}
 <div class="crm-accordion-wrapper crm-xdedupe-config {if not $config_showing}collapsed{/if}">
-  <div class="crm-accordion-header active">{ts domain="de.systopia.xdedupe"}Configuration (changed){/ts}</div>
+  <div class="crm-accordion-header active">{ts domain="de.systopia.xdedupe"}{$config_header}{/ts}</div>
   <div class="crm-accordion-body">
     <div class="crm-section">
       <div class="label">{$form.name.label}</div>

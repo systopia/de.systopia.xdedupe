@@ -151,6 +151,26 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             }
         }
 
+        // set config tab title
+        if ($this->cid) {
+            $configuration = $this->getConfiguration();
+            $config_changed = $this->configChanged($configuration);
+            $this->assign('config_header', E::ts(
+                "%2Configuration '%1' -- <a href=\"%3\">Configuration Manager</a>", [
+                    1 => $configuration->getAttribute('name'),
+                    2 => $config_changed ? (E::ts("<i>Modified</i>") . ' ') : '',
+                    3 => CRM_Utils_System::url('civicrm/xdedupe/manage')]
+            ));
+            if ($config_changed) {
+                CRM_Utils_System::setTitle(E::ts("<i>Modified</i> - Extendend Dedupe - Control Room"));
+            }
+        } else {
+            $this->assign('config_header', E::ts(
+                "New Configuration -- <a href=\"%1\">Configuration Manager</a>", [
+                    1 => CRM_Utils_System::url('civicrm/xdedupe/manage')
+                ]));
+        }
+
         // if this is a new form, set the most recently used configuration
         if (!$dedupe_run) {
             if ($this->cid) {
@@ -348,16 +368,22 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
                 'type'      => 'save',
                 'name'      => E::ts('Save'),
                 'icon'      => 'fa-save',
-                'isDefault' => FALSE,
+                'isDefault' => false,
             ];
-        } else {
             $buttons[] = [
-                'type'      => 'create',
-                'name'      => E::ts('Save As'),
-                'icon'      => 'fa-save',
-                'isDefault' => FALSE,
+                'type'      => 'clear',
+                'name'      => E::ts('Reset'),
+                'icon'      => 'fa-file-o',
+                'isDefault' => false,
             ];
         }
+        $buttons[] = [
+            'type'      => 'create',
+            'name'      => E::ts('Save As New'),
+            'icon'      => 'fa-save',
+            'isDefault' => FALSE,
+        ];
+
         $this->addButtons($buttons);
 
         // let's add some style...
@@ -387,9 +413,14 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
         // make sure that the save/save_as function has a name set
         if ($this->cr_command == 'save' || $this->cr_command == 'create') {
             $values = $this->exportValues();
-            $this->assign('config_showing', true);
             if (empty($values['name'])) {
+                $this->assign('config_showing', true);
                 $this->_errors['name'] = E::ts("The configuration needs a name");
+            } else {
+                if ($this->cr_command == 'create' && CRM_Xdedupe_Configuration::configNameExists($values['name'])) {
+                    $this->assign('config_showing', true);
+                    $this->_errors['name'] = E::ts("This name is already in use.");
+                }
             }
         }
         return count($this->_errors) == 0;
@@ -466,18 +497,15 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             unset($values[$strip_attribute]);
         }
 
-        // join picker fields
-        $values['main_contact'] = [];
-        foreach (range(1, self::PICKER_COUNT) as $i) {
-            $picker = CRM_Utils_Array::value("main_contact_{$i}", $values);
-            if ($picker) {
-                $values['main_contact'][] = $picker;
-            }
-            unset($values["main_contact_{$i}"]);
-        }
+        // run field aggregation
+        $this->prepareSubmissionData($values);
 
         // store settings by user
         self::getUserSettings()->set('xdedup_last_configuration', $values);
+
+        if ($this->cr_command == 'clear') {
+            CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/xdedupe/controlroom', "reset=1"));
+        }
 
         if ($this->cr_command == 'find') {
             // re-compile runner
@@ -537,7 +565,14 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             $configuration->setAttribute('description',
                 CRM_Utils_Array::value('description', $values, ''));
             $configuration->setConfig($values);
-            $configuration->store();
+            $configuration_id = $configuration->store();
+
+            // if this is a new configuration -> redirect
+            if ($this->cr_command == 'create') {
+                CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/xdedupe/controlroom', "reset=1&cid={$configuration_id}"));
+            } else {
+                CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/xdedupe/controlroom', "reset=0&cid={$configuration_id}"));
+            }
         }
 
         $this->assign('result_count', $this->dedupe_run->getTupleCount());
@@ -551,7 +586,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
      */
     public function handle($command)
     {
-        if (in_array($command, ['find', 'merge', 'nextpage', 'prevpage', 'save', 'create'])) {
+        if (in_array($command, ['find', 'merge', 'nextpage', 'prevpage', 'save', 'create', 'clear'])) {
             $this->cr_command = $command;
             $command          = 'submit';
         }
@@ -577,12 +612,21 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
         }
     }
 
-    protected function getFinders($submission_values) {
-        return [];
-    }
-
-    protected function getFilters($submission_values) {
-        return [];
+    /**
+     * Aggregate certain values in the data, e.g. pickers
+     *
+     * @param $values
+     */
+    protected function prepareSubmissionData(&$values) {
+        // join picker fields
+        $values['main_contact'] = [];
+        foreach (range(1, self::PICKER_COUNT) as $i) {
+            $picker = CRM_Utils_Array::value("main_contact_{$i}", $values);
+            if ($picker) {
+                $values['main_contact'][] = $picker;
+            }
+            unset($values["main_contact_{$i}"]);
+        }
     }
 
     /**
@@ -593,5 +637,48 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
     protected function getContactImage($contact)
     {
         return CRM_Contact_BAO_Contact_Utils::getImage(empty($contact['contact_sub_type']) ? $contact['contact_type'] : $contact['contact_sub_type'], FALSE, $contact['id']);
+    }
+
+    /**
+     * Check if the the passed stored configuration differs from the
+     *   values currently in the form
+     *
+     * @param $configuration CRM_Xdedupe_Configuration
+     *   configuration object
+     *
+     * @return boolean
+     *   true if the config has changed
+     */
+    protected function configChanged($configuration)
+    {
+        if (!empty($_GET['cid'])) {
+            // if it's fresh from the URL, this hasn't been touched yet
+            return false;
+        }
+
+        $current_values = $this->_submitValues;
+        $this->prepareSubmissionData($current_values);
+
+
+        // compare name
+        if (CRM_Utils_Array::value('name', $current_values, '') != $configuration->getAttribute('name')) {
+            return true;
+        }
+
+        // compare description
+        if (CRM_Utils_Array::value('description', $current_values, '') != $configuration->getAttribute('description')) {
+            return true;
+        }
+
+        // compare other
+        $config = $configuration->getConfig();
+        foreach ($config as $key => $stored_value) {
+            $current_value = CRM_Utils_Array::value($key, $current_values);
+            if (json_encode($current_value) != json_encode($stored_value)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

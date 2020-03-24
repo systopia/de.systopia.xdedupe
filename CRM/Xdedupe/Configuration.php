@@ -181,6 +181,9 @@ class CRM_Xdedupe_Configuration
 
     /**
      * Store this configuration (create or update)
+     *
+     * @return integer
+     *      configuration ID
      */
     public function store()
     {
@@ -225,9 +228,16 @@ class CRM_Xdedupe_Configuration
             $values_sql  = implode(',', $values);
             $sql         = "INSERT INTO `civicrm_xdedupe_configuration` ({$columns_sql}) VALUES ({$values_sql});";
         }
-        error_log("STORE QUERY: " . $sql);
-        error_log("STORE PARAM: " . json_encode($params));
+        // error_log("STORE QUERY: " . $sql);
+        // error_log("STORE PARAM: " . json_encode($params));
         CRM_Core_DAO::executeQuery($sql, $params);
+
+        // return ID
+        if ($this->configuration_id) {
+            return $this->configuration_id;
+        } else {
+            return CRM_CORE_DAO::singleValueQuery('SELECT LAST_INSERT_ID()');
+        }
     }
 
     /**
@@ -244,10 +254,77 @@ class CRM_Xdedupe_Configuration
         return CRM_Utils_Array::value($attribute_name, $this->attributes);
     }
 
+    /**
+     * Check if a configuration exists with the given name
+     *
+     * @param string $name
+     *      configuration name
+     *
+     * @return bool
+     *      true if
+     */
+    public static function configNameExists($name)
+    {
+        return (bool) CRM_Core_DAO::singleValueQuery("SELECT COUNT(*) FROM civicrm_xdedupe_configuration WHERE name = %1",
+            [1 => [$name, 'String']]);
+    }
+
+
 
     //  +---------------------------------+
     //  |        Execution Logic          |
     //  +---------------------------------+
+
+    /**
+     * Use the configuration to find all tuples, and return
+     *   the result as a dedupe run object
+     *
+     * @param integer $dedupe_run_id
+     *   you can pass a dedupe run ID if you want to update an existing run
+     *
+     * @return CRM_Xdedupe_DedupeRun
+     *   the run containing all tuples
+     */
+    public function find($dedupe_run_id = null)
+    {
+        // get/init the dedupe run object
+        if ($dedupe_run_id) {
+            $dedupe_run = new CRM_Xdedupe_DedupeRun($dedupe_run_id);
+            $dedupe_run->clear();
+        } else {
+            $dedupe_run = new CRM_Xdedupe_DedupeRun();
+        }
+
+        // compile the configuration
+        $config = $this->getConfig();
+
+        // add finders
+        foreach (range(1, 5) as $index) {
+            if (!empty($config["finder_{$index}"])) {
+                $dedupe_run->addFinder($config["finder_{$index}"], $config);
+            }
+        }
+
+        // add filters
+        if (!empty($config['contact_group'])) {
+            $dedupe_run->addFilter('CRM_Xdedupe_Filter_Group', ['group_id' => $config['contact_group']]);
+        }
+        if (!empty($config['contact_group_exclude'])) {
+            $dedupe_run->addFilter('CRM_Xdedupe_Filter_Group', ['group_id' => $config['contact_group_exclude'], 'exclude' => true]);
+        }
+        if (!empty($config['contact_tag'])) {
+            $dedupe_run->addFilter('CRM_Xdedupe_Filter_Tag', ['tag_id' => $config['contact_tag']]);
+        }
+        foreach ($config['filters'] as $filter) {
+            $dedupe_run->addFilter($filter, $config);
+        }
+
+        // finally: run
+        $dedupe_run->find($config);
+
+        return $dedupe_run;
+    }
+
 
     /**
      * Executes the given configuration with automatic merges

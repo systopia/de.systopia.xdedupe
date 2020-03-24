@@ -32,6 +32,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
         $this->processDeleteCommand();
         $this->processEnableDisableCommand();
         $this->processRearrangeCommand();
+        $this->processAutomergeCommand();
 
 
         // get configs
@@ -68,6 +69,35 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
             }
         }
     }
+
+    /**
+     * Process Merge Run
+     */
+    protected function processAutomergeCommand()
+    {
+        $config_id = CRM_Utils_Request::retrieve('run', 'Integer');
+        if ($config_id) {
+            // load config ID
+            $configuration = CRM_Xdedupe_Configuration::get($config_id);
+            $config = $configuration->getConfig();
+
+            // create + configure dedupe run
+            $dedupe_run = $configuration->find();
+
+            // and call the runner for the merge
+            CRM_Xdedupe_MergeJob::launchMergeRunner(
+                $dedupe_run->getID(),
+                [
+                    'force_merge' => empty($config['force_merge']) ? '0' : '1',
+                    'resolvers'   => $config['auto_resolve'],
+                    'pickers'     => $config['main_contact'],
+                ],
+                CRM_Utils_System::url('civicrm/xdedupe/manage', 'reset=1')
+            );
+        }
+    }
+
+
 
     /**
      * Process the 'enable' and 'disable' command
