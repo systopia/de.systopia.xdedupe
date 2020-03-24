@@ -537,12 +537,20 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
 
         } elseif ($this->cr_command == 'merge') {
             // call merge runner
-            CRM_Xdedupe_MergeJob::launchMergeRunner($this->dedupe_run->getID(), [
-                'force_merge' => empty($values['force_merge']) ? '0' : '1',
-                'resolvers'   => $values['auto_resolve'],
-                'pickers'     => $values['main_contact'],
-            ]);
-
+            if ($this->cid) {
+                $return_url = CRM_Utils_System::url('civicrm/xdedupe/controlroom', "reset=1&cid={$this->cid}");
+            } else {
+                $return_url = CRM_Utils_System::url('civicrm/xdedupe/controlroom', 'reset=1');
+            }
+            CRM_Xdedupe_MergeJob::launchMergeRunner(
+                $this->dedupe_run->getID(),
+                [
+                    'force_merge' => empty($values['force_merge']) ? '0' : '1',
+                    'resolvers'   => $values['auto_resolve'],
+                    'pickers'     => $values['main_contact'],
+                ],
+                $return_url
+            );
         } elseif ($this->cr_command == 'save' || $this->cr_command == 'create') {
             // clean up values for saving
             unset($values['dedupe_run'], $values['paging_offset'], $values['cid']);

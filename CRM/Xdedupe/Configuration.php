@@ -28,6 +28,7 @@ class CRM_Xdedupe_Configuration
         'description'  => 'String',
         'is_manual'    => 'Integer',
         'is_automatic' => 'Integer',
+        'is_scheduled' => 'Integer',
         'weight'       => 'Integer',
     ];
 
@@ -85,6 +86,17 @@ class CRM_Xdedupe_Configuration
     public static function getAll()
     {
         return self::getConfigurations('SELECT * FROM civicrm_xdedupe_configuration ORDER BY weight ASC');
+    }
+
+    /**
+     * Get a list of all configurations
+     *
+     * @return array
+     *      list of CRM_Xdedupe_Configuration objects
+     */
+    public static function getAllScheduled()
+    {
+        return self::getConfigurations('SELECT * FROM civicrm_xdedupe_configuration WHERE is_scheduled = 1 ORDER BY weight ASC');
     }
 
     /**
@@ -336,7 +348,20 @@ class CRM_Xdedupe_Configuration
      */
     public function run($parameters = [])
     {
-        // TODO
+        // find tuples, init merger
+        $dedupe_run = $this->find();
+        $config = $this->getConfig();
+        $merger = new CRM_Xdedupe_Merge($config);
+
+        // get all tuples and merge
+        $tuples = $dedupe_run->getTuples($dedupe_run->getTupleCount(), 0, $config['main_contact']);
+        foreach ($tuples as $main_contact_id => $other_contact_ids) {
+            $merged_before = $merger->getStats()['contacts_merged'];
+            $merger->multiMerge($main_contact_id, $other_contact_ids);
+            $tuples_merged = $merger->getStats()['contacts_merged'] - $merged_before;
+            $dedupe_run->setContactsMerged($main_contact_id, $tuples_merged);
+        }
+        return $merger->getStats();
     }
 
 }

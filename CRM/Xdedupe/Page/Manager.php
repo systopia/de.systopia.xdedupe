@@ -104,7 +104,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
      */
     protected function processEnableDisableCommand()
     {
-        foreach (['manual', 'automatic'] as $mode) {
+        foreach (['manual', 'automatic', 'scheduled'] as $mode) {
             $enable_id  = CRM_Utils_Request::retrieve("enable_{$mode}", 'Integer');
             $disable_id = CRM_Utils_Request::retrieve("disable_{$mode}", 'Integer');
 
@@ -133,6 +133,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
             'description'  => $configuration->getAttribute('description'),
             'is_manual'    => $configuration->getAttribute('is_manual'),
             'is_automatic' => $configuration->getAttribute('is_automatic'),
+            'is_scheduled' => $configuration->getAttribute('is_scheduled'),
         ];
         if (strlen($data['description']) > 64) {
             $data['short_desc'] = substr($data['description'], 0, 64) . '...';

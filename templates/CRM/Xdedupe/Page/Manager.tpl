@@ -49,7 +49,8 @@
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Description{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Manual Execution{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Unsupervised Execution{/ts}</th>
-      <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Selection Order{/ts}</th>
+      <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Scheduled Execution{/ts}</th>
+      <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Order{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1"></th>
     </tr>
   </thead>
@@ -75,6 +76,13 @@
         {/if}
       </td>
       <td>
+        {if $configuration.is_scheduled}
+          <a class="action-item crm-hover-button" title="{ts}Scheduled{/ts}">{ts}Scheduled{/ts}</a>
+        {else}
+          <a class="action-item crm-hover-button" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
+        {/if}
+      </td>
+      <td>
         <a class="crm-weight-arrow" href="{crmURL p='civicrm/xdedupe/manage' q="top=$config_id"}"><img src="{$config->resourceBase}i/arrow/first.gif" title="Move to top" alt="Move to top" class="order-icon"></a>&nbsp;
         <a class="crm-weight-arrow" href="{crmURL p='civicrm/xdedupe/manage' q="up=$config_id"}"><img src="{$config->resourceBase}i/arrow/up.gif" title="Move up one row" alt="Move up one row" class="order-icon"></a>&nbsp;
         <a class="crm-weight-arrow" href="{crmURL p='civicrm/xdedupe/manage' q="down=$config_id"}"><img src="{$config->resourceBase}i/arrow/down.gif" title="Move down one row" alt="Move down one row" class="order-icon"></a>&nbsp;
@@ -88,12 +96,17 @@
               {if $configuration.is_manual}
                 <a href="{crmURL p='civicrm/xdedupe/manage' q="disable_manual=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Disable for manual execution{/ts}">{ts}Disable Manual{/ts}</a>
               {else}
-                <a href="{crmURL p='civicrm/xdedupe/manage' q="enable_manual=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Disable for manual execution{/ts}">{ts}Enable Manual{/ts}</a>
+                <a href="{crmURL p='civicrm/xdedupe/manage' q="enable_manual=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Enable for manual execution{/ts}">{ts}Enable Manual{/ts}</a>
               {/if}
               {if $configuration.is_automatic}
                 <a href="{crmURL p='civicrm/xdedupe/manage' q="disable_automatic=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Disable for automatic execution{/ts}">{ts}Disable Unsupervised{/ts}</a>
               {else}
-                <a href="{crmURL p='civicrm/xdedupe/manage' q="enable_automatic=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Disable for automatic execution{/ts}">{ts}Enable Unsupervised{/ts}</a>
+                <a href="{crmURL p='civicrm/xdedupe/manage' q="enable_automatic=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Enable for automatic execution{/ts}">{ts}Enable Unsupervised{/ts}</a>
+              {/if}
+              {if $configuration.is_scheduled}
+                <a href="{crmURL p='civicrm/xdedupe/manage' q="disable_scheduled=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Don't schedule for automatic execution{/ts}">{ts}Don't Schedule{/ts}</a>
+              {else}
+                <a href="{crmURL p='civicrm/xdedupe/manage' q="enable_scheduled=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Schedule for automatic execution{/ts}">{ts}Schedule{/ts}</a>
               {/if}
 
               <!-- OTHER LIFECYCLE -->
