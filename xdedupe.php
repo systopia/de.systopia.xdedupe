@@ -171,8 +171,8 @@ function xdedupe_civicrm_preProcess($formName, &$form) {
 function xdedupe_civicrm_navigationMenu(&$menu) {
   _xdedupe_civix_insert_navigation_menu($menu, 'Contacts', [
       'label'      => E::ts('Extended Deduplication'),
-      'name'       => 'xdedupe_controlroom',
-      'url'        => 'civicrm/xdedupe/controlroom',
+      'name'       => 'xdedupe_manage',
+      'url'        => 'civicrm/xdedupe/manage',
       'permission' => 'administer CiviCRM',
       'operator'   => 'OR',
       'separator'  => 0,
