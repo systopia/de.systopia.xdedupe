@@ -25,8 +25,22 @@ function _civicrm_api3_xdedupe_run_spec(&$spec)
         'name'         => 'cid',
         'api.required' => 1,
         'type'         => CRM_Utils_Type::T_STRING,
-        'title'        => 'Configuration ID',
-        'description'  => "Either an configuration ID, a comma separated list of configuration IDs or 'scheduled' to run all scheduled configurations",
+        'title'        => E::ts("Configuration ID"),
+        'description'  => E::ts("Either an configuration ID, a comma separated list of configuration IDs or 'scheduled' to run all scheduled configurations"),
+    ];
+    $spec['merge_limit'] = [
+        'name'         => 'merge_limit',
+        'api.required' => 0,
+        'type'         => CRM_Utils_Type::T_INT,
+        'title'        => E::ts("Merge Limit"),
+        'description'  => E::ts("Maximum amount of merge attempts before stopping"),
+    ];
+    $spec['scheduled_override'] = [
+        'name'         => 'scheduled_override',
+        'api.required' => 0,
+        'type'         => CRM_Utils_Type::T_INT,
+        'title'        => E::ts("Override Scheduled"),
+        'description'  => E::ts("Usually, only configurations marked as scheduled would be executed. This flag can be used to override this behaviour, and execute regardless of the scheduled status."),
     ];
 }
 
@@ -43,13 +57,16 @@ function civicrm_api3_xdedupe_run($params)
     if ($params['cid'] == 'scheduled') {
         $configs_to_run = CRM_Xdedupe_Configuration::getAllScheduled();
     } elseif (preg_match('/[0-9, ]+/', $params['cid'])) {
+        $scheduled_override = !empty($params['scheduled_override']);
         $configs_to_run = [];
         foreach (explode(',', $params['cid']) as $cid) {
             $cid = (int) $cid;
             if ($cid) {
                 $config = CRM_Xdedupe_Configuration::get($cid);
                 if ($config) {
-                    $configs_to_run[] = $config;
+                    if ($scheduled_override || $config->getAttribute('is_scheduled')) {
+                        $configs_to_run[] = $config;
+                    }
                 }
             }
         }

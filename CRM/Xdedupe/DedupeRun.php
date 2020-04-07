@@ -30,6 +30,9 @@ class CRM_Xdedupe_DedupeRun {
   protected $finders = [];
   protected $filters = [];
 
+  /** @var float last runtime of the find call */
+  protected $last_find_runtime = 0.0;
+
   public function __construct($identifier = NULL) {
     if (!$identifier) {
       $identifier = date('YmdHis') . '_' . substr(sha1(microtime()), 0, 32);
@@ -71,6 +74,15 @@ class CRM_Xdedupe_DedupeRun {
    */
   public function getTableName() {
     return 'tmp_xdedupe_' . $this->getID();
+  }
+
+  /**
+   * Get the runtime of the last finder process
+   *
+   * @return float table name
+   */
+  public function getFinderRuntime() {
+    return $this->last_find_runtime;
   }
 
   /**
@@ -190,6 +202,8 @@ class CRM_Xdedupe_DedupeRun {
    * Find all contacts and put them in the list
    */
   public function find($params) {
+    $timestamp = microtime(true);
+
     // build SQL query
     $JOINS     = [];
     $WHERES    = [];
@@ -244,6 +258,9 @@ class CRM_Xdedupe_DedupeRun {
     foreach ($this->filters as $filter) {
       $filter->purgeResults($this);
     }
+
+    // log runtime
+    $this->last_find_runtime = microtime(true) - $timestamp;
   }
 
   /**

@@ -36,6 +36,7 @@ class CRM_Xdedupe_Merge {
         'tuples_merged'      => 0,
         'contacts_merged'    => 0,
         'conflicts_resolved' => 0,
+        'aborted'            => 'no',
         'errors'             => [],
         'failed'             => [],
     ];
@@ -87,6 +88,16 @@ class CRM_Xdedupe_Merge {
    */
   public function getStats() {
     return $this->stats;
+  }
+
+  /**
+   * Mark the merge process as aborted, pro
+   *
+   * @param string $reason
+   *   abortion reason
+   */
+  public function setAborted($reason) {
+    $this->stats['aborted'] = $reason;
   }
 
   /**
