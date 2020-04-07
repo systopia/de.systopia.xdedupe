@@ -31,6 +31,16 @@ function xdedupe_civicrm_config(&$config) {
 }
 
 /**
+ * Make sure, that the last_run column is not logged
+ *
+ * @param array $logTableSpec
+ */
+function xdedupe_civicrm_alterLogTables(&$logTableSpec) {
+    if (isset($logTableSpec['civicrm_xdedupe_configuration'])) {
+        $logTableSpec['civicrm_xdedupe_configuration']['exceptions'] = ['last_run'];
+    }
+}
+/**
  * Implements hook_civicrm_xmlMenu().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_xmlMenu

@@ -84,7 +84,7 @@
         {/if}
       </td>
       <td>
-        <span style="white-space:nowrap;">{$configuration.last_run}</span><br/><label class="xdedupe-stats xdedupe-stats-{$config_id}" title="">{ts}Statistics{/ts}</label>
+        <span style="white-space:nowrap;">{$configuration.last_run}</span><br/><label class="xdedupe-stats xdedupe-stats-{$config_id}" title="">{ts}[Statistics]{/ts}</label>
       </td>
       <td>
         <a class="crm-weight-arrow" href="{crmURL p='civicrm/xdedupe/manage' q="top=$config_id"}"><img src="{$config->resourceBase}i/arrow/first.gif" title="Move to top" alt="Move to top" class="order-icon"></a>&nbsp;

@@ -74,4 +74,21 @@ class CRM_Xdedupe_Upgrader extends CRM_Xdedupe_Upgrader_Base
         );
         return TRUE;
     }
+
+    /**
+     * Make sure the new table is known to logging
+     *
+     * @return boolean
+     *    TRUE on success
+     * @throws Exception
+     *    if something goes wrong
+     */
+    public function upgrade_0502()
+    {
+        $this->ctx->log->info('Registering new table to logging');
+        $logging = new CRM_Logging_Schema();
+        $logging->fixSchemaDifferences();
+        return TRUE;
+    }
+
 }
