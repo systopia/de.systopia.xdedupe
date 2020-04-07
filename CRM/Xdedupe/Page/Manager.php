@@ -92,12 +92,14 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
             $dedupe_run = $configuration->find();
 
             $configuration->setStats([
-                'tuples_found'   => $dedupe_run->getTupleCount(),
-                'finder_runtime' => $dedupe_run->getFinderRuntime(),
-                'merger_runtime' => 0.0,
-                'last_run'       => date('YmdHis'),
-                'type'           => 'manual',
-                'aborted'        => 1,  // will be set to 0 at the end
+                'tuples_found'    => $dedupe_run->getTupleCount(),
+                'finder_runtime'  => $dedupe_run->getFinderRuntime(),
+                'merger_runtime'  => 0.0,
+                'tuples_merged'   => 0,
+                'contacts_merged' => 0,
+                'last_run'        => date('YmdHis'),
+                'type'            => 'manual',
+                'aborted'         => 1,  // will be set to 0 at the end
             ], true);
 
             // and call the runner for the merge
@@ -184,6 +186,11 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
      */
     protected function renderStats($stats)
     {
+        if (empty($stats)) {
+            return E::ts("No statistics available");
+        }
+
+        // else: render a nice table
         $html = '<table class="xdedupe-stats-popup">';
         foreach ($stats as $key => $raw_value) {
             $value = $raw_value;
@@ -236,7 +243,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                     break;
 
                 case 'type':
-                    $label = E::ts("Run");
+                    $label = E::ts("Run Type");
                     if ($value == 'scheduled') {
                         $value = E::ts("Scheduled");
                     } else {

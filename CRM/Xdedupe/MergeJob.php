@@ -146,8 +146,8 @@ class CRM_Xdedupe_MergeJob {
         if (!empty($this->params['config_id'])) {
           $configuration = CRM_Xdedupe_Configuration::get($this->params['config_id']);
           $stats = $configuration->getStats();
-          $stats['tuples_merged'] = $tuples_merged;
-          $stats['contacts_merged'] = $contacts_merged;
+          $stats['tuples_merged'] = (int) $tuples_merged;
+          $stats['contacts_merged'] = (int) $contacts_merged;
           $stats['aborted'] = 0;
           $stats['errors'] = []; // todo: get? from where?
           $stats['failed'] = []; // todo: get? from where?
