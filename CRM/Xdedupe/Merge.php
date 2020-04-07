@@ -36,7 +36,7 @@ class CRM_Xdedupe_Merge {
         'tuples_merged'      => 0,
         'contacts_merged'    => 0,
         'conflicts_resolved' => 0,
-        'aborted'            => 'no',
+        'aborted'            => 0,
         'errors'             => [],
         'failed'             => [],
     ];

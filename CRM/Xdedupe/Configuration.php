@@ -283,7 +283,7 @@ class CRM_Xdedupe_Configuration
      * @param bool $store
      *    should the stats be stored?
      */
-    public function setStats($stats, $store)
+    public function setStats($stats, $store = false)
     {
         $this->stats = $stats;
         if ($store && $this->configuration_id) {

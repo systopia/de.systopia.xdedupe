@@ -50,6 +50,7 @@
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Manual Execution{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Unsupervised Execution{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Scheduled Execution{/ts}</th>
+      <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Last Run{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1">{ts}Order{/ts}</th>
       <th class="sorting_disabled" rowspan="1" colspan="1"></th>
     </tr>
@@ -65,22 +66,25 @@
         {if $configuration.is_manual}
           <a href="{crmURL p='civicrm/xdedupe/controlroom' q="cid=$config_id"}" class="action-item crm-hover-button" title="{ts}Take the configuration to the control room{/ts}">{ts}Edit &amp; Run Manually{/ts}</a>
         {else}
-          <a class="action-item crm-hover-button" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
+          <a class="action-item crm-hover-button disabled" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
         {/if}
       </td>
       <td>
         {if $configuration.is_automatic}
           <a href="{crmURL p='civicrm/xdedupe/manage' q="run=$config_id"}" class="action-item crm-hover-button" title="{ts}Execute fully automatic merge{/ts}">{ts}Run Unsupervised Merge{/ts}</a>
         {else}
-          <a class="action-item crm-hover-button" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
+          <a class="action-item crm-hover-button disabled" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
         {/if}
       </td>
       <td>
         {if $configuration.is_scheduled}
           <a class="action-item crm-hover-button" title="{ts}Scheduled{/ts}">{ts}Scheduled{/ts}</a>
         {else}
-          <a class="action-item crm-hover-button" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
+          <a class="action-item crm-hover-button disabled" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
         {/if}
+      </td>
+      <td>
+        <span style="white-space:nowrap;">{$configuration.last_run}</span><br/><label class="xdedupe-stats xdedupe-stats-{$config_id}" title="">{ts}Statistics{/ts}</label>
       </td>
       <td>
         <a class="crm-weight-arrow" href="{crmURL p='civicrm/xdedupe/manage' q="top=$config_id"}"><img src="{$config->resourceBase}i/arrow/first.gif" title="Move to top" alt="Move to top" class="order-icon"></a>&nbsp;
@@ -129,6 +133,16 @@
 <script type="text/javascript">
 // reset the URL
 window.history.replaceState("", "", "{$baseurl}");
+
+{literal}
+// render the stats as tooltips
+cj(document).ready(function() {
+  let stats = CRM.vars.xdedeupe.stats;
+  for (let config_id in stats) {
+    cj('.xdedupe-stats-' + config_id).tooltip({content:stats[config_id]});
+  }
+});
+{/literal}
 </script>
 
 {/crmScope}

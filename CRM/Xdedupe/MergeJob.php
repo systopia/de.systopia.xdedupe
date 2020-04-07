@@ -29,6 +29,7 @@ class CRM_Xdedupe_MergeJob {
   protected $dedupe_run_id  = NULL;
   protected $tuples         = NULL;
 
+
   /**
    * Use CRM_Queue_Runner to run a merge on all entries
    *
@@ -140,6 +141,19 @@ class CRM_Xdedupe_MergeJob {
             3 => $contacts_merged,
             4 => $contact_count
         ]), E::ts("Merge Finished"), 'alert');
+
+        // update stats
+        if (!empty($this->params['config_id'])) {
+          $configuration = CRM_Xdedupe_Configuration::get($this->params['config_id']);
+          $stats = $configuration->getStats();
+          $stats['tuples_merged'] = $tuples_merged;
+          $stats['contacts_merged'] = $contacts_merged;
+          $stats['aborted'] = 0;
+          $stats['errors'] = []; // todo: get? from where?
+          $stats['failed'] = []; // todo: get? from where?
+          $stats['merger_runtime'] = strtotime('now') - strtotime($stats['last_run']);
+          $configuration->setStats($stats, true);
+        }
 
         // clear table
         $dedupe_run->clear();
