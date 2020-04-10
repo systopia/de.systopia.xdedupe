@@ -423,7 +423,7 @@ class CRM_Xdedupe_Configuration
                         $merge_limit -= count($other_contact_ids);
                         if ($merge_limit < 1) {
                             $merger->setAborted('merge_limit_hit');
-                            break;
+                            break 2;
                         }
                     }
                 }
