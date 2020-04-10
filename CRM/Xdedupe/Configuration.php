@@ -420,7 +420,7 @@ class CRM_Xdedupe_Configuration
 
                     // update merge limit and break if met
                     if (isset($merge_limit)) {
-                        $merge_limit -= $tuples_merged;
+                        $merge_limit -= count($other_contact_ids);
                         if ($merge_limit < 1) {
                             $merger->setAborted('merge_limit_hit');
                             break;
