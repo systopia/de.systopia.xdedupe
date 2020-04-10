@@ -203,6 +203,10 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                     $label = E::ts("Tuples Found");
                     break;
 
+                case 'contact_count':
+                    $label = E::ts("Contacts Involved");
+                    break;
+
                 case 'finder_runtime':
                     $label = E::ts("Runtime (Finder)");
                     $value = sprintf("%0.1fs", $raw_value);
@@ -234,7 +238,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                     break;
 
                 case 'failed':
-                    $label = E::ts("Merge Failures");
+                    $label = E::ts("Merge Failure Count");
                     if (empty($value)) {
                         $value = E::ts("none");
                     } else {
