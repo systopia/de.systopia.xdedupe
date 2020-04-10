@@ -93,6 +93,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
 
             $configuration->setStats([
                 'tuples_found'    => $dedupe_run->getTupleCount(),
+                'contact_count'   => $dedupe_run->getContactCount(),
                 'finder_runtime'  => $dedupe_run->getFinderRuntime(),
                 'merger_runtime'  => 0.0,
                 'tuples_merged'   => 0,
@@ -213,11 +214,22 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                     break;
 
                 case 'errors':
-                    $label = E::ts("Errors");
+                    $label = E::ts("Merge Errors");
                     if (empty($value)) {
                         $value = E::ts("none");
                     } else {
-                        $value = implode(',', $value);
+                        // extract error counts
+                        $error_count = [];
+                        foreach ($value as $error_message) {
+                            $error_count[$error_message] = CRM_Utils_Array::value($error_message, $error_count, 0) + 1;
+                        }
+
+                        // compile string
+                        $error_strings = [];
+                        foreach ($error_count as $error_message => $count) {
+                            $error_strings[] = E::ts("%1 (%2x)", [1 => $error_message, 2 => $count]);
+                        }
+                        $value = implode($error_strings, '<br/>');
                     }
                     break;
 
@@ -226,7 +238,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                     if (empty($value)) {
                         $value = E::ts("none");
                     } else {
-                        $value = implode(',', $value);
+                        $value = count($value);
                     }
                     break;
 

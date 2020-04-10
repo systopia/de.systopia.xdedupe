@@ -153,11 +153,12 @@ class CRM_Xdedupe_Merge {
     //    }
 
     // now simply merge all contacts individually:
+    $merge_succeeded = true;
     foreach ($other_contact_ids as $other_contact_id) {
-      $merge_succeeded = $this->merge($main_contact_id, $other_contact_id, TRUE);
-      if ($merge_succeeded) {
-        $this->stats['tuples_merged'] += 1;
-      }
+      $merge_succeeded &= $this->merge($main_contact_id, $other_contact_id, TRUE);
+    }
+    if ($merge_succeeded) {
+      $this->stats['tuples_merged'] += 1;
     }
   }
 

@@ -397,13 +397,14 @@ class CRM_Xdedupe_Configuration
         $merger = new CRM_Xdedupe_Merge($config);
         $stats = [
             'tuples_found'   => $dedupe_run->getTupleCount(),
+            'contacts_found' => $dedupe_run->getContactCount(),
             'finder_runtime' => $dedupe_run->getFinderRuntime(),
             'merger_runtime' => 0.0,
             'last_run'       => date('YmdHis'),
             'type'           => 'scheduled'
         ];
 
-        if (isset($merge_limit)) {
+        if ($merge_limit === null || $merge_limit > 0) {
             // get all tuples and merge
             $timestamp = microtime(true);
             $tuples = $dedupe_run->getTuples($dedupe_run->getTupleCount(), 0, $config['main_contact']);
@@ -415,7 +416,7 @@ class CRM_Xdedupe_Configuration
 
                 // update merge limit and break if met
                 if (isset($merge_limit)) {
-                    $merge_limit -= 1;
+                    $merge_limit -= $tuples_merged;
                     if ($merge_limit < 1) {
                         $merger->setAborted('merge_limit_hit');
                         break;

@@ -75,9 +75,10 @@ function civicrm_api3_xdedupe_run($params)
     }
 
     $all_stats = [];
+    $merge_limit = CRM_Utils_Array::value('merge_limit', $params);
     foreach ($configs_to_run as $config_to_run) {
         try {
-            $all_stats[] = $config_to_run->run($params);
+            $all_stats[] = $config_to_run->run($params, $merge_limit);
         } catch (Exception $ex) {
             $config_id = $config_to_run->getID();
             return civicrm_api3_create_error("An exception occurred with configuration [{$config_id}]: " . $ex->getMessage());
