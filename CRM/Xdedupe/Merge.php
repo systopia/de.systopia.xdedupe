@@ -84,10 +84,28 @@ class CRM_Xdedupe_Merge {
   /**
    * Get the stats from all the merges performed by this object
    *
+   * @param boolean summary
+   *   don't return 'failed' and 'errors' as list, but as aggregation
+   *
    * @return array stats
+   *   stats
    */
-  public function getStats() {
-    return $this->stats;
+  public function getStats($summary = false) {
+    if ($summary) {
+      // flatten error / failure lists
+      $stats = $this->stats;
+      $stats['failed'] = count($this->stats['failed']);
+
+      $error_counts = [];
+      foreach ($stats['errors'] as $error_message) {
+        $error_counts[$error_message] = CRM_Utils_Array::value($error_message, $error_counts, 0) + 1;
+      }
+      $stats['errors'] = $error_counts;
+      return $stats;
+
+    } else {
+      return $this->stats;
+    }
   }
 
   /**

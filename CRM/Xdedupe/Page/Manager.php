@@ -222,15 +222,9 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                     if (empty($value)) {
                         $value = E::ts("none");
                     } else {
-                        // extract error counts
-                        $error_count = [];
-                        foreach ($value as $error_message) {
-                            $error_count[$error_message] = CRM_Utils_Array::value($error_message, $error_count, 0) + 1;
-                        }
-
                         // compile string
                         $error_strings = [];
-                        foreach ($error_count as $error_message => $count) {
+                        foreach ($value as $error_message => $count) {
                             $error_strings[] = E::ts("%1 (%2x)", [1 => $error_message, 2 => $count]);
                         }
                         $value = implode($error_strings, '<br/>');
@@ -241,8 +235,6 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                     $label = E::ts("Merge Failure Count");
                     if (empty($value)) {
                         $value = E::ts("none");
-                    } else {
-                        $value = count($value);
                     }
                     break;
 

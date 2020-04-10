@@ -432,7 +432,7 @@ class CRM_Xdedupe_Configuration
         }
 
         // wrap up run
-        $stats = array_merge($stats, $merger->getStats());
+        $stats = array_merge($stats, $merger->getStats(true));
         $this->setStats($stats, true);
 
         return $stats;
