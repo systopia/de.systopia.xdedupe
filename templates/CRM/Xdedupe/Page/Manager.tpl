@@ -96,6 +96,8 @@
         <span class="btn-slide crm-hover-button">{ts}Actions{/ts}
           <ul class="panel">
             <li>
+              <!-- EDIT LINK -->
+              <a href="{crmURL p='civicrm/xdedupe/controlroom' q="cid=$config_id"}" class="action-item crm-hover-button" title="{ts}Edit (in control room){/ts}">{ts}Edit{/ts}</a>
               <!-- ENABLE/DISABLE -->
               {if $configuration.is_manual}
                 <a href="{crmURL p='civicrm/xdedupe/manage' q="disable_manual=$config_id"}" class="action-item crm-hover-button small-popup" title="{ts}Disable for manual execution{/ts}">{ts}Disable Manual{/ts}</a>
