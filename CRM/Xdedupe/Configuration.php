@@ -407,7 +407,8 @@ class CRM_Xdedupe_Configuration
         if ($merge_limit === null || $merge_limit > 0) {
             // get all tuples and merge
             $timestamp = microtime(true);
-            $tuples = $dedupe_run->getTuples($dedupe_run->getTupleCount(), 0, $config['main_contact']);
+            $pickers = CRM_Xdedupe_Picker::getPickerInstances($config['main_contact']);
+            $tuples = $dedupe_run->getTuples($dedupe_run->getTupleCount(), 0, $pickers);
             foreach ($tuples as $main_contact_id => $other_contact_ids) {
                 $merged_before = $merger->getStats()['contacts_merged'];
                 $merger->multiMerge($main_contact_id, $other_contact_ids);
