@@ -408,19 +408,23 @@ class CRM_Xdedupe_Configuration
             // get all tuples and merge
             $timestamp = microtime(true);
             $pickers = CRM_Xdedupe_Picker::getPickerInstances($config['main_contact']);
-            $tuples = $dedupe_run->getTuples($dedupe_run->getTupleCount(), 0, $pickers);
-            foreach ($tuples as $main_contact_id => $other_contact_ids) {
-                $merged_before = $merger->getStats()['contacts_merged'];
-                $merger->multiMerge($main_contact_id, $other_contact_ids);
-                $tuples_merged = $merger->getStats()['contacts_merged'] - $merged_before;
-                $dedupe_run->setContactsMerged($main_contact_id, $tuples_merged);
+            $tuple_count = $dedupe_run->getTupleCount();
+            $batch_size  = ($merge_limit === null) ? 100 : min($merge_limit, 100);
+            for ($offset = 0; $offset < $tuple_count; $offset += $batch_size) {
+                $tuples = $dedupe_run->getTuples($batch_size, $offset, $pickers);
+                foreach ($tuples as $main_contact_id => $other_contact_ids) {
+                    $merged_before = $merger->getStats()['contacts_merged'];
+                    $merger->multiMerge($main_contact_id, $other_contact_ids);
+                    $tuples_merged = $merger->getStats()['contacts_merged'] - $merged_before;
+                    $dedupe_run->setContactsMerged($main_contact_id, $tuples_merged);
 
-                // update merge limit and break if met
-                if (isset($merge_limit)) {
-                    $merge_limit -= $tuples_merged;
-                    if ($merge_limit < 1) {
-                        $merger->setAborted('merge_limit_hit');
-                        break;
+                    // update merge limit and break if met
+                    if (isset($merge_limit)) {
+                        $merge_limit -= $tuples_merged;
+                        if ($merge_limit < 1) {
+                            $merger->setAborted('merge_limit_hit');
+                            break;
+                        }
                     }
                 }
             }
