@@ -36,6 +36,7 @@ class CRM_Xdedupe_Merge {
         'tuples_merged'      => 0,
         'contacts_merged'    => 0,
         'conflicts_resolved' => 0,
+        'aborted'            => 0,
         'errors'             => [],
         'failed'             => [],
     ];
@@ -83,10 +84,38 @@ class CRM_Xdedupe_Merge {
   /**
    * Get the stats from all the merges performed by this object
    *
+   * @param boolean summary
+   *   don't return 'failed' and 'errors' as list, but as aggregation
+   *
    * @return array stats
+   *   stats
    */
-  public function getStats() {
-    return $this->stats;
+  public function getStats($summary = false) {
+    if ($summary) {
+      // flatten error / failure lists
+      $stats = $this->stats;
+      $stats['failed'] = count($this->stats['failed']);
+
+      $error_counts = [];
+      foreach ($stats['errors'] as $error_message) {
+        $error_counts[$error_message] = CRM_Utils_Array::value($error_message, $error_counts, 0) + 1;
+      }
+      $stats['errors'] = $error_counts;
+      return $stats;
+
+    } else {
+      return $this->stats;
+    }
+  }
+
+  /**
+   * Mark the merge process as aborted, pro
+   *
+   * @param string $reason
+   *   abortion reason
+   */
+  public function setAborted($reason) {
+    $this->stats['aborted'] = $reason;
   }
 
   /**
@@ -142,11 +171,12 @@ class CRM_Xdedupe_Merge {
     //    }
 
     // now simply merge all contacts individually:
+    $merge_succeeded = true;
     foreach ($other_contact_ids as $other_contact_id) {
-      $merge_succeeded = $this->merge($main_contact_id, $other_contact_id, TRUE);
-      if ($merge_succeeded) {
-        $this->stats['tuples_merged'] += 1;
-      }
+      $merge_succeeded &= $this->merge($main_contact_id, $other_contact_id, TRUE);
+    }
+    if ($merge_succeeded) {
+      $this->stats['tuples_merged'] += 1;
     }
   }
 

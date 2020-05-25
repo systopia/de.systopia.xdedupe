@@ -50,6 +50,13 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
         $this->assign('configs', $rendered_configurations);
         $this->assign('baseurl', CRM_Utils_System::url('civicrm/xdedupe/manage'));
 
+        // render the statistics
+        $rendered_stats = [];
+        foreach ($configurations as $configuration) {
+            $rendered_stats[$configuration->getID()] = $this->renderStats($configuration->getStats());
+        }
+        CRM_Core_Resources::singleton()->addVars('xdedeupe', ['stats' => $rendered_stats]);
+
         parent::run();
     }
 
@@ -84,6 +91,18 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
             // create + configure dedupe run
             $dedupe_run = $configuration->find();
 
+            $configuration->setStats([
+                'tuples_found'    => $dedupe_run->getTupleCount(),
+                'contact_count'   => $dedupe_run->getContactCount(),
+                'finder_runtime'  => $dedupe_run->getFinderRuntime(),
+                'merger_runtime'  => 0.0,
+                'tuples_merged'   => 0,
+                'contacts_merged' => 0,
+                'last_run'        => date('YmdHis'),
+                'type'            => 'manual',
+                'aborted'         => 1,  // will be set to 0 at the end
+            ], true);
+
             // and call the runner for the merge
             CRM_Xdedupe_MergeJob::launchMergeRunner(
                 $dedupe_run->getID(),
@@ -91,6 +110,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                     'force_merge' => empty($config['force_merge']) ? '0' : '1',
                     'resolvers'   => $config['auto_resolve'],
                     'pickers'     => $config['main_contact'],
+                    'config_id'   => $configuration->getID(),
                 ],
                 CRM_Utils_System::url('civicrm/xdedupe/manage', 'reset=1')
             );
@@ -104,7 +124,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
      */
     protected function processEnableDisableCommand()
     {
-        foreach (['manual', 'automatic'] as $mode) {
+        foreach (['manual', 'automatic', 'scheduled'] as $mode) {
             $enable_id  = CRM_Utils_Request::retrieve("enable_{$mode}", 'Integer');
             $disable_id = CRM_Utils_Request::retrieve("disable_{$mode}", 'Integer');
 
@@ -124,6 +144,12 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
 
     /**
      * render the data representation of a task
+     *
+     * @param CRM_Xdedupe_Configuration $configuration
+     *   the configuration
+     *
+     * @return array
+     *   data structure to be passed to the template engine
      */
     protected function renderConfiguration($configuration)
     {
@@ -133,6 +159,8 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
             'description'  => $configuration->getAttribute('description'),
             'is_manual'    => $configuration->getAttribute('is_manual'),
             'is_automatic' => $configuration->getAttribute('is_automatic'),
+            'is_scheduled' => $configuration->getAttribute('is_scheduled'),
+            'last_run'     => $this->renderDate(CRM_Utils_Array::value('last_run', $configuration->getStats())),
         ];
         if (strlen($data['description']) > 64) {
             $data['short_desc'] = substr($data['description'], 0, 64) . '...';
@@ -150,8 +178,103 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
         if (empty($string)) {
             return E::ts('never');
         } else {
-            return date('Y-m-d H:i:s', strtotime($string));
+            return date('Y-m-d H:i', strtotime($string));
         }
+    }
+
+    /**
+     * render stats
+     */
+    protected function renderStats($stats)
+    {
+        if (empty($stats)) {
+            return E::ts("No statistics available");
+        }
+
+        // else: render a nice table
+        $html = '<table class="xdedupe-stats-popup">';
+        foreach ($stats as $key => $raw_value) {
+            $value = $raw_value;
+            switch ($key) {
+                case 'last_run':
+                    continue 2;
+
+                case 'tuples_found':
+                    $label = E::ts("Tuples Found");
+                    break;
+
+                case 'contact_count':
+                    $label = E::ts("Contacts Involved");
+                    break;
+
+                case 'finder_runtime':
+                    $label = E::ts("Runtime (Finder)");
+                    $value = sprintf("%0.1fs", $raw_value);
+                    break;
+
+                case 'merger_runtime':
+                    $label = E::ts("Runtime (Merger)");
+                    $value = sprintf("%0.1fs", $raw_value);
+                    break;
+
+                case 'errors':
+                    $label = E::ts("Merge Errors");
+                    if (empty($value)) {
+                        $value = E::ts("none");
+                    } else {
+                        // compile string
+                        $error_strings = [];
+                        foreach ($value as $error_message => $count) {
+                            $error_strings[] = E::ts("%1 (%2x)", [1 => $error_message, 2 => $count]);
+                        }
+                        $value = implode($error_strings, '<br/>');
+                    }
+                    break;
+
+                case 'failed':
+                    $label = E::ts("Merge Failure Count");
+                    if (empty($value)) {
+                        $value = E::ts("none");
+                    }
+                    break;
+
+                case 'tuples_merged':
+                    $label = E::ts("Tuples Merged");
+                    break;
+
+                case 'contacts_merged':
+                    $label = E::ts("Contacts Merged");
+                    break;
+
+                case 'conflicts_resolved':
+                    $label = E::ts("Conflicts Resolved");
+                    break;
+
+                case 'type':
+                    $label = E::ts("Run Type");
+                    if ($value == 'scheduled') {
+                        $value = E::ts("Scheduled");
+                    } else {
+                        $value = E::ts("Manual");
+                    }
+                    break;
+
+                case 'aborted':
+                    $label = E::ts("Was aborted?");
+                    if (empty($value)) {
+                        $value = E::ts("No");
+                    } else {
+                        $value = E::ts("Yes");
+                    }
+                    break;
+
+                default:
+                    $label = $key;
+            }
+            $html .= "<tr><td>{$label}</td><td>{$value}</td></tr>";
+        }
+        $html .= '</table>';
+        return $html;
     }
 
     /**

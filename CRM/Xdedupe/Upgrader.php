@@ -32,7 +32,7 @@ class CRM_Xdedupe_Upgrader extends CRM_Xdedupe_Upgrader_Base
 
 
     /**
-     * Version 0.5 comes with a DB table for the configrations
+     * Version 0.5 comes with a DB table for the configurations
      *
      * @return boolean
      *    TRUE on success
@@ -45,4 +45,50 @@ class CRM_Xdedupe_Upgrader extends CRM_Xdedupe_Upgrader_Base
         $this->executeSqlFile('sql/civicrm_xdedupe_configuration.sql');
         return TRUE;
     }
+
+    /**
+     * Version 0.5 also comes with the scheduled job
+     *
+     * @return boolean
+     *    TRUE on success
+     * @throws Exception
+     *    if something goes wrong
+     */
+    public function upgrade_0501()
+    {
+        $this->ctx->log->info('Configuring Scheduled Job');
+        civicrm_api3(
+            'Job',
+            'create',
+            [
+                'run_frequency' => 'Daily',
+                'api_entity'    => 'Xdedupe',
+                'api_action'    => 'run',
+                'name'          => E::ts("Scheduled Deduplication (X-Dedupe)"),
+                'description'   => E::ts(
+                    "Runs all X-Dedupe configurations that have been scheduled for automatic execution."
+                ),
+                'parameters'    => 'cid=scheduled',
+                'is_active'     => 1,
+            ]
+        );
+        return TRUE;
+    }
+
+    /**
+     * Make sure the new table is known to logging
+     *
+     * @return boolean
+     *    TRUE on success
+     * @throws Exception
+     *    if something goes wrong
+     */
+    public function upgrade_0502()
+    {
+        $this->ctx->log->info('Registering new table to logging');
+        $logging = new CRM_Logging_Schema();
+        $logging->fixSchemaDifferences();
+        return TRUE;
+    }
+
 }

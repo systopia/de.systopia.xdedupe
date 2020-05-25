@@ -31,6 +31,16 @@ function xdedupe_civicrm_config(&$config) {
 }
 
 /**
+ * Make sure, that the last_run column is not logged
+ *
+ * @param array $logTableSpec
+ */
+function xdedupe_civicrm_alterLogTables(&$logTableSpec) {
+    if (isset($logTableSpec['civicrm_xdedupe_configuration'])) {
+        $logTableSpec['civicrm_xdedupe_configuration']['exceptions'] = ['last_run'];
+    }
+}
+/**
  * Implements hook_civicrm_xmlMenu().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_xmlMenu
@@ -171,8 +181,8 @@ function xdedupe_civicrm_preProcess($formName, &$form) {
 function xdedupe_civicrm_navigationMenu(&$menu) {
   _xdedupe_civix_insert_navigation_menu($menu, 'Contacts', [
       'label'      => E::ts('Extended Deduplication'),
-      'name'       => 'xdedupe_controlroom',
-      'url'        => 'civicrm/xdedupe/controlroom',
+      'name'       => 'xdedupe_manage',
+      'url'        => 'civicrm/xdedupe/manage',
       'permission' => 'administer CiviCRM',
       'operator'   => 'OR',
       'separator'  => 0,

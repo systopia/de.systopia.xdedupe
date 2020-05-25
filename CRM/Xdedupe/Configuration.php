@@ -28,12 +28,14 @@ class CRM_Xdedupe_Configuration
         'description'  => 'String',
         'is_manual'    => 'Integer',
         'is_automatic' => 'Integer',
+        'is_scheduled' => 'Integer',
         'weight'       => 'Integer',
     ];
 
     protected $configuration_id;
     protected $attributes;
     protected $config;
+    protected $stats;
 
     /**
      * Constructor for an XDedupe configuration
@@ -48,10 +50,17 @@ class CRM_Xdedupe_Configuration
         $this->configuration_id = $configuration_id;
         $this->attributes       = [];
         $this->config           = [];
+        $this->stats            = [];
 
         // main attributes go into $this->attributes
         foreach (self::$main_attributes as $attribute_name => $attribute_type) {
             $this->attributes[$attribute_name] = CRM_Utils_Array::value($attribute_name, $data);
+        }
+
+        // extract the stats
+        if (isset($data['stats'])) {
+            $this->stats = $data['stats'];
+            unset($data['stats']);
         }
 
         // everything else goes into $this->config
@@ -88,6 +97,17 @@ class CRM_Xdedupe_Configuration
     }
 
     /**
+     * Get a list of all configurations
+     *
+     * @return array
+     *      list of CRM_Xdedupe_Configuration objects
+     */
+    public static function getAllScheduled()
+    {
+        return self::getConfigurations('SELECT * FROM civicrm_xdedupe_configuration WHERE is_scheduled = 1 ORDER BY weight ASC');
+    }
+
+    /**
      * Get a list of XDedupe configurations
      *
      * @param string $sql_query
@@ -111,6 +131,10 @@ class CRM_Xdedupe_Configuration
                     $data[$key] = $value;
                 }
             }
+            if (isset($configuration_search->last_run)) {
+                $data['stats'] = json_decode($configuration_search->last_run, TRUE);
+            }
+
             $configs[] = new CRM_Xdedupe_Configuration($configuration_search->id, $data);
         }
 
@@ -241,6 +265,36 @@ class CRM_Xdedupe_Configuration
     }
 
     /**
+     * Get the status of the last run
+     *
+     * @return array
+     *   last stats
+     */
+    public function getStats()
+    {
+        return $this->stats;
+    }
+
+    /**
+     * Set/update this configuration's stats
+     *
+     * @param array $stats
+     *    the updated stats
+     * @param bool $store
+     *    should the stats be stored?
+     */
+    public function setStats($stats, $store = false)
+    {
+        $this->stats = $stats;
+        if ($store && $this->configuration_id) {
+            CRM_Core_DAO::executeQuery("UPDATE `civicrm_xdedupe_configuration` SET last_run = %1 WHERE id = %2", [
+                1 => [json_encode($this->stats), 'String'],
+                2 => [$this->configuration_id, 'Integer']
+            ]);
+        }
+    }
+
+    /**
      * get a single attribute from the configuration
      *
      * @param string $attribute_name
@@ -330,13 +384,58 @@ class CRM_Xdedupe_Configuration
      * Executes the given configuration with automatic merges
      *
      * @param array $parameters
-     *      additional parameters like
-     *          'limit' => only try merging this number of tuples
-     *          'skip'  => skip this number of tuples
+     *      additional parameters, currently unused
+     *
+     * @param integer|null $merge_limit
+     *      if given, it caps the amout of merge attempts
      */
-    public function run($parameters = [])
+    public function run($parameters = [], &$merge_limit = null)
     {
-        // TODO
+        // find tuples, init merger
+        $dedupe_run = $this->find();
+        $config = $this->getConfig();
+        $merger = new CRM_Xdedupe_Merge($config);
+        $stats = [
+            'tuples_found'   => $dedupe_run->getTupleCount(),
+            'contacts_found' => $dedupe_run->getContactCount(),
+            'finder_runtime' => $dedupe_run->getFinderRuntime(),
+            'merger_runtime' => 0.0,
+            'last_run'       => date('YmdHis'),
+            'type'           => 'scheduled'
+        ];
+
+        if ($merge_limit === null || $merge_limit > 0) {
+            // get all tuples and merge
+            $timestamp = microtime(true);
+            $pickers = CRM_Xdedupe_Picker::getPickerInstances($config['main_contact']);
+            $tuple_count = $dedupe_run->getTupleCount();
+            $batch_size  = ($merge_limit === null) ? 100 : min($merge_limit, 100);
+            for ($offset = 0; $offset < $tuple_count; $offset += $batch_size) {
+                $tuples = $dedupe_run->getTuples($batch_size, $offset, $pickers);
+                foreach ($tuples as $main_contact_id => $other_contact_ids) {
+                    $merged_before = $merger->getStats()['contacts_merged'];
+                    $merger->multiMerge($main_contact_id, $other_contact_ids);
+                    $tuples_merged = $merger->getStats()['contacts_merged'] - $merged_before;
+                    $dedupe_run->setContactsMerged($main_contact_id, $tuples_merged);
+
+                    // update merge limit and break if met
+                    if (isset($merge_limit)) {
+                        $merge_limit -= count($other_contact_ids);
+                        if ($merge_limit < 1) {
+                            $merger->setAborted('merge_limit_hit');
+                            break 2;
+                        }
+                    }
+                }
+            }
+            $stats['merger_runtime'] = microtime(true) - $timestamp;
+        }
+
+        // wrap up run
+        $stats = array_merge($stats, $merger->getStats(true));
+        $this->setStats($stats, true);
+
+        return $stats;
     }
 
 }
