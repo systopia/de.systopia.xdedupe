@@ -16,6 +16,23 @@
 {* RUN ID *}
 {$form.auto_dedupe_run.html}
 
+{* CONFIGURATION *}
+<div class="crm-accordion-wrapper crm-xdedupe-config {if not $config_showing}collapsed{/if}">
+  <div class="crm-accordion-header active">{ts domain="de.systopia.xdedupe"}{$config_header}{/ts}</div>
+  <div class="crm-accordion-body">
+    <div class="crm-section">
+      <div class="label">{$form.name.label}</div>
+      <div class="content">{$form.name.html}</div>
+      <div class="clear"></div>
+    </div>
+    <div class="crm-section">
+      <div class="label">{$form.description.label}</div>
+      <div class="content">{$form.description.html}</div>
+      <div class="clear"></div>
+    </div>
+  </div>
+</div>
+
 {* MAIN CRITERIA *}
 <div class="xdedupe-config">
   <h2>{ts domain="de.systopia.xdedupe"}Search Criteria{/ts}&nbsp;<a onclick='CRM.help("{ts domain="de.systopia.xdedupe"}Search Criteria (Finders){/ts}", {literal}{"id":"id-xdedupe-finder","file":"CRM\/Xdedupe\/Form\/ControlRoom"}{/literal}); return false;' href="#" title="{ts domain="de.systopia.xdedupe"}Help{/ts}" class="helpicon">&nbsp;</a></h2>

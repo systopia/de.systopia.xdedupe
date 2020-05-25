@@ -35,9 +35,10 @@ class CRM_Xdedupe_MergeJob {
    * This doesn't return, but redirects to the runner
    *
    * @param $dedupe_run_id string dedupe run
-   * @param $params        array  parameeters for API Xdedupe.merge
+   * @param $params        array  parameters for API Xdedupe.merge
+   * @param $onEndUrl      string URL to return to after the runner is finished. Default is the control room
    */
-  public static function launchMergeRunner($dedupe_run_id, $params) {
+  public static function launchMergeRunner($dedupe_run_id, $params, $onEndUrl = null) {
     // create a queue
     $queue = CRM_Queue_Service::singleton()->create(array(
       'type'  => 'Sql',
@@ -65,7 +66,7 @@ class CRM_Xdedupe_MergeJob {
       'title'     => E::ts("Merging %1 tuples.", [1 => $count]),
       'queue'     => $queue,
       'errorMode' => CRM_Queue_Runner::ERROR_ABORT,
-      'onEndUrl'  => CRM_Utils_System::url('civicrm/xdedupe/controlroom', 'reset=1'),
+      'onEndUrl'  => $onEndUrl ? $onEndUrl : CRM_Utils_System::url('civicrm/xdedupe/controlroom', 'reset=1'),
     ]);
     $runner->runAllViaWeb(); // does not return
   }
