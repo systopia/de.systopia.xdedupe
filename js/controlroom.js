@@ -20,7 +20,7 @@ function xdedupe_show_pickers() {
     // first: identify the last picker that has a value
     let picker_count = cj("[name^=main_contact_]").length;
     let last_picker = 0;
-    for (let i=1; i <= picker_count; i++) {
+    for (let i = 1; i <= picker_count; i++) {
         let selector = "[name^=main_contact_" + i + "]";
         if (cj(selector).val().length > 0) {
             last_picker = i;
@@ -28,7 +28,7 @@ function xdedupe_show_pickers() {
     }
 
     // then: show every one before this, and hide every after
-    for (let i=1; i <= picker_count; i++) {
+    for (let i = 1; i <= picker_count; i++) {
         let selector = "[name^=main_contact_" + i + "]";
         if (i <= last_picker + 1) {
             cj(selector).parent().show();
@@ -37,6 +37,7 @@ function xdedupe_show_pickers() {
         }
     }
 }
+
 cj("[name^=main_contact_]")
     .change(xdedupe_show_pickers)
     .parent().hide();
@@ -50,7 +51,7 @@ xdedupe_show_pickers();
 function xdedupe_update_table_link() {
     let picker_count = cj("[name^=main_contact_]").length;
     let pickers = [];
-    for (let i=1; i <= picker_count; i++) {
+    for (let i = 1; i <= picker_count; i++) {
         let selector = "[name^=main_contact_" + i + "]";
         if (cj(selector).val().length > 0) {
             pickers.push(cj(selector).val());
@@ -73,26 +74,26 @@ function xdedupe_refresh_table() {
 }
 
 // trigger this function
-(function($) {
+(function ($) {
     xdedupe_update_table_link();
 })(CRM.$);
 cj("#main_contact").change(xdedupe_update_table_link);
 
 // 'merge' button handler
-cj("table.xdedupe-result").click(function(e) {
+cj("table.xdedupe-result").click(function (e) {
     if (cj(e.target).is("a.xdedupe-merge-individual")) {
         // this is the merge button click -> gather data
         // first visualise the click:
         cj(e.target).addClass("disabled")
-            .animate( { backgroundColor: "#f00" }, 500 )
-            .animate( { backgroundColor: "transparent" }, 500 )
-            .animate( { backgroundColor: "#f00" }, 500 )
-            .animate( { backgroundColor: "transparent" }, 500 )
-            .animate( { backgroundColor: "#f00" }, 500 )
-            .animate( { backgroundColor: "transparent" }, 500 )
+            .animate({backgroundColor: "#f00"}, 500)
+            .animate({backgroundColor: "transparent"}, 500)
+            .animate({backgroundColor: "#f00"}, 500)
+            .animate({backgroundColor: "transparent"}, 500)
+            .animate({backgroundColor: "#f00"}, 500)
+            .animate({backgroundColor: "transparent"}, 500)
             .removeClass("disabled");
 
-        let main_contact_id   = cj(e.target).parent().find("span.xdedupe-main-contact-id").text();
+        let main_contact_id = cj(e.target).parent().find("span.xdedupe-main-contact-id").text();
         let other_contact_ids = cj(e.target).parent().find("span.xdedupe-other-contact-ids").text();
         let force_merge = cj("#force_merge").prop('checked') ? "1" : "0";
         let resolvers = cj("#auto_resolve").val();
@@ -110,37 +111,40 @@ cj("table.xdedupe-result").click(function(e) {
             "resolvers": resolvers.join(','),
             "pickers": pickers.join(','),
             "dedupe_run": CRM.vars['xdedupe_controlroom'].dedupe_run_id
-        }).success(function(result) {
+        }).success(function (result) {
             let ts = CRM.ts('de.systopia.xdedupe');
             if (result.tuples_merged > 0) {
                 CRM.alert(ts("Tuple was merged"), ts("Success"), 'info');
                 xdedupe_refresh_table();
             } else {
                 let errors = result.errors;
-                errors = errors.filter(function(el, index, arr) {
+                errors = errors.filter(function (el, index, arr) {
                     return index === arr.indexOf(el);
                 });
                 //let contact_name = CRM.api3('Contact', 'getvalue', {params: {return: 'display_name', id: main_contact_id}});
-                let contact_name = CRM.api3('Contact', 'getvalue', {return: 'display_name', id: main_contact_id}).then(function(contact_name) {
+                let contact_name = CRM.api3('Contact', 'getvalue', {
+                    return: 'display_name',
+                    id: main_contact_id
+                }).then(function (contact_name) {
                     CRM.alert(ts("Merge of '" + contact_name.result + "' failed. Remaining Conflicts: ") + errors.join(', '), ts("Merge Failed"), 'error');
                 });
             }
-        }).error(function(result) {
+        }).error(function (result) {
             let ts = CRM.ts('de.systopia.xdedupe');
-            CRM.alert(ts("Merge failed: " . result.error_msg), ts("Error"), 'error');
+            CRM.alert(ts("Merge failed: ".result.error_msg), ts("Error"), 'error');
         });
         e.preventDefault();
 
     } else if (cj(e.target).is("a.xdedupe-mark-exception")) {
         // this is the request to mark the tuple as non-dupes
-        let main_contact_id   = cj(e.target).parent().find("span.xdedupe-main-contact-id").text();
+        let main_contact_id = cj(e.target).parent().find("span.xdedupe-main-contact-id").text();
         let other_contact_ids = cj(e.target).parent().find("span.xdedupe-other-contact-ids").text();
         // TODO: proper way: create API call to add to exclude list, AND remove from run
         //   _then_ we can use xdedupe_refresh_table() instead of location.reload()
         let ajax_url = cj("<div/>").html(CRM.vars['xdedupe_controlroom'].exclude_tuple_url).text();
         cj.post(ajax_url,
             {cid: main_contact_id, oid: other_contact_ids, op: 'dupe-nondupe'},
-            function( result ) {
+            function (result) {
                 cj(e.target).closest("tr").hide();
                 // alternative: crudely reload the page
                 // if (!window.location.href.endsWith('#xdedupe_results')) {

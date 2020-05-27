@@ -43,7 +43,7 @@ class CRM_Xdedupe_Upgrader extends CRM_Xdedupe_Upgrader_Base
     {
         $this->ctx->log->info('Creating configuration DB table');
         $this->executeSqlFile('sql/civicrm_xdedupe_configuration.sql');
-        return TRUE;
+        return true;
     }
 
     /**
@@ -72,7 +72,7 @@ class CRM_Xdedupe_Upgrader extends CRM_Xdedupe_Upgrader_Base
                 'is_active'     => 1,
             ]
         );
-        return TRUE;
+        return true;
     }
 
     /**
@@ -88,7 +88,7 @@ class CRM_Xdedupe_Upgrader extends CRM_Xdedupe_Upgrader_Base
         $this->ctx->log->info('Registering new table to logging');
         $logging = new CRM_Logging_Schema();
         $logging->fixSchemaDifferences();
-        return TRUE;
+        return true;
     }
 
 }

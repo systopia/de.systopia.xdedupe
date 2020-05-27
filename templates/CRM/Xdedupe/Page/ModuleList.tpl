@@ -17,22 +17,24 @@
 <div class="xdedupe xdedupe-module-list">
     <h3>{ts domain="de.systopia.xdedupe"}Finder Modules{/ts}</h3>
     <div class="xdedupe xdedupe-module-help" id="help">
-        <span>{ts domain="de.systopia.xdedupe"}Finder modules will efficiently identify <i>potential</i> duplicates and group them into tuples, i.e. pairs of two or more contacts. These can later be filtered further.{/ts}</span>
+        <span>{ts domain="de.systopia.xdedupe"}Finder modules will efficiently identify
+                <i>potential</i>
+                 duplicates and group them into tuples, i.e. pairs of two or more contacts. These can later be filtered further.{/ts}</span>
     </div>
     <table class="xdedupe-module-list">
         <thead>
-            <tr>
-                <td>{ts domain="de.systopia.xdedupe"}Module Name{/ts}</td>
-                <td>{ts domain="de.systopia.xdedupe"}Description{/ts}</td>
-            </tr>
+        <tr>
+            <td>{ts domain="de.systopia.xdedupe"}Module Name{/ts}</td>
+            <td>{ts domain="de.systopia.xdedupe"}Description{/ts}</td>
+        </tr>
         </thead>
         <tbody>
-            {foreach from=$finders item=finder}
-                <tr>
-                    <td>{$finder.name}</td>
-                    <td>{$finder.help}</td>
-                </tr>
-            {/foreach}
+        {foreach from=$finders item=finder}
+            <tr>
+                <td>{$finder.name}</td>
+                <td>{$finder.help}</td>
+            </tr>
+        {/foreach}
         </tbody>
     </table>
 </div>

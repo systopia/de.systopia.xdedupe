@@ -15,6 +15,7 @@
 +--------------------------------------------------------*/
 
 require_once 'xdedupe.civix.php';
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 
@@ -23,11 +24,12 @@ use CRM_Xdedupe_ExtensionUtil as E;
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_config
  */
-function xdedupe_civicrm_config(&$config) {
-  _xdedupe_civix_civicrm_config($config);
+function xdedupe_civicrm_config(&$config)
+{
+    _xdedupe_civix_civicrm_config($config);
 
-  require_once 'CRM/Xdedupe/Config.php';
-  \Civi::dispatcher()->addSubscriber(new CRM_Xdedupe_Config());
+    require_once 'CRM/Xdedupe/Config.php';
+    \Civi::dispatcher()->addSubscriber(new CRM_Xdedupe_Config());
 }
 
 /**
@@ -35,18 +37,21 @@ function xdedupe_civicrm_config(&$config) {
  *
  * @param array $logTableSpec
  */
-function xdedupe_civicrm_alterLogTables(&$logTableSpec) {
+function xdedupe_civicrm_alterLogTables(&$logTableSpec)
+{
     if (isset($logTableSpec['civicrm_xdedupe_configuration'])) {
         $logTableSpec['civicrm_xdedupe_configuration']['exceptions'] = ['last_run'];
     }
 }
+
 /**
  * Implements hook_civicrm_xmlMenu().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_xmlMenu
  */
-function xdedupe_civicrm_xmlMenu(&$files) {
-  _xdedupe_civix_civicrm_xmlMenu($files);
+function xdedupe_civicrm_xmlMenu(&$files)
+{
+    _xdedupe_civix_civicrm_xmlMenu($files);
 }
 
 /**
@@ -54,8 +59,9 @@ function xdedupe_civicrm_xmlMenu(&$files) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_install
  */
-function xdedupe_civicrm_install() {
-  _xdedupe_civix_civicrm_install();
+function xdedupe_civicrm_install()
+{
+    _xdedupe_civix_civicrm_install();
 }
 
 /**
@@ -63,8 +69,9 @@ function xdedupe_civicrm_install() {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_postInstall
  */
-function xdedupe_civicrm_postInstall() {
-  _xdedupe_civix_civicrm_postInstall();
+function xdedupe_civicrm_postInstall()
+{
+    _xdedupe_civix_civicrm_postInstall();
 }
 
 /**
@@ -72,8 +79,9 @@ function xdedupe_civicrm_postInstall() {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_uninstall
  */
-function xdedupe_civicrm_uninstall() {
-  _xdedupe_civix_civicrm_uninstall();
+function xdedupe_civicrm_uninstall()
+{
+    _xdedupe_civix_civicrm_uninstall();
 }
 
 /**
@@ -81,8 +89,9 @@ function xdedupe_civicrm_uninstall() {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_enable
  */
-function xdedupe_civicrm_enable() {
-  _xdedupe_civix_civicrm_enable();
+function xdedupe_civicrm_enable()
+{
+    _xdedupe_civix_civicrm_enable();
 }
 
 /**
@@ -90,8 +99,9 @@ function xdedupe_civicrm_enable() {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_disable
  */
-function xdedupe_civicrm_disable() {
-  _xdedupe_civix_civicrm_disable();
+function xdedupe_civicrm_disable()
+{
+    _xdedupe_civix_civicrm_disable();
 }
 
 /**
@@ -99,8 +109,9 @@ function xdedupe_civicrm_disable() {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_upgrade
  */
-function xdedupe_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  return _xdedupe_civix_civicrm_upgrade($op, $queue);
+function xdedupe_civicrm_upgrade($op, CRM_Queue_Queue $queue = null)
+{
+    return _xdedupe_civix_civicrm_upgrade($op, $queue);
 }
 
 /**
@@ -111,8 +122,9 @@ function xdedupe_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_managed
  */
-function xdedupe_civicrm_managed(&$entities) {
-  _xdedupe_civix_civicrm_managed($entities);
+function xdedupe_civicrm_managed(&$entities)
+{
+    _xdedupe_civix_civicrm_managed($entities);
 }
 
 /**
@@ -124,8 +136,9 @@ function xdedupe_civicrm_managed(&$entities) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
  */
-function xdedupe_civicrm_caseTypes(&$caseTypes) {
-  _xdedupe_civix_civicrm_caseTypes($caseTypes);
+function xdedupe_civicrm_caseTypes(&$caseTypes)
+{
+    _xdedupe_civix_civicrm_caseTypes($caseTypes);
 }
 
 /**
@@ -138,8 +151,9 @@ function xdedupe_civicrm_caseTypes(&$caseTypes) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_angularModules
  */
-function xdedupe_civicrm_angularModules(&$angularModules) {
-  _xdedupe_civix_civicrm_angularModules($angularModules);
+function xdedupe_civicrm_angularModules(&$angularModules)
+{
+    _xdedupe_civix_civicrm_angularModules($angularModules);
 }
 
 /**
@@ -147,8 +161,9 @@ function xdedupe_civicrm_angularModules(&$angularModules) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_alterSettingsFolders
  */
-function xdedupe_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
-  _xdedupe_civix_civicrm_alterSettingsFolders($metaDataFolders);
+function xdedupe_civicrm_alterSettingsFolders(&$metaDataFolders = null)
+{
+    _xdedupe_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
 /**
@@ -158,8 +173,9 @@ function xdedupe_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_entityTypes
  */
-function xdedupe_civicrm_entityTypes(&$entityTypes) {
-  _xdedupe_civix_civicrm_entityTypes($entityTypes);
+function xdedupe_civicrm_entityTypes(&$entityTypes)
+{
+    _xdedupe_civix_civicrm_entityTypes($entityTypes);
 }
 
 // --- Functions below this ship commented out. Uncomment as required. ---
@@ -169,23 +185,28 @@ function xdedupe_civicrm_entityTypes(&$entityTypes) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_preProcess
  *
-function xdedupe_civicrm_preProcess($formName, &$form) {
-
-} // */
+ * function xdedupe_civicrm_preProcess($formName, &$form) {
+ *
+ * } // */
 
 /**
  * Implements hook_civicrm_navigationMenu().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_navigationMenu
  */
-function xdedupe_civicrm_navigationMenu(&$menu) {
-  _xdedupe_civix_insert_navigation_menu($menu, 'Contacts', [
-      'label'      => E::ts('Extended Deduplication'),
-      'name'       => 'xdedupe_manage',
-      'url'        => 'civicrm/xdedupe/manage',
-      'permission' => 'administer CiviCRM',
-      'operator'   => 'OR',
-      'separator'  => 0,
-  ]);
-  _xdedupe_civix_navigationMenu($menu);
+function xdedupe_civicrm_navigationMenu(&$menu)
+{
+    _xdedupe_civix_insert_navigation_menu(
+        $menu,
+        'Contacts',
+        [
+            'label'      => E::ts('Extended Deduplication'),
+            'name'       => 'xdedupe_manage',
+            'url'        => 'civicrm/xdedupe/manage',
+            'permission' => 'administer CiviCRM',
+            'operator'   => 'OR',
+            'separator'  => 0,
+        ]
+    );
+    _xdedupe_civix_navigationMenu($menu);
 }

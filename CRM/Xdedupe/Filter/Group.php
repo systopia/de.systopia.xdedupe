@@ -19,60 +19,66 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Implement a Group "Filter", i.e. will restrict the result set by group membership
  */
-class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter {
+class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter
+{
 
-  protected $group_id = NULL;
-  protected $include  = TRUE;
+    protected $group_id = null;
+    protected $include = true;
 
-  public function __construct($alias, $params) {
-    parent::__construct($alias, $params);
-    if (isset($params['group_id'])) {
-      $this->group_id = (int) $params['group_id'];
+    public function __construct($alias, $params)
+    {
+        parent::__construct($alias, $params);
+        if (isset($params['group_id'])) {
+            $this->group_id = (int)$params['group_id'];
+        }
+        if (isset($params['exclude'])) {
+            $this->include = false;
+        }
     }
-    if (isset($params['exclude'])) {
-      $this->include = FALSE;
+
+    /**
+     * get the name of the finder
+     * @return string name
+     */
+    public function getName()
+    {
+        return E::ts("Group %1", [1 => $this->group_id]);
     }
-  }
 
-  /**
-   * get the name of the finder
-   * @return string name
-   */
-  public function getName() {
-    return E::ts("Group %1", [1 => $this->group_id]);
-  }
+    /**
+     * get an explanation what the finder does
+     * @return string name
+     */
+    public function getHelp()
+    {
+        return E::ts("Filter for contacts in the given group");
+    }
 
-  /**
-   * get an explanation what the finder does
-   * @return string name
-   */
-  public function getHelp() {
-    return E::ts("Filter for contacts in the given group");
-  }
-
-  /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
-   */
-  public function addJOINS(&$joins) {
-    if ($this->group_id) {
-      $joins[] = "LEFT JOIN civicrm_group_contact {$this->alias} ON {$this->alias}.contact_id = contact.id 
+    /**
+     * Add this finder's JOIN clauses to the list
+     *
+     * @param $joins array
+     */
+    public function addJOINS(&$joins)
+    {
+        if ($this->group_id) {
+            $joins[] = "LEFT JOIN civicrm_group_contact {$this->alias} ON {$this->alias}.contact_id = contact.id 
                                                                  AND {$this->alias}.group_id = {$this->group_id}
                                                                  AND {$this->alias}.status = 'Added'";
+        }
     }
-  }
 
-  /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
-   */
-  public function addWHERES(&$wheres) {
-    if ($this->include) {
-      $wheres[] = "{$this->alias}.id IS NOT NULL";
-    } else {
-      $wheres[] = "{$this->alias}.id IS NULL";
+    /**
+     * Add this finder's WHERE clauses to the list
+     *
+     * @param $wheres array
+     */
+    public function addWHERES(&$wheres)
+    {
+        if ($this->include) {
+            $wheres[] = "{$this->alias}.id IS NOT NULL";
+        } else {
+            $wheres[] = "{$this->alias}.id IS NULL";
+        }
     }
-  }
 }

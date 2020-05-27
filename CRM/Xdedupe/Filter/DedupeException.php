@@ -19,40 +19,45 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Implement a filter that includes contacts, that are in the dedupe exception list
  */
-class CRM_Xdedupe_Filter_DedupeException extends CRM_Xdedupe_Filter {
+class CRM_Xdedupe_Filter_DedupeException extends CRM_Xdedupe_Filter
+{
 
-  /**
-   * get the name of the finder
-   * @return string name
-   */
-  public function getName() {
-    return E::ts("Exclude Dedupe Exceptions");
-  }
+    /**
+     * get the name of the finder
+     * @return string name
+     */
+    public function getName()
+    {
+        return E::ts("Exclude Dedupe Exceptions");
+    }
 
-  /**
-   * get an explanation what the finder does
-   * @return string name
-   */
-  public function getHelp() {
-    return E::ts("Exclude contacts (not tuples!) that are in the system's dedupe exception list.");
-  }
+    /**
+     * get an explanation what the finder does
+     * @return string name
+     */
+    public function getHelp()
+    {
+        return E::ts("Exclude contacts (not tuples!) that are in the system's dedupe exception list.");
+    }
 
-  /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
-   */
-  public function addJOINS(&$joins) {
-    $joins[] = "LEFT JOIN civicrm_dedupe_exception {$this->alias}_a ON {$this->alias}_a.contact_id1 = contact.id";
-    $joins[] = "LEFT JOIN civicrm_dedupe_exception {$this->alias}_b ON {$this->alias}_b.contact_id1 = contact.id";
-  }
+    /**
+     * Add this finder's JOIN clauses to the list
+     *
+     * @param $joins array
+     */
+    public function addJOINS(&$joins)
+    {
+        $joins[] = "LEFT JOIN civicrm_dedupe_exception {$this->alias}_a ON {$this->alias}_a.contact_id1 = contact.id";
+        $joins[] = "LEFT JOIN civicrm_dedupe_exception {$this->alias}_b ON {$this->alias}_b.contact_id1 = contact.id";
+    }
 
-  /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
-   */
-  public function addWHERES(&$wheres) {
-    $wheres[] = "({$this->alias}_a.id IS NULL AND {$this->alias}_b.id IS NULL)";
-  }
+    /**
+     * Add this finder's WHERE clauses to the list
+     *
+     * @param $wheres array
+     */
+    public function addWHERES(&$wheres)
+    {
+        $wheres[] = "({$this->alias}_a.id IS NULL AND {$this->alias}_b.id IS NULL)";
+    }
 }

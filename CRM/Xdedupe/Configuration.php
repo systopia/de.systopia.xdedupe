@@ -104,7 +104,9 @@ class CRM_Xdedupe_Configuration
      */
     public static function getAllScheduled()
     {
-        return self::getConfigurations('SELECT * FROM civicrm_xdedupe_configuration WHERE is_scheduled = 1 ORDER BY weight ASC');
+        return self::getConfigurations(
+            'SELECT * FROM civicrm_xdedupe_configuration WHERE is_scheduled = 1 ORDER BY weight ASC'
+        );
     }
 
     /**
@@ -126,13 +128,13 @@ class CRM_Xdedupe_Configuration
                 $data[$attribute_name] = $configuration_search->$attribute_name;
             }
             if (isset($configuration_search->config)) {
-                $config = json_decode($configuration_search->config, TRUE);
+                $config = json_decode($configuration_search->config, true);
                 foreach ($config as $key => $value) {
                     $data[$key] = $value;
                 }
             }
             if (isset($configuration_search->last_run)) {
-                $data['stats'] = json_decode($configuration_search->last_run, TRUE);
+                $data['stats'] = json_decode($configuration_search->last_run, true);
             }
 
             $configs[] = new CRM_Xdedupe_Configuration($configuration_search->id, $data);
@@ -153,7 +155,9 @@ class CRM_Xdedupe_Configuration
     public static function get($cid)
     {
         $cid = (int)$cid;
-        if (empty($cid)) return NULL;
+        if (empty($cid)) {
+            return null;
+        }
         $configurations = self::getConfigurations("SELECT * FROM `civicrm_xdedupe_configuration` WHERE id = {$cid}");
         return reset($configurations);
     }
@@ -188,15 +192,17 @@ class CRM_Xdedupe_Configuration
     /**
      * set a single attribute
      */
-    public function setAttribute($attribute_name, $value, $writeTrough = FALSE)
+    public function setAttribute($attribute_name, $value, $writeTrough = false)
     {
         if (isset(self::$main_attributes[$attribute_name])) {
             $this->attributes[$attribute_name] = $value;
             if ($writeTrough && $this->configuration_id) {
-                CRM_Core_DAO::executeQuery("UPDATE `civicrm_xdedupe_configuration`
+                CRM_Core_DAO::executeQuery(
+                    "UPDATE `civicrm_xdedupe_configuration`
                                     SET `{$attribute_name}` = %1
                                     WHERE id = {$this->configuration_id}",
-                    array(1 => array($value, self::$main_attributes[$attribute_name])));
+                    array(1 => array($value, self::$main_attributes[$attribute_name]))
+                );
             }
         } else {
             throw new Exception("Attribute '{$attribute_name}' unknown", 1);
@@ -222,7 +228,7 @@ class CRM_Xdedupe_Configuration
                 continue;
             }
             $value = $this->getAttribute($attribute_name);
-            if ($value === NULL || $value === '') {
+            if ($value === null || $value === '') {
                 $fields[$attribute_name] = "NULL";
             } else {
                 $fields[$attribute_name] = "%{$index}";
@@ -287,10 +293,13 @@ class CRM_Xdedupe_Configuration
     {
         $this->stats = $stats;
         if ($store && $this->configuration_id) {
-            CRM_Core_DAO::executeQuery("UPDATE `civicrm_xdedupe_configuration` SET last_run = %1 WHERE id = %2", [
-                1 => [json_encode($this->stats), 'String'],
-                2 => [$this->configuration_id, 'Integer']
-            ]);
+            CRM_Core_DAO::executeQuery(
+                "UPDATE `civicrm_xdedupe_configuration` SET last_run = %1 WHERE id = %2",
+                [
+                    1 => [json_encode($this->stats), 'String'],
+                    2 => [$this->configuration_id, 'Integer']
+                ]
+            );
         }
     }
 
@@ -319,8 +328,10 @@ class CRM_Xdedupe_Configuration
      */
     public static function configNameExists($name)
     {
-        return (bool) CRM_Core_DAO::singleValueQuery("SELECT COUNT(*) FROM civicrm_xdedupe_configuration WHERE name = %1",
-            [1 => [$name, 'String']]);
+        return (bool)CRM_Core_DAO::singleValueQuery(
+            "SELECT COUNT(*) FROM civicrm_xdedupe_configuration WHERE name = %1",
+            [1 => [$name, 'String']]
+        );
     }
 
 
@@ -364,7 +375,10 @@ class CRM_Xdedupe_Configuration
             $dedupe_run->addFilter('CRM_Xdedupe_Filter_Group', ['group_id' => $config['contact_group']]);
         }
         if (!empty($config['contact_group_exclude'])) {
-            $dedupe_run->addFilter('CRM_Xdedupe_Filter_Group', ['group_id' => $config['contact_group_exclude'], 'exclude' => true]);
+            $dedupe_run->addFilter(
+                'CRM_Xdedupe_Filter_Group',
+                ['group_id' => $config['contact_group_exclude'], 'exclude' => true]
+            );
         }
         if (!empty($config['contact_tag'])) {
             $dedupe_run->addFilter('CRM_Xdedupe_Filter_Tag', ['tag_id' => $config['contact_tag']]);
@@ -393,9 +407,9 @@ class CRM_Xdedupe_Configuration
     {
         // find tuples, init merger
         $dedupe_run = $this->find();
-        $config = $this->getConfig();
-        $merger = new CRM_Xdedupe_Merge($config);
-        $stats = [
+        $config     = $this->getConfig();
+        $merger     = new CRM_Xdedupe_Merge($config);
+        $stats      = [
             'tuples_found'   => $dedupe_run->getTupleCount(),
             'contacts_found' => $dedupe_run->getContactCount(),
             'finder_runtime' => $dedupe_run->getFinderRuntime(),
@@ -406,8 +420,8 @@ class CRM_Xdedupe_Configuration
 
         if ($merge_limit === null || $merge_limit > 0) {
             // get all tuples and merge
-            $timestamp = microtime(true);
-            $pickers = CRM_Xdedupe_Picker::getPickerInstances($config['main_contact']);
+            $timestamp   = microtime(true);
+            $pickers     = CRM_Xdedupe_Picker::getPickerInstances($config['main_contact']);
             $tuple_count = $dedupe_run->getTupleCount();
             $batch_size  = ($merge_limit === null) ? 100 : min($merge_limit, 100);
             for ($offset = 0; $offset < $tuple_count; $offset += $batch_size) {

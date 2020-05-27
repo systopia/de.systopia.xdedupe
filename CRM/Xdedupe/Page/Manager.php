@@ -86,22 +86,25 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
         if ($config_id) {
             // load config ID
             $configuration = CRM_Xdedupe_Configuration::get($config_id);
-            $config = $configuration->getConfig();
+            $config        = $configuration->getConfig();
 
             // create + configure dedupe run
             $dedupe_run = $configuration->find();
 
-            $configuration->setStats([
-                'tuples_found'    => $dedupe_run->getTupleCount(),
-                'contact_count'   => $dedupe_run->getContactCount(),
-                'finder_runtime'  => $dedupe_run->getFinderRuntime(),
-                'merger_runtime'  => 0.0,
-                'tuples_merged'   => 0,
-                'contacts_merged' => 0,
-                'last_run'        => date('YmdHis'),
-                'type'            => 'manual',
-                'aborted'         => 1,  // will be set to 0 at the end
-            ], true);
+            $configuration->setStats(
+                [
+                    'tuples_found'    => $dedupe_run->getTupleCount(),
+                    'contact_count'   => $dedupe_run->getContactCount(),
+                    'finder_runtime'  => $dedupe_run->getFinderRuntime(),
+                    'merger_runtime'  => 0.0,
+                    'tuples_merged'   => 0,
+                    'contacts_merged' => 0,
+                    'last_run'        => date('YmdHis'),
+                    'type'            => 'manual',
+                    'aborted'         => 1,  // will be set to 0 at the end
+                ],
+                true
+            );
 
             // and call the runner for the merge
             CRM_Xdedupe_MergeJob::launchMergeRunner(
@@ -116,7 +119,6 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
             );
         }
     }
-
 
 
     /**
@@ -284,13 +286,15 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
     {
         foreach (['top', 'up', 'down', 'bottom'] as $cmd) {
             $configuration_id = CRM_Utils_Request::retrieve($cmd, 'Integer');
-            if (!$configuration_id) continue;
+            if (!$configuration_id) {
+                continue;
+            }
 
             $configuration_order = CRM_Xdedupe_Configuration::getAll();
-            $original_order = $configuration_order;
+            $original_order      = $configuration_order;
 
             // find the task
-            $index = FALSE;
+            $index = false;
             for ($i = 0; $i < count($configuration_order); $i++) {
                 if ($configuration_order[$i]->getID() == $configuration_id) {
                     $index = $i;
@@ -298,7 +302,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                 }
             }
 
-            if ($index !== FALSE) {
+            if ($index !== false) {
                 switch ($cmd) {
                     case 'top':
                         $new_index = 0;
@@ -323,7 +327,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
             if ($configuration_order != $original_order) {
                 $weight = 10;
                 foreach ($configuration_order as $task) {
-                    $task->setAttribute('weight', $weight, TRUE);
+                    $task->setAttribute('weight', $weight, true);
                     $weight += 10;
                 }
             }

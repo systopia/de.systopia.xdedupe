@@ -19,39 +19,44 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Implement a filter that includes contacts, that are in the dedupe exception list
  */
-class CRM_Xdedupe_Filter_UserAccounts extends CRM_Xdedupe_Filter {
+class CRM_Xdedupe_Filter_UserAccounts extends CRM_Xdedupe_Filter
+{
 
-  /**
-   * get the name of the finder
-   * @return string name
-   */
-  public function getName() {
-    return E::ts("Exclude System Users");
-  }
+    /**
+     * get the name of the finder
+     * @return string name
+     */
+    public function getName()
+    {
+        return E::ts("Exclude System Users");
+    }
 
-  /**
-   * get an explanation what the finder does
-   * @return string name
-   */
-  public function getHelp() {
-    return E::ts("Exclude contacts (not tuples!) that are connected to a user account.");
-  }
+    /**
+     * get an explanation what the finder does
+     * @return string name
+     */
+    public function getHelp()
+    {
+        return E::ts("Exclude contacts (not tuples!) that are connected to a user account.");
+    }
 
-  /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
-   */
-  public function addJOINS(&$joins) {
-    $joins[] = "LEFT JOIN civicrm_uf_match {$this->alias} ON {$this->alias}.contact_id = contact.id";
-  }
+    /**
+     * Add this finder's JOIN clauses to the list
+     *
+     * @param $joins array
+     */
+    public function addJOINS(&$joins)
+    {
+        $joins[] = "LEFT JOIN civicrm_uf_match {$this->alias} ON {$this->alias}.contact_id = contact.id";
+    }
 
-  /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
-   */
-  public function addWHERES(&$wheres) {
-    $wheres[] = "{$this->alias}.uf_id IS NULL";
-  }
+    /**
+     * Add this finder's WHERE clauses to the list
+     *
+     * @param $wheres array
+     */
+    public function addWHERES(&$wheres)
+    {
+        $wheres[] = "{$this->alias}.uf_id IS NULL";
+    }
 }

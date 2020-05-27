@@ -19,46 +19,54 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Abstract base class for query-modifying modules
  */
-abstract class CRM_Xdedupe_QueryPlugin {
+abstract class CRM_Xdedupe_QueryPlugin
+{
 
-  protected $alias  = NULL;
-  protected $params = NULL;
+    protected $alias = null;
+    protected $params = null;
 
-  public function __construct($alias, $params) {
-    $this->params = $params;
-    $this->alias  = $alias;
-  }
+    public function __construct($alias, $params)
+    {
+        $this->params = $params;
+        $this->alias  = $alias;
+    }
 
-  /**
-   * get the name of the finder
-   * @return string name
-   */
-  public abstract function getName();
+    /**
+     * get the name of the finder
+     * @return string name
+     */
+    public abstract function getName();
 
-  /**
-   * get an explanation what the finder does
-   * @return string name
-   */
-  public abstract function getHelp();
+    /**
+     * get an explanation what the finder does
+     * @return string name
+     */
+    public abstract function getHelp();
 
-  /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
-   */
-  public function addJOINS(&$joins) {}
+    /**
+     * Add this finder's JOIN clauses to the list
+     *
+     * @param $joins array
+     */
+    public function addJOINS(&$joins)
+    {
+    }
 
-  /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
-   */
-  public function addWHERES(&$wheres) {}
+    /**
+     * Add this finder's WHERE clauses to the list
+     *
+     * @param $wheres array
+     */
+    public function addWHERES(&$wheres)
+    {
+    }
 
-  /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
-   */
-  public function addGROUPBYS(&$groupbys) {}
+    /**
+     * Add this finder's GROUP BY clauses to the list
+     *
+     * @param $groupbys array
+     */
+    public function addGROUPBYS(&$groupbys)
+    {
+    }
 }

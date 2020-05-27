@@ -19,47 +19,53 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Implements a resolver to move contact details (emails, phones, etc)
  */
-class CRM_Xdedupe_Resolver_WebsiteMover extends CRM_Xdedupe_Resolver_DetailMover {
+class CRM_Xdedupe_Resolver_WebsiteMover extends CRM_Xdedupe_Resolver_DetailMover
+{
 
-  /**
-   * get the name of the finder
-   * @return string name
-   */
-  public function getName() {
-    return E::ts("Website Mover");
-  }
+    /**
+     * get the name of the finder
+     * @return string name
+     */
+    public function getName()
+    {
+        return E::ts("Website Mover");
+    }
 
-  /**
-   * get an explanation what the finder does
-   * @return string name
-   */
-  public function getHelp() {
-    return E::ts("Move all websites to the main contact, unless they're duplicates");
-  }
+    /**
+     * get an explanation what the finder does
+     * @return string name
+     */
+    public function getHelp()
+    {
+        return E::ts("Move all websites to the main contact, unless they're duplicates");
+    }
 
-  /**
-   * Get a one-line representation of the detail data
-   *
-   * @param $detail array detail data
-   * @return string
-   */
-  protected function getOneLiner($detail) {
-    return "{$detail['url']} ({$detail['website_type_id']})";
-  }
+    /**
+     * Get a one-line representation of the detail data
+     *
+     * @param $detail array detail data
+     * @return string
+     */
+    protected function getOneLiner($detail)
+    {
+        return "{$detail['url']} ({$detail['website_type_id']})";
+    }
 
-  /**
-   * Get the entity name
-   * @return string
-   */
-  protected function getEntity() {
-    return 'Website';
-  }
+    /**
+     * Get the entity name
+     * @return string
+     */
+    protected function getEntity()
+    {
+        return 'Website';
+    }
 
-  /**
-   * Get the list of relevant fields for this entity
-   * @return array
-   */
-  protected function getFieldList() {
-    return ['url', 'website_type_id'];
-  }
+    /**
+     * Get the list of relevant fields for this entity
+     * @return array
+     */
+    protected function getFieldList()
+    {
+        return ['url', 'website_type_id'];
+    }
 }

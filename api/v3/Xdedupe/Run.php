@@ -21,14 +21,16 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 function _civicrm_api3_xdedupe_run_spec(&$spec)
 {
-    $spec['cid'] = [
+    $spec['cid']                = [
         'name'         => 'cid',
         'api.required' => 1,
         'type'         => CRM_Utils_Type::T_STRING,
         'title'        => E::ts("Configuration ID"),
-        'description'  => E::ts("Either an configuration ID, a comma separated list of configuration IDs or 'scheduled' to run all scheduled configurations"),
+        'description'  => E::ts(
+            "Either an configuration ID, a comma separated list of configuration IDs or 'scheduled' to run all scheduled configurations"
+        ),
     ];
-    $spec['merge_limit'] = [
+    $spec['merge_limit']        = [
         'name'         => 'merge_limit',
         'api.required' => 0,
         'type'         => CRM_Utils_Type::T_INT,
@@ -40,7 +42,9 @@ function _civicrm_api3_xdedupe_run_spec(&$spec)
         'api.required' => 0,
         'type'         => CRM_Utils_Type::T_INT,
         'title'        => E::ts("Override Scheduled"),
-        'description'  => E::ts("Usually, only configurations marked as scheduled would be executed. This flag can be used to override this behaviour, and execute regardless of the scheduled status."),
+        'description'  => E::ts(
+            "Usually, only configurations marked as scheduled would be executed. This flag can be used to override this behaviour, and execute regardless of the scheduled status."
+        ),
     ];
 }
 
@@ -58,9 +62,9 @@ function civicrm_api3_xdedupe_run($params)
         $configs_to_run = CRM_Xdedupe_Configuration::getAllScheduled();
     } elseif (preg_match('/[0-9, ]+/', $params['cid'])) {
         $scheduled_override = !empty($params['scheduled_override']);
-        $configs_to_run = [];
+        $configs_to_run     = [];
         foreach (explode(',', $params['cid']) as $cid) {
-            $cid = (int) $cid;
+            $cid = (int)$cid;
             if ($cid) {
                 $config = CRM_Xdedupe_Configuration::get($cid);
                 if ($config) {
@@ -74,14 +78,16 @@ function civicrm_api3_xdedupe_run($params)
         return civicrm_api3_create_error("Invalid cid/list '{$params['cid']}'!");
     }
 
-    $all_stats = [];
+    $all_stats   = [];
     $merge_limit = CRM_Utils_Array::value('merge_limit', $params);
     foreach ($configs_to_run as $config_to_run) {
         try {
             $all_stats[] = $config_to_run->run($params, $merge_limit);
         } catch (Exception $ex) {
             $config_id = $config_to_run->getID();
-            return civicrm_api3_create_error("An exception occurred with configuration [{$config_id}]: " . $ex->getMessage());
+            return civicrm_api3_create_error(
+                "An exception occurred with configuration [{$config_id}]: " . $ex->getMessage()
+            );
         }
     }
 
