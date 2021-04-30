@@ -1184,4 +1184,4 @@ msgstr ""
 
 #: xdedupe.php
 msgid "Extended Deduplication"
-msgstr "Erweiterter Deduplizierung"
+msgstr "Erweiterte Deduplizierung"
