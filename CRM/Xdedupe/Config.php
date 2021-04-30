@@ -56,6 +56,7 @@ class CRM_Xdedupe_Config implements EventSubscriberInterface
                 'CRM_Xdedupe_Finder_Prefix',
                 'CRM_Xdedupe_Finder_City',
                 'CRM_Xdedupe_Finder_PostalCode',
+                'CRM_Xdedupe_Finder_StreetAddress',
                 'CRM_Xdedupe_Finder_PostalCodeCity',
                 'CRM_Xdedupe_Finder_PostalCodeStreet',
                 'CRM_Xdedupe_Finder_PostalCodeStreetCity',

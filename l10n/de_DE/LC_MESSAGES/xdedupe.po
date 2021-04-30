@@ -5,16 +5,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de.systopia.xdedupe\n"
-"POT-Creation-Date: 2021-04-23 11:57+0200\n"
+"POT-Creation-Date: 2021-04-30 19:41+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: \n"
 "X-Generator: Poedit 2.0.6\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: de_DE\n"
 
 #: CRM/Xdedupe/Config.php
 msgid "Conflict"
@@ -233,6 +233,14 @@ msgstr "Postleitzahl, Straße (bereinigt) und Stadt"
 #: CRM/Xdedupe/Finder/SanitisedPostalCodeStreetCity.php
 msgid "Looks for identical postal code, street address (sanitised), and city"
 msgstr "Sucht nach gleicher Postleitzahl, Straße (bereinigt) und Stadt"
+
+#: CRM/Xdedupe/Finder/StreetAddress.php
+msgid "Street Address (only)"
+msgstr "Straße/Hausnummer"
+
+#: CRM/Xdedupe/Finder/StreetAddress.php
+msgid "Looks for identical street address (of any address)"
+msgstr "Sucht nach gleicher Straße/Hausnummer"
 
 #: CRM/Xdedupe/Form/ControlRoom.php
 msgid "Merge"
