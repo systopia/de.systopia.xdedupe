@@ -267,7 +267,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             E::ts("Main Criteria"),
             $finders,
             true,
-            ['class' => 'huge']
+            ['class' => 'huge crm-select2']
         );
 
         $this->add(
@@ -276,7 +276,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             E::ts("Secondary Criteria"),
             $finders,
             false,
-            ['class' => 'huge']
+            ['class' => 'huge crm-select2']
         );
 
         $this->add(
@@ -285,7 +285,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             E::ts("Tertiary Criteria"),
             $finders,
             false,
-            ['class' => 'huge']
+            ['class' => 'huge crm-select2']
         );
 
         $this->add(
@@ -294,7 +294,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             E::ts("Quaternary Criteria"),
             $finders,
             false,
-            ['class' => 'huge']
+            ['class' => 'huge crm-select2']
         );
 
         $this->add(
@@ -303,7 +303,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             E::ts("Quinary Criteria"),
             $finders,
             false,
-            ['class' => 'huge']
+            ['class' => 'huge crm-select2']
         );
 
         // add filter elements
@@ -313,7 +313,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             E::ts("Contact Type"),
             $this->getContactTypeOptions(),
             false,
-            ['class' => 'huge']
+            ['class' => 'huge crm-select2']
         );
 
         $this->add(
@@ -368,7 +368,8 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
                 "main_contact_{$i}",
                 E::ts("Main Contact"),
                 $picker_list,
-                false
+                false,
+                ['class' => 'huge crm-select2']
             );
         }
         $this->assign('picker_fields', $picker_field_list);
