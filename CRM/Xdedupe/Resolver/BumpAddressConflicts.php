@@ -31,7 +31,8 @@ class CRM_Xdedupe_Resolver_BumpAddressConflicts extends CRM_Xdedupe_Resolver
         'supplemental_address_3',
         'city',
         'postal_code',
-        'location_type_id'
+        'location_type_id',
+        'country_id'
     ];
 
     /**
