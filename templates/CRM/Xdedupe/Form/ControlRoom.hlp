@@ -16,40 +16,26 @@
 {capture assign=overview_page}{crmURL p="civicrm/xdedupe/modules"}{/capture}
 
 {htxt id='id-xdedupe-finder'}
-    <p>{ts domain="de.systopia.xdedupe"}These finders will identify the<i>potential</i>duplicates.{/ts}</p>
-    <p>{ts domain="de.systopia.xdedupe" 1=$overview_page}You can find a detailed description of individual modules on the
-            <a href="%1">module overview page</a>
-            .{/ts}</p>
+  <p>{ts domain="de.systopia.xdedupe"}These finders will identify the <i>potential</i> duplicates.{/ts}</p>
+  <p>{ts domain="de.systopia.xdedupe" 1=$overview_page}You can find a detailed description of individual modules on the <a href="%1">module overview page</a>.{/ts}</p>
 {/htxt}
 
 {htxt id='id-xdedupe-filter'}
-    <p>{ts domain="de.systopia.xdedupe"}Filter modules can restrict the tuples identified by the finder modules above. It is important, that no incorrect duplicates remain in the tuples before batch merging.{/ts}</p>
-    <p>{ts domain="de.systopia.xdedupe" 1=$overview_page}You can find a detailed description of individual modules on the
-            <a href="%1">module overview page</a>
-            .{/ts}</p>
+  <p>{ts domain="de.systopia.xdedupe"}Filter modules can restrict the tuples identified by the finder modules above. It is important, that no incorrect duplicates remain in the tuples before batch merging.{/ts}</p>
+  <p>{ts domain="de.systopia.xdedupe" 1=$overview_page}You can find a detailed description of individual modules on the <a href="%1">module overview page</a>.{/ts}</p>
 {/htxt}
 
 {htxt id='id-xdedupe-picker'}
-    <p>{ts domain="de.systopia.xdedupe"}Picker modules have to select the main contact from a tuple, i.e. the prevailing contact that will receive all other contacts' data.{/ts}</p>
-    <p>{ts domain="de.systopia.xdedupe" 1=$overview_page}You can find a detailed description of individual modules on the
-            <a href="%1">module overview page</a>
-            .{/ts}</p>
+  <p>{ts domain="de.systopia.xdedupe"}Picker modules have to select the main contact from a tuple, i.e. the prevailing contact that will receive all other contacts' data.{/ts}</p>
+  <p>{ts domain="de.systopia.xdedupe" 1=$overview_page}You can find a detailed description of individual modules on the <a href="%1">module overview page</a>.{/ts}</p>
 {/htxt}
 
 {htxt id='id-xdedupe-resolver'}
-    <p>
-        <span>{ts domain="de.systopia.xdedupe"}These modules try to automatically resolve conflicts so an automated merge can proceed.{/ts}</span>
-    </p>
-    <p>{ts domain="de.systopia.xdedupe" 1=$overview_page}You can find a detailed description of individual modules on the
-            <a href="%1">module overview page</a>
-            .{/ts}</p>
+  <p><span>{ts domain="de.systopia.xdedupe"}These modules try to automatically resolve conflicts so an automated merge can proceed.{/ts}</span></p>
+  <p>{ts domain="de.systopia.xdedupe" 1=$overview_page}You can find a detailed description of individual modules on the <a href="%1">module overview page</a>.{/ts}</p>
 {/htxt}
 
 {htxt id='id-xdedupe-forcemerge'}
-    <p>{ts domain="de.systopia.xdedupe"}You can use this flag to merge contacts even if they still have conflicts.{/ts}</p>
-    <p>{ts domain="de.systopia.xdedupe"}
-            <strong>This is highly discouraged! You should use an appropriate set of resolvers, to merge contacts
-                automatically. Merging contacts by force can destroy them. If you must, be sure to test thoroughly
-                before use.</strong>
-        {/ts}</p>
+  <p>{ts domain="de.systopia.xdedupe"}You can use this flag to merge contacts even if they still have conflicts.{/ts}</p>
+  <p>{ts domain="de.systopia.xdedupe"}<strong>This is highly discouraged! You should use an appropriate set of resolvers, to merge contacts automatically. Merging contacts by force can destroy them. If you must, be sure to test thoroughly before use.</strong>{/ts}</p>
 {/htxt}
