@@ -128,7 +128,7 @@ abstract class CRM_Xdedupe_Resolver_AttributeCleanup extends CRM_Xdedupe_Resolve
     public function getHelp()
     {
         return E::ts(
-            "Cleans up the '%1' attribute before merging"
+            "Cleans up the '%1' attribute before merging to avoid conflicts"
         );
     }
 }

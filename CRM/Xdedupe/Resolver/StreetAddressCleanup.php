@@ -17,14 +17,14 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implements a resolver for Organisation Name
+ * Implements a resolver for street address
  */
-class CRM_Xdedupe_Resolver_OrganisationNameCleanup extends CRM_Xdedupe_Resolver_AttributeCleanup
+class CRM_Xdedupe_Resolver_StreetAddressCleanup extends CRM_Xdedupe_Resolver_AttributeCleanup
 {
 
     public function __construct($merge)
     {
-        parent::__construct($merge, 'organization_name');
+        parent::__construct($merge, 'street_address');
         $this->regular_expressions = [
             ['/\s+/', ' '], // remove multiple whitespaces
         ];
@@ -36,6 +36,6 @@ class CRM_Xdedupe_Resolver_OrganisationNameCleanup extends CRM_Xdedupe_Resolver_
      */
     public function getName()
     {
-        return E::ts("Clean Organisation Name");
+        return E::ts("Clean Street Address");
     }
 }
