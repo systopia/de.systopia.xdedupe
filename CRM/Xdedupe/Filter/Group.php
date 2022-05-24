@@ -62,6 +62,15 @@ class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter
     public function addJOINS(&$joins)
     {
         if ($this->group_id) {
+            // if this is a smart group, we should refresh the smart group cache:
+            $is_smart_group = CRM_Core_DAO::singleValueQuery(
+                "SELECT saved_search_id FROM civicrm_group WHERE id = %1",
+                [1 => [$this->group_id, 'Integer']]);
+            if ($is_smart_group) {
+                CRM_Contact_BAO_GroupContactCache::loadAll($this->group_id);
+            }
+
+            // finally: add the join
             $joins[] = "LEFT JOIN civicrm_group_contact {$this->alias} ON {$this->alias}.contact_id = contact.id 
                                                                  AND {$this->alias}.group_id = {$this->group_id}
                                                                  AND {$this->alias}.status = 'Added'";
