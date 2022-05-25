@@ -151,7 +151,7 @@ abstract class CRM_Xdedupe_Resolver_DetailMover extends CRM_Xdedupe_Resolver
         civicrm_api3($this->getEntity(), 'delete', ['id' => $detail['id']]);
         $this->addMergeDetail(
             E::ts(
-                "Deleted %1 [%2] ('%4') from contact [%3] to avoid merge conflicts",
+                "Deleted duplicate %1 [%2] ('%4') from contact [%3] to avoid merge conflicts",
                 [
                     1 => $this->getEntity(),
                     2 => $detail['id'],
