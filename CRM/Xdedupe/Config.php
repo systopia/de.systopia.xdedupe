@@ -98,6 +98,7 @@ class CRM_Xdedupe_Config implements EventSubscriberInterface
                 'CRM_Xdedupe_Resolver_IndividualName',
                 'CRM_Xdedupe_Resolver_OrganisationName',
                 'CRM_Xdedupe_Resolver_OrganisationNameLongest',
+                'CRM_Xdedupe_Resolver_Addressee',
                 'CRM_Xdedupe_Resolver_DropSamePhones',
                 'CRM_Xdedupe_Resolver_BumpAddressConflicts',
                 'CRM_Xdedupe_Resolver_PhoneMover',
