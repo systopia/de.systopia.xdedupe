@@ -37,7 +37,7 @@ class CRM_Xdedupe_Finder_OrganizationName extends CRM_Xdedupe_Finder
      */
     public function getHelp()
     {
-        return E::ts("Looks for fully identical organisation names. Keep in mind that this might *not* be case-sensitive, depending on your DB's collation.");");
+        return E::ts("Looks for fully identical organisation names. Keep in mind that this might *not* case-sensitive, depending on your DB's collation.");
     }
 
     /**
