@@ -1,7 +1,7 @@
 <?php
 /*-------------------------------------------------------+
 | SYSTOPIA's Extended Deduper                            |
-| Copyright (C) 2019 SYSTOPIA                            |
+| Copyright (C) 2022 SYSTOPIA                            |
 | Author: B. Endres (endres@systopia.de)                 |
 | http://www.systopia.de/                                |
 +--------------------------------------------------------+
@@ -19,7 +19,7 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Find people by last name
  */
-class CRM_Xdedupe_Finder_OrganizationName extends CRM_Xdedupe_Finder
+class CRM_Xdedupe_Finder_OrganizationNameNoCase extends CRM_Xdedupe_Finder_OrganizationName
 {
 
     /**
@@ -28,7 +28,7 @@ class CRM_Xdedupe_Finder_OrganizationName extends CRM_Xdedupe_Finder
      */
     public function getName()
     {
-        return E::ts("Identical Organization Name");
+        return E::ts("Identical Organization Name (case insensitive)");
     }
 
     /**
@@ -37,16 +37,7 @@ class CRM_Xdedupe_Finder_OrganizationName extends CRM_Xdedupe_Finder
      */
     public function getHelp()
     {
-        return E::ts("Looks for fully identical organisation names. Keep in mind that this might *not* case-sensitive, depending on your DB's collation.");
-    }
-
-    /**
-     * Add this finder's JOIN clauses to the list
-     *
-     * @param $joins array
-     */
-    public function addJOINS(&$joins)
-    {
+        return E::ts("Looks for fully identical organisation names, while ignoring upper/lower case differences. Keep in mind that this might already be the case depending on your DB's collation.");
     }
 
     /**
@@ -56,17 +47,6 @@ class CRM_Xdedupe_Finder_OrganizationName extends CRM_Xdedupe_Finder
      */
     public function addGROUPBYS(&$groupbys)
     {
-        $groupbys[] = "contact.organization_name";
-    }
-
-    /**
-     * Add this finder's WHERE clauses to the list
-     *
-     * @param $wheres array
-     */
-    public function addWHERES(&$wheres)
-    {
-        $wheres[] = "contact.organization_name IS NOT NULL";
-        $wheres[] = "contact.organization_name <> ''";
+        $groupbys[] = "LOWER(contact.organization_name)";
     }
 }

@@ -50,6 +50,7 @@ class CRM_Xdedupe_Config implements EventSubscriberInterface
                 'CRM_Xdedupe_Finder_Email',
                 'CRM_Xdedupe_Finder_LastName',
                 'CRM_Xdedupe_Finder_OrganizationName',
+                'CRM_Xdedupe_Finder_OrganizationNameNoCase',
                 'CRM_Xdedupe_Finder_BirthDate',
                 'CRM_Xdedupe_Finder_FirstName',
                 'CRM_Xdedupe_Finder_FirstNameInitial',
