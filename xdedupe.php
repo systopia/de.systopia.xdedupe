@@ -198,7 +198,7 @@ function xdedupe_civicrm_navigationMenu(&$menu)
 {
     _xdedupe_civix_insert_navigation_menu(
         $menu,
-        'Contacts',
+        'Administer/automation',
         [
             'label'      => E::ts('Extended Deduplication'),
             'name'       => 'xdedupe_manage',
