@@ -106,6 +106,11 @@ class CRM_Xdedupe_Config implements EventSubscriberInterface
                 'CRM_Xdedupe_Resolver_IMMover',
                 'CRM_Xdedupe_Resolver_Privacy',
                 'CRM_Xdedupe_Resolver_Source',
+                'CRM_Xdedupe_Resolver_OrganisationNameCleanup',
+                'CRM_Xdedupe_Resolver_FirstNameCleanup',
+                'CRM_Xdedupe_Resolver_LastNameCleanup',
+                'CRM_Xdedupe_Resolver_CityCleanup',
+                'CRM_Xdedupe_Resolver_StreetAddressCleanup',
             ]
         );
 
