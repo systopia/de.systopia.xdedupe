@@ -27,13 +27,13 @@ Once installed, you can access the X-Dedupe system via the "Administer => Automa
 The control room lets you create, refine, test, and apply a particular 
 deduplication configuration.
 
-![Control Room](images/control_room.png)
+![Control Room](docs/img/control_room.png)
 
-For more details please refer to the documentation ![HERE](todo).
+**For more details please refer to the documentation [HERE](docs/index.md).**
 
 # Configuration Manager
 
-![Configuration Manager](images/configuration_manager.png)
+![Configuration Manager](docs/img/configuration_manager.png)
 
 The configuration manager gives you an overview of all your saved X-Dedupe
 configurations. You can then decide to enable each of them:
