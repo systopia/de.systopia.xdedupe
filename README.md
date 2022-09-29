@@ -9,6 +9,13 @@ built-in deduplication system. It is designed to be
 * automated: once you have worked out a configuration that is rock solid, you can schedule it to be executed automatically on a regular basis
 * offers automated conflict resolution modules
 
+## Warning
+
+Automated merges on CiviCRM contacts can be *very* hard to undo, so
+be sure to have you database backed up before experimenting. Ideally
+you would work on a separate test system until you know what you're doing.
+
+
 ## Requirements
 
 * PHP v7.4+
