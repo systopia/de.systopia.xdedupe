@@ -1,44 +1,48 @@
-# de.systopia.xdedupe
-
-![Screenshot](/images/screenshot.png)
-
-(*FIXME: In one or two paragraphs, describe what the extension does and why one would download it. *)
+# Extended Deduplication System ( ``xdedupe``)
 
 The extension is licensed under [AGPL-3.0](LICENSE.txt).
 
+This extension offers a modular and flexible alternative to CiviCRM's
+built-in deduplication system. It is designed to be
+* fast and scalable: CiviCRM's built-in solution tends to run into problems with large data sets
+* highly configurable: you have almost 60 modules to be used for your configuration, and there's new ones being added all the time.
+* automated: once you have worked out a configuration that is rock solid, you can schedule it to be executed automatically on a regular basis
+* offers automated conflict resolution modules
+
 ## Requirements
 
-* PHP v5.4+
-* CiviCRM (*FIXME: Version number*)
+* PHP v7.4+
+* CiviCRM 5.29+
 
-## Installation (Web UI)
+## Installation
 
-This extension has not yet been published for installation via the web UI.
+This is an extension not (yet) listed by default in the CiviCRM extension panel. Please refer to the
+[CiviCRM documentation](https://docs.civicrm.org/sysadmin/en/latest/customize/extensions/#installing-a-new-extension)
+on how to install such an extension.
 
-## Installation (CLI, Zip)
+Once installed, you can access the X-Dedupe system via the "Administer => Automation" menu.
 
-Sysadmins and developers may download the `.zip` file for this extension and
-install it with the command-line tool [cv](https://github.com/civicrm/cv).
+# Control Room
 
-```bash
-cd <extension-dir>
-cv dl de.systopia.xdedupe@https://github.com/FIXME/de.systopia.xdedupe/archive/master.zip
-```
+The control room lets you create, refine, test, and apply a particular 
+deduplication configuration.
 
-## Installation (CLI, Git)
+![Control Room](docs/img/control_room.png)
 
-Sysadmins and developers may clone the [Git](https://en.wikipedia.org/wiki/Git) repo for this extension and
-install it with the command-line tool [cv](https://github.com/civicrm/cv).
+**For more details please refer to the documentation [HERE](docs/index.md).**
 
-```bash
-git clone https://github.com/FIXME/de.systopia.xdedupe.git
-cv en xdedupe
-```
+# Configuration Manager
 
-## Usage
+![Configuration Manager](docs/img/configuration_manager.png)
 
-(* FIXME: Where would a new user navigate to get started? What changes would they see? *)
+The configuration manager gives you an overview of all your saved X-Dedupe
+configurations. You can then decide to enable each of them:
+1. for manual, supervised execution via the control panel
+2. for manual, automated execution, i.e. by clicking a button.
+3. for scheduled automated execution, e.g. if you have a safe(!) cleanup routine to run every night 
+
 
 ## Known Issues
 
-(* FIXME *)
+You will need the ``administer CiviCRM`` permission to use this extension, since
+it allows profound and automated changes to be applied to the database.

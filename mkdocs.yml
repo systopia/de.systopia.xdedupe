@@ -1,0 +1,23 @@
+site_name: X-Dedupe
+site_description: Extended Dedupe
+repo_url: https://github.com/systopia/de.systopia.xdedupe
+theme: 
+  name: material
+
+nav:
+- Introduction: index.md
+- Workflow: workflow.md
+- Module Types: module-types.md
+
+markdown_extensions:
+  - attr_list
+  - admonition
+  - def_list
+  - codehilite
+  - toc: 
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tilde
+  - pymdownx.betterem
+  - pymdownx.mark
