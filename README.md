@@ -31,6 +31,8 @@ Once installed, you can access the X-Dedupe system via the "Administer => Automa
 
 # Control Room
 
+Note: The following is a quick readme, you can find a more thorough documentation [HERE](docs/index.md).
+
 The control room lets you create, refine, test, and apply a particular 
 deduplication configuration.
 
