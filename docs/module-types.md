@@ -27,7 +27,7 @@ e.g. the name similarity filter is much more efficient this way.
 
 ## Pickers
 
-Once an x-tuple[^1] has been identified, the master 
+Once an x-tuple* has been identified, the master 
 contact (i.e. the one that prevails in an upcoming merge)
 has to be picked from the tuple. CiviCRM simply uses the lowest
 contact ID, but some scenarios might call for other criteria. For 
@@ -38,12 +38,12 @@ the first place, of course).
 
 ## Resolvers
 
-Resolvers will be called on an x-tuple[^1] to be merged. Their job
+Resolvers will be called on an x-tuple* to be merged. Their job
 is to harmonise one aspect of the contacts (e.g. first name), 
 so that CiviCRM's merge will merge without conflicts. This
 is attempted after all resolvers have applied and documented 
 their changes. Obviously, those changes will be rolled back 
 automatically should the merge fail.
 
-[^1]: An x-tuple is a group of two or more contacts that should be 
+*) An x-tuple is a group of two or more contacts that should be 
 merged into 1.
