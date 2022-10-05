@@ -41,6 +41,7 @@ missing puzzle piece yourself, so it gives you the best results.
 ## 6. Automation
 
 X-Dedupe knows three stages of automation:
+
 0. **Individual execution**: While you're "playing" with the configuration, or you want to
 have full control, you can pick individual tuples from the list
 and to try to merge them on the spot.
