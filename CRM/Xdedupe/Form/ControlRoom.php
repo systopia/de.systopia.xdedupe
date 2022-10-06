@@ -430,7 +430,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
         CRM_Core_Resources::singleton()->addVars(
             'xdedupe_controlroom',
             [
-                'xdedupe_data_url'  => CRM_Utils_System::url("civicrm/ajax/xdedupetuples", "dedupe_run={$dedupe_run}"),
+                'xdedupe_data_url'  => CRM_Utils_System::url("civicrm/ajax/xdedupetuples", "dedupe_run={$dedupe_run}", true, null, false),
                 'exclude_tuple_url' => CRM_Utils_System::url(
                     "civicrm/ajax/rest",
                     "className=CRM_Contact_Page_AJAX&fnName=processDupes"
