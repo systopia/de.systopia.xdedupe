@@ -55,7 +55,7 @@ by CiviCRM's scheduled jobs.
 ## 7. Multi-Merge
 
 When X-Dedupe's rules generate more than two contacts that would be considered 
-duplicates, it simply generates larger groups of contacts to me merged
+duplicates, it simply generates larger groups of contacts to be merged
 in one go.
 
 
