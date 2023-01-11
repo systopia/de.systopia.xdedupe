@@ -72,7 +72,7 @@ class CRM_Xdedupe_MergeJob
                 'title'     => E::ts("Merging %1 tuples.", [1 => $count]),
                 'queue'     => $queue,
                 'errorMode' => CRM_Queue_Runner::ERROR_ABORT,
-                'onEndUrl'  => $onEndUrl ? $onEndUrl : CRM_Utils_System::url('civicrm/xdedupe/controlroom', 'reset=1'),
+                'onEndUrl'  => $onEndUrl ?? CRM_Utils_System::url('civicrm/xdedupe/controlroom', 'reset=1'),
             ]
         );
         $runner->runAllViaWeb(); // does not return

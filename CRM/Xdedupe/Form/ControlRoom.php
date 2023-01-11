@@ -716,7 +716,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
     }
 
     /**
-     * Check if the the passed stored configuration differs from the
+     * Check if the passed stored configuration differs from the
      *   values currently in the form
      *
      * @param $configuration CRM_Xdedupe_Configuration

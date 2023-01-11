@@ -259,15 +259,14 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter
      * Cache the data to support the contact comparison
      *   Overwrite to support _your_ implementation
      *
-     * Default implementation: cache the this->attributes of each contact
+     * Default implementation: cache the "this->attributes" of each contact
      *
      * @param $contact_ids array list of contact IDs
      */
     protected function cacheDataForContacts($contact_ids)
     {
         if ($this->attributes) {
-            $this->data_cache = [];
-            $query            = civicrm_api3(
+            $query = civicrm_api3(
                 'Contact',
                 'get',
                 [

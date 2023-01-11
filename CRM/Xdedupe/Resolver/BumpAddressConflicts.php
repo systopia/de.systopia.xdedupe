@@ -17,7 +17,7 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * If there is conflicting addresses with the same type, the other contact will have it's type changed
+ * If there is conflicting addresses with the same type, the other contact will have its type changed
  *  to the (new) location type 'conflict'
  */
 class CRM_Xdedupe_Resolver_BumpAddressConflicts extends CRM_Xdedupe_Resolver

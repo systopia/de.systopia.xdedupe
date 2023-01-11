@@ -229,7 +229,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                         foreach ($value as $error_message => $count) {
                             $error_strings[] = E::ts("%1 (%2x)", [1 => $error_message, 2 => $count]);
                         }
-                        $value = implode($error_strings, '<br/>');
+                        $value = implode('<br/>', $error_strings);
                     }
                     break;
 

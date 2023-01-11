@@ -13,9 +13,6 @@
 | written permission from the original author(s).        |
 +-------------------------------------------------------*}
 
-{* RUN ID *}
-{$form.auto_dedupe_run.html}
-
 {* CONFIGURATION *}
 <div class="crm-accordion-wrapper crm-xdedupe-config {if not $config_showing}collapsed{/if}">
     <div class="crm-accordion-header active">{ts domain="de.systopia.xdedupe"}{$config_header}{/ts}</div>

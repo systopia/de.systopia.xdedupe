@@ -157,7 +157,7 @@ class CRM_Xdedupe_Merge
     {
         $this->log("Merging [{$main_contact_id}] with [" . implode(',', $other_contact_ids) . ']');
 
-        // first check for really bad judgement:
+        // first check for poor judgement:
         if (in_array($main_contact_id, $other_contact_ids)) {
             throw new Exception("Cannot merge contact(s) with itself!");
         }
@@ -215,7 +215,7 @@ class CRM_Xdedupe_Merge
         // prepare logs + co
         $this->resetMergeDetails();
 
-        // first: verify that the contact's are "fit" for merging
+        // first: verify that the contacts are "fit" for merging
         $this->loadContacts([$main_contact_id, $other_contact_id]);
         $main_contact = $this->getContact($main_contact_id);
         if (!empty($main_contact['is_deleted'])) {
@@ -498,7 +498,7 @@ class CRM_Xdedupe_Merge
     }
 
     /**
-     * Regenerate @uniqueID, which is used for log_conn_id in log tables
+     * Regenerate @uniqueID which is used for log_conn_id in log tables
      */
     private function resetLogId()
     {

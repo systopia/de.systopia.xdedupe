@@ -4,7 +4,7 @@ The deduplication workflow consists of 5 different module types.
 These module types have countless implementations from which you
 can compile your own specialised deduplication configurations.
 
-Each module comes with it's own documentation, that is accessible
+Each module comes with its own documentation, that is accessible
 from within the extensions's UI, so should get a clear picture 
 about what would happen if you run your configuration.
 
