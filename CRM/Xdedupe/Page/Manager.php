@@ -28,6 +28,9 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
     {
         CRM_Utils_System::setTitle(E::ts('XDedupe Configuration Manager'));
 
+        // these are defaults, and will most likely be overwritten later
+        $this->assign('delete', false);
+
         // first: process commands (if any)
         $this->processDeleteCommand();
         $this->processEnableDisableCommand();
