@@ -134,11 +134,23 @@ function xdedupe_civicrm_entityTypes(&$entityTypes)
  */
 function xdedupe_civicrm_navigationMenu(&$menu)
 {
+    // add automation section
+    if (!_xdedupe_menu_exists($menu, 'Administer/automation')) {
+        _xdedupe_civix_insert_navigation_menu($menu, 'Administer', [
+            'label' => E::ts('Automation'),
+            'name' => 'automation',
+            'url' => NULL,
+            'permission' => 'administer CiviCRM',
+            'operator' => NULL,
+            'separator' => 0,
+        ]);
+    }
+
     _xdedupe_civix_insert_navigation_menu(
         $menu,
         'Administer/automation',
         [
-            'label'      => E::ts('Extended Deduplication'),
+            'label'      => E::ts('Extended Deduplication (X-Dedupe)'),
             'name'       => 'xdedupe_manage',
             'url'        => 'civicrm/xdedupe/manage',
             'permission' => 'administer CiviCRM',
@@ -147,4 +159,31 @@ function xdedupe_civicrm_navigationMenu(&$menu)
         ]
     );
     _xdedupe_civix_navigationMenu($menu);
+}
+
+/**
+ * Helper function to see if the menu item is already there
+ *
+ * @param $menu array current menu
+ * @param $path string path to look for
+ *
+ * @return bool
+ */
+function _xdedupe_menu_exists(&$menu, $path) {
+    // Find an recurse into the next level down
+    $found = FALSE;
+    $path = explode('/', $path);
+    $first = array_shift($path);
+    foreach ($menu as $key => &$entry) {
+        if ($entry['attributes']['name'] == $first) {
+            if (empty($path)) {
+                return true;
+            }
+            $found = _xdedupe_menu_exists($entry['child'], implode('/', $path));
+            if ($found) {
+                return true;
+            }
+        }
+    }
+    return $found;
 }
