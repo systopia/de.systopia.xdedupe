@@ -506,7 +506,7 @@ class CRM_Xdedupe_Merge
             'SET @uniqueID = %1',
             [
                 1 => [
-                    uniqid() . CRM_Utils_String::createRandom(CRM_Utils_String::ALPHANUMERIC, 4),
+                    uniqid() . CRM_Utils_String::createRandom(4, CRM_Utils_String::ALPHANUMERIC),
                     'String',
                 ]
             ]
