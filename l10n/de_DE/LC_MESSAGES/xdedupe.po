@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de.systopia.xdedupe\n"
-"POT-Creation-Date: 2022-03-14 20:41+0100\n"
+"POT-Creation-Date: 2023-01-11 11:17-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -22,7 +22,7 @@ msgstr "Konflikt"
 
 #: CRM/Xdedupe/Config.php
 msgid "XDedupe location type conflict. Please clean up!"
-msgstr "XDedupe Konflikt bei der Adresskategorie. Bitte bereinigen."
+msgstr "XDedupe Konflikt bei der Adresskategorie. Bitte bereinigen!"
 
 #: CRM/Xdedupe/Config.php
 msgid "%1 [%2]"
@@ -90,7 +90,7 @@ msgstr "Schließt Kontakte aus, die eine Benutzerkonto haben."
 
 #: CRM/Xdedupe/Finder/BirthDate.php
 msgid "Identical Birth Date"
-msgstr "Gleiches Geburtsdatum"
+msgstr "gleiches Geburtsdatum"
 
 #: CRM/Xdedupe/Finder/BirthDate.php
 msgid "Looks for fully identical birth dates"
@@ -141,8 +141,21 @@ msgid "Identical Organization Name"
 msgstr "gleicher Organisationsname"
 
 #: CRM/Xdedupe/Finder/OrganizationName.php
-msgid "Looks for fully identical organisation names"
-msgstr "Sucht nach identischem Orgnisationsname"
+msgid ""
+"Looks for fully identical organisation names. Keep in mind that this might "
+"*not* case-sensitive, depending on your DB's collation."
+msgstr ""
+
+#: CRM/Xdedupe/Finder/OrganizationNameNoCase.php
+msgid "Identical Organization Name (case insensitive)"
+msgstr "gleicher Organisationsname"
+
+#: CRM/Xdedupe/Finder/OrganizationNameNoCase.php
+msgid ""
+"Looks for fully identical organisation names, while ignoring upper/lower "
+"case differences. Keep in mind that this might already be the case depending "
+"on your DB's collation."
+msgstr ""
 
 #: CRM/Xdedupe/Finder/PartialOrganizationName.php
 msgid "Identical first %1 Organization Name Characters"
@@ -264,7 +277,7 @@ msgstr "Ausschließen"
 
 #: CRM/Xdedupe/Form/ControlRoom.php
 msgid "Mark as 'not a duplicate'"
-msgstr "Als 'Nicht-Doublette' markieren"
+msgstr "Als 'Nicht-Doublette' markieren'"
 
 #: CRM/Xdedupe/Form/ControlRoom.php
 msgid "Extendend Dedupe - Control Room"
@@ -421,7 +434,7 @@ msgstr "API Fehler bei Zusammenführung"
 
 #: CRM/Xdedupe/MergeJob.php
 msgid "Merging %1 tuples."
-msgstr "Zusammenführung von %1 Tupeln"
+msgstr "Zusammenführung von %1 Tupeln."
 
 #: CRM/Xdedupe/MergeJob.php
 msgid "Merged tuples %1 - %2"
@@ -579,6 +592,31 @@ msgstr "Jüngster (nach CiviCRM ID)"
 msgid "Picks the contact with the highest CiviCRM ID"
 msgstr "Wählt den Kontakt mit der höchsten CiviCRM ID"
 
+#: CRM/Xdedupe/Resolver/Addressee.php
+msgid "Main Addressee"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/Addressee.php
+msgid "In case of conflicts, keep the addressee of the main contact."
+msgstr "Im Konfliktfall behält der Hauptkontakt den Adressat."
+
+#: CRM/Xdedupe/Resolver/AttributeCleanup.php
+msgid ""
+"Changed %1 from '<code style='white-space: pre;'>%2</code>' to '<code "
+"style='white-space: pre;'>%3</code>' in contact [%4] to avoid merge conflicts"
+msgstr ""
+"'%1' in Kontakt [%4] von '<code style='white-space: pre;'>%2</code>' auf "
+"'<code style='white-space: pre;'>%2</code>' geändert um den Konflikt "
+"aufzulösen."
+
+#: CRM/Xdedupe/Resolver/AttributeCleanup.php
+msgid "Cleanup '%1'"
+msgstr "'%1'Normieren"
+
+#: CRM/Xdedupe/Resolver/AttributeCleanup.php
+msgid "Cleans up the '%1' attribute before merging to avoid conflicts"
+msgstr ""
+
 #: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
 msgid "Bump Address Conflicts"
 msgstr "Adressenkonflikte Übernehmen"
@@ -596,17 +634,22 @@ msgid "Address [%1] from contact [%2] was bumped to 'conflict' location type."
 msgstr ""
 "Adresse [%1] von Kontakt [%2] wurde zur Kategorie \"Konflikt\" verschoben."
 
+#: CRM/Xdedupe/Resolver/CityCleanup.php
+msgid "Clean City"
+msgstr "Stadt Normieren"
+
 #: CRM/Xdedupe/Resolver/DetailMover.php
-msgid "Deleted %1 [%2] ('%4') from contact [%3] to avoid merge conflicts"
+msgid ""
+"Deleted duplicate %1 [%2] ('%4') from contact [%3] to avoid merge conflicts"
 msgstr ""
-"%1 [%2] ('%4') wurde von Kontakt [%3] gelöscht, um Konflikte aufzulösen."
+"%1 [%2] ('%4') wurde von Kontakt [%3] gelöscht, um Konflikte aufzulösen"
 
 #: CRM/Xdedupe/Resolver/DetailMover.php
 msgid ""
 "Moved %1 [%2] from contact [%3] to contact [%4] to avoid merge conflicts"
 msgstr ""
 "%1 [%2] ('%4') wurde von Kontakt [%3] zu Kontakt [%4] verschoben, um "
-"Konflikte aufzulösen."
+"Konflikte aufzulösen"
 
 #: CRM/Xdedupe/Resolver/DropSamePhones.php
 msgid "Drop Same Phones"
@@ -632,7 +675,11 @@ msgstr "E-Mail Verschieben"
 msgid "Move all email addresses to the main contact, unless they're duplicates"
 msgstr ""
 "Alle E-Mail Adressen zum Hauptkontakt verschieben, es sei denn sie liegen "
-"dort bereits vor."
+"dort bereits vor"
+
+#: CRM/Xdedupe/Resolver/FirstNameCleanup.php
+msgid "Clean First Name"
+msgstr "Vorname Normieren"
 
 #: CRM/Xdedupe/Resolver/IMMover.php
 msgid "IM Mover"
@@ -644,7 +691,7 @@ msgid ""
 "duplicates"
 msgstr ""
 "Alle SocialMedia Konten zum Hauptkontakt verschieben, es sei denn sie liegen "
-"dort bereits vor."
+"dort bereits vor"
 
 #: CRM/Xdedupe/Resolver/IndividualName.php
 msgid "Main Individual Names"
@@ -671,7 +718,11 @@ msgstr "Bevorzugte Sprace"
 
 #: CRM/Xdedupe/Resolver/Language.php
 msgid "Will pick the highest ranking language"
-msgstr "Behält die höher gewertete Sprache im Konfliktfall."
+msgstr "Behält die höher gewertete Sprache im Konfliktfall"
+
+#: CRM/Xdedupe/Resolver/LastNameCleanup.php
+msgid "Clean Last Name"
+msgstr "Nachname Normieren"
 
 #: CRM/Xdedupe/Resolver/MultiSelect.php
 msgid "Merge '%1' Multi-Select Field"
@@ -697,7 +748,7 @@ msgid ""
 "option group"
 msgstr ""
 "Löst Konflikte für das Feld '%1' indem der höherwertige Wert (nach der "
-"Ordnung in der Optionsgruppe) beibehalten wird."
+"Ordnung in der Optionsgruppe) beibehalten wird"
 
 #: CRM/Xdedupe/Resolver/OrganisationName.php
 msgid "Main Organisation Name"
@@ -706,6 +757,10 @@ msgstr "Hauptkontakt Organisationsname"
 #: CRM/Xdedupe/Resolver/OrganisationName.php
 msgid "In case of conflicts, keep the organisation name of the main contact."
 msgstr "Bei Konflikten behält der Hauptkontakt den Organisationsnamen"
+
+#: CRM/Xdedupe/Resolver/OrganisationNameCleanup.php
+msgid "Clean Organisation Name"
+msgstr "Organisationsname Normieren"
 
 #: CRM/Xdedupe/Resolver/OrganisationNameLongest.php
 msgid "Longest Organisation Name"
@@ -727,7 +782,7 @@ msgstr "Telefon Verschieben"
 msgid "Move all phone numbers to the main contact, unless they're duplicates"
 msgstr ""
 "Alle Telefonnummern Konten zum Hauptkontakt verschieben, es sei denn sie "
-"liegen dort bereits vor."
+"liegen dort bereits vor"
 
 #: CRM/Xdedupe/Resolver/Privacy.php
 msgid "Privacy"
@@ -758,7 +813,7 @@ msgid ""
 msgstr ""
 "Löst Konflikte bei Attribut '%1' indem einfach die Werte in der folgenden "
 "Priorität übernommen werden: Hauptkontakt, andere Kontakt in aufsteigender "
-"Kontakt-ID."
+"Kontakt-ID"
 
 #: CRM/Xdedupe/Resolver/Source.php
 msgid "Main Source"
@@ -768,6 +823,10 @@ msgstr "Haupt-Bezugsquelle"
 msgid "In case of conflicts, keep the source of the main contact."
 msgstr "Im Konfliktfall behält der Hauptkontakt seine Bezugsquelle."
 
+#: CRM/Xdedupe/Resolver/StreetAddressCleanup.php
+msgid "Clean Street Address"
+msgstr "Adresszeile Normieren"
+
 #: CRM/Xdedupe/Resolver/WebsiteMover.php
 msgid "Website Mover"
 msgstr "Webseite Verschieben"
@@ -776,7 +835,7 @@ msgstr "Webseite Verschieben"
 msgid "Move all websites to the main contact, unless they're duplicates"
 msgstr ""
 "Alle Webseiten werden zum Hauptkontakt verschoben, es sei denn es handelt "
-"sich um ein Duplikat."
+"sich um ein Duplikat"
 
 #: CRM/Xdedupe/Upgrader/Base.php
 msgid "Upgrade %1 to revision %2"
@@ -814,7 +873,7 @@ msgstr "Zusammenführungsversuche"
 msgid "Maximum amount of merge attempts before stopping"
 msgstr ""
 "Maximale Anzahl an Zusammenführungen oder -versuchen ehe automatisch "
-"unterbrochen wird."
+"unterbrochen wird"
 
 #: api/v3/Xdedupe/Run.php
 msgid "Override Scheduled"
@@ -826,7 +885,7 @@ msgid ""
 "flag can be used to override this behaviour, and execute regardless of the "
 "scheduled status."
 msgstr ""
-" Normalerweise können nur Konfigurationen, die für die Ausführung eingeplant "
+"Normalerweise können nur Konfigurationen, die für die Ausführung eingeplant "
 "sind, ausgeführt werden. Mit diesem Flag kann dieses Verhalten überschrieben "
 "werden und unabhängig von diesem Status ausgeführt werden."
 
@@ -1155,9 +1214,19 @@ msgid ""
 "Make sure you understand what these chosen resolvers do, as they will not "
 "ask for any confirmation"
 msgstr ""
-"Unbedingt verstehen, was die Konfliktlösungs-Module tun, denn es gibt keine "
-"Rückfragen."
+"Es ist wichtig zu verstehen, was die Konfliktlösungs-Module tun, denn sie "
+"werden automatisch und ohne Rückfragen ausgeführt"
 
 #: xdedupe.php
-msgid "Extended Deduplication"
-msgstr "Erweiterte Deduplizierung"
+msgid "Automation"
+msgstr ""
+
+#: xdedupe.php
+msgid "Extended Deduplication (X-Dedupe)"
+msgstr "Erweiterte Deduplizierung (X-Dedupe)"
+
+#~ msgid "Looks for fully identical organisation names"
+#~ msgstr "Sucht nach identischem Orgnisationsname"
+
+#~ msgid "Extended Deduplication"
+#~ msgstr "Erweiterte Deduplizierung"
