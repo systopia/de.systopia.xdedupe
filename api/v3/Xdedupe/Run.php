@@ -103,6 +103,6 @@ function civicrm_api3_xdedupe_run($params)
         }
     }
     $final_stats['configs_executed'] = count($configs_to_run);
-    return civicrm_api3_create_success($all_stats);
+    return civicrm_api3_create_success($final_stats);
 }
 
