@@ -61,7 +61,7 @@ class CRM_Xdedupe_Resolver_OrganisationNameLongest extends CRM_Xdedupe_Resolver_
     public function resolve($main_contact_id, $other_contact_ids)
     {
         // set all names to the chosen one
-        $this->resolveTheGreatEqualiser($main_contact_id, $other_contact_ids);
+        return $this->resolveTheGreatEqualiser($main_contact_id, $other_contact_ids);
     }
 
     /**
@@ -72,7 +72,7 @@ class CRM_Xdedupe_Resolver_OrganisationNameLongest extends CRM_Xdedupe_Resolver_
      * @param $value            string value to be rated
      * @param $contact_ids      array list of contact_ids using it
      * @param $main_contact_id
-     * @return int rating -> the higher the better
+     * @return int rating -> the higher, the better
      */
     protected function getValueRating($value, $contact_ids, $main_contact_id)
     {

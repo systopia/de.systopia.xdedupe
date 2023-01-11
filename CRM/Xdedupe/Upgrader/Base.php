@@ -10,7 +10,7 @@ class CRM_Xdedupe_Upgrader_Base
 {
 
     /**
-     * @var varies, subclass of this
+     * @var CRM_Xdedupe_Upgrader_Base subclass instance
      */
     static $instance;
 
@@ -25,7 +25,7 @@ class CRM_Xdedupe_Upgrader_Base
     protected $extensionName;
 
     /**
-     * @var string, full path to the extension's source tree
+     * @var string full path to the extension's source tree
      */
     protected $extensionDir;
 

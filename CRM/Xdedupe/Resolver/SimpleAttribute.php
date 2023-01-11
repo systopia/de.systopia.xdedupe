@@ -289,7 +289,7 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
      * @param $value            string value to be rated
      * @param $contact_ids      array list of contact_ids using it
      * @param $main_contact_id
-     * @return int rating -> the higher the better
+     * @return int rating -> the higher, the better
      */
     protected function getValueRating($value, $contact_ids, $main_contact_id)
     {

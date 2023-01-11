@@ -17,7 +17,7 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Find people by birth date
+ * Find people by birthdate
  */
 class CRM_Xdedupe_Finder_BirthDate extends CRM_Xdedupe_Finder
 {

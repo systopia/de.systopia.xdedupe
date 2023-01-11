@@ -19,7 +19,7 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * This is the algorithm to identify and filter dedupe candidates
  *
- * The set of duplicates is stored in tmp table with the $identifier in it's name
+ * The set of duplicates is stored in tmp table with the $identifier in its name
  */
 class CRM_Xdedupe_DedupeRun
 {
