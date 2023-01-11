@@ -155,6 +155,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
     public function buildQuickForm()
     {
         CRM_Utils_System::setTitle(E::ts("Extendend Dedupe - Control Room"));
+        $this->assign('config_showing', false); // might be overwritten later
 
         // find/create run
         $dedupe_run       = CRM_Utils_Request::retrieve('dedupe_run', 'String');
