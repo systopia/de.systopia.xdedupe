@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de.systopia.xdedupe\n"
-"POT-Creation-Date: 2022-03-14 20:41+0100\n"
+"POT-Creation-Date: 2023-01-11 11:17-0600\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -134,7 +134,20 @@ msgid "Identical Organization Name"
 msgstr ""
 
 #: CRM/Xdedupe/Finder/OrganizationName.php
-msgid "Looks for fully identical organisation names"
+msgid ""
+"Looks for fully identical organisation names. Keep in mind that this might "
+"*not* case-sensitive, depending on your DB's collation."
+msgstr ""
+
+#: CRM/Xdedupe/Finder/OrganizationNameNoCase.php
+msgid "Identical Organization Name (case insensitive)"
+msgstr ""
+
+#: CRM/Xdedupe/Finder/OrganizationNameNoCase.php
+msgid ""
+"Looks for fully identical organisation names, while ignoring upper/lower "
+"case differences. Keep in mind that this might already be the case depending "
+"on your DB's collation."
 msgstr ""
 
 #: CRM/Xdedupe/Finder/PartialOrganizationName.php
@@ -560,6 +573,28 @@ msgstr ""
 msgid "Picks the contact with the highest CiviCRM ID"
 msgstr ""
 
+#: CRM/Xdedupe/Resolver/Addressee.php
+msgid "Main Addressee"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/Addressee.php
+msgid "In case of conflicts, keep the addressee of the main contact."
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/AttributeCleanup.php
+msgid ""
+"Changed %1 from '<code style='white-space: pre;'>%2</code>' to '<code "
+"style='white-space: pre;'>%3</code>' in contact [%4] to avoid merge conflicts"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/AttributeCleanup.php
+msgid "Cleanup '%1'"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/AttributeCleanup.php
+msgid "Cleans up the '%1' attribute before merging to avoid conflicts"
+msgstr ""
+
 #: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
 msgid "Bump Address Conflicts"
 msgstr ""
@@ -574,8 +609,13 @@ msgstr ""
 msgid "Address [%1] from contact [%2] was bumped to 'conflict' location type."
 msgstr ""
 
+#: CRM/Xdedupe/Resolver/CityCleanup.php
+msgid "Clean City"
+msgstr ""
+
 #: CRM/Xdedupe/Resolver/DetailMover.php
-msgid "Deleted %1 [%2] ('%4') from contact [%3] to avoid merge conflicts"
+msgid ""
+"Deleted duplicate %1 [%2] ('%4') from contact [%3] to avoid merge conflicts"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/DetailMover.php
@@ -603,6 +643,10 @@ msgstr ""
 
 #: CRM/Xdedupe/Resolver/EmailMover.php
 msgid "Move all email addresses to the main contact, unless they're duplicates"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/FirstNameCleanup.php
+msgid "Clean First Name"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/IMMover.php
@@ -639,6 +683,10 @@ msgstr ""
 msgid "Will pick the highest ranking language"
 msgstr ""
 
+#: CRM/Xdedupe/Resolver/LastNameCleanup.php
+msgid "Clean Last Name"
+msgstr ""
+
 #: CRM/Xdedupe/Resolver/MultiSelect.php
 msgid "Merge '%1' Multi-Select Field"
 msgstr ""
@@ -667,6 +715,10 @@ msgstr ""
 
 #: CRM/Xdedupe/Resolver/OrganisationName.php
 msgid "In case of conflicts, keep the organisation name of the main contact."
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/OrganisationNameCleanup.php
+msgid "Clean Organisation Name"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/OrganisationNameLongest.php
@@ -719,6 +771,10 @@ msgstr ""
 
 #: CRM/Xdedupe/Resolver/Source.php
 msgid "In case of conflicts, keep the source of the main contact."
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/StreetAddressCleanup.php
+msgid "Clean Street Address"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/WebsiteMover.php
@@ -1071,5 +1127,9 @@ msgid ""
 msgstr ""
 
 #: xdedupe.php
-msgid "Extended Deduplication"
+msgid "Automation"
+msgstr ""
+
+#: xdedupe.php
+msgid "Extended Deduplication (X-Dedupe)"
 msgstr ""
