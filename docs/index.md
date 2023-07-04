@@ -1,8 +1,5 @@
 # Extended Deduplication (X-Dedupe)
 
-!!! Automated merges on CiviCRM contacts can be *very* hard to undo, so be sure to have you database backed up before experimenting. Ideally you would work on a test system until you know what you're doing.
-
-
 The extended deduplication extension was created to overcome a couple of 
 shortcomings of CiviCRM's built-in deduplication feature:
 
@@ -37,6 +34,8 @@ missing puzzle piece yourself, so it gives you the best results.
 
 ## 6. Automation
 
+> :warning: Be very careful here! Automated merges on CiviCRM contacts can be *very* hard to undo, so be sure to have you database backed up before experimenting. Ideally you would work on a test system until you're sure the system is doing the right thing. Always.
+
 X-Dedupe knows three stages of automation:
 
 0. **Individual execution**: While you're "playing" with the configuration, or you want to
@@ -59,7 +58,7 @@ duplicates, it simply generates larger groups of contacts to be merged
 in one go.
 
 
-!!! It's worth noticing, that X-Dedupe still uses CiviCRM's built-in merge facilities, so the actual merge should still insure data integrity within CiviCRM. 
+> 💡 It's worth noticing, that X-Dedupe still uses CiviCRM's built-in merge facilities, so the actual merge should still insure data integrity within CiviCRM. 
 
 # Read More
 * [X-Dedupe's Workflow](workflow.md)
