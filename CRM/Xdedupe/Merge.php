@@ -148,7 +148,7 @@ class CRM_Xdedupe_Merge
      *
      * @param $message string message
      */
-    public function logError($message)
+    public function logError(string $message)
     {
         $this->stats['errors'][] = $message;
         $this->log("ERROR: " . $message);
