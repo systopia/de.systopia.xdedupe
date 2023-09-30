@@ -389,7 +389,16 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             ['class' => 'huge crm-select2', 'multiple' => 'multiple']
         );
 
-        // build buttons
+        $this->add(
+            'text',
+            'merge_log',
+            E::ts("Merge Log"),
+            ['class' => 'huge'],
+            false,
+            []
+        );
+
+      // build buttons
         $buttons = [
             [
                 'type'      => 'find',
@@ -471,6 +480,24 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
                 }
             }
         }
+
+        // make sure that the merge_log is writable
+        if (!empty($values['merge_log'])) {
+            if (file_exists($values['merge_log'])) {
+                // file is there, let's see if we can append
+                if (!is_writable($values['merge_log'])) {
+                    $this->_errors['merge_log'] =
+                            E::ts("CiviCRM cannot write to file '%1'.", [1 => $values['merge_log']]);
+                }
+            } else {
+                // file does not exist, see if we can create it
+                if (!touch($values['merge_log'])) {
+                    $this->_errors['merge_log'] =
+                            E::ts("CiviCRM cannot create log file '%1'.", [1 => $values['merge_log']]);
+                }
+            }
+        }
+
         return count($this->_errors) == 0;
     }
 
@@ -609,6 +636,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
                     'force_merge' => empty($values['force_merge']) ? '0' : '1',
                     'resolvers'   => $values['auto_resolve'],
                     'pickers'     => $values['main_contact'],
+                    'merge_log'   => $values['merge_log'],
                 ],
                 $return_url
             );

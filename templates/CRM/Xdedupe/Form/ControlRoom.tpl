@@ -122,6 +122,13 @@
         <div class="content">{$form.auto_resolve.html}</div>
         <div class="clear"></div>
     </div>
+    <div class="crm-section">
+        <div class="label">{$form.merge_log.label}&nbsp;<a
+                    onclick='CRM.help("{ts domain="de.systopia.xdedupe"}Merge Log{/ts}", {literal}{"id":"id-merge-log","file":"CRM\/Xdedupe\/Form\/ControlRoom"}{/literal}); return false;'
+                    href="#" title="{ts domain="de.systopia.xdedupe"}Help{/ts}" class="helpicon">&nbsp;</a></div>
+        <div class="content">{$form.merge_log.html}</div>
+        <div class="clear"></div>
+    </div>
 </div>
 
 <br/>
