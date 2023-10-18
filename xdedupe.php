@@ -197,6 +197,17 @@ function xdedupe_civicrm_entityTypes(&$entityTypes)
 function xdedupe_civicrm_navigationMenu(&$menu)
 {
     _xdedupe_civix_insert_navigation_menu(
+            $menu,
+            'Administer',
+            [
+                    'label'      => E::ts('Automation'),
+                    'name'       => 'automation',
+                    'permission' => 'administer CiviCRM',
+                    'operator'   => 'OR',
+                    'separator'  => 0,
+            ]
+    );
+    _xdedupe_civix_insert_navigation_menu(
         $menu,
         'Administer/automation',
         [
