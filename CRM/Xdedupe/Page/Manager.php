@@ -116,6 +116,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page
                     'force_merge' => empty($config['force_merge']) ? '0' : '1',
                     'resolvers'   => $config['auto_resolve'],
                     'pickers'     => $config['main_contact'],
+                    'merge_log'   => $config['merge_log'],
                     'config_id'   => $configuration->getID(),
                 ],
                 CRM_Utils_System::url('civicrm/xdedupe/manage', 'reset=1')

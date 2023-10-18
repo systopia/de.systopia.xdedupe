@@ -218,12 +218,13 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
                 $last_configuration                = $configuration->getConfig();
                 $last_configuration['name']        = $configuration->getAttribute('name');
                 $last_configuration['description'] = $configuration->getAttribute('description');
+                $last_configuration['merge_log']   = $configuration->getAttribute('merge_log');
                 CRM_Utils_System::setTitle(
-                    E::ts("Extendend Dedupe: '%1'", [1 => $configuration->getAttribute('name')])
+                    E::ts("Extended Dedupe: '%1'", [1 => $configuration->getAttribute('name')])
                 );
             } else {
                 // this is an
-                $last_configuration = self::getUserSettings()->get('xdedup_last_configuration');
+                $last_configuration = self::getUserSettings()->get('xdedupe_last_configuration');
                 unset($last_configuration['cid'], $last_configuration['name'], $last_configuration['description']);
             }
 
@@ -587,7 +588,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
         $this->prepareSubmissionData($values);
 
         // store settings by user
-        self::getUserSettings()->set('xdedup_last_configuration', $values);
+        self::getUserSettings()->set('xdedupe_last_configuration', $values);
 
         if ($this->cr_command == 'clear') {
             CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/xdedupe/controlroom', "reset=1"));
