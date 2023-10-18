@@ -19,7 +19,7 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Collection of upgrade steps.
  */
-class CRM_Xdedupe_Upgrader extends CRM_Extension_Upgrader_Base
+class CRM_Xdedupe_Upgrader extends CRM_Xdedupe_Upgrader_Base
 {
 
     /**
