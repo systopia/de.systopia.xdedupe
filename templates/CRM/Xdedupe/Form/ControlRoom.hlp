@@ -39,3 +39,7 @@
   <p>{ts domain="de.systopia.xdedupe"}You can use this flag to merge contacts even if they still have conflicts.{/ts}</p>
   <p>{ts domain="de.systopia.xdedupe"}<strong>This is highly discouraged! You should use an appropriate set of resolvers, to merge contacts automatically. Merging contacts by force can destroy them. If you must, be sure to test thoroughly before use.</strong>{/ts}</p>
 {/htxt}
+
+{htxt id='id-merge-log'}
+  <p>{ts domain="de.systopia.xdedupe"}You can provide a separate log file for merges. If you don't, the information will be logged to the CiviCRM log.{/ts}</p>
+{/htxt}
