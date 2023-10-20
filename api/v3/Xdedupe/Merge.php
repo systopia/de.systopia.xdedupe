@@ -57,6 +57,13 @@ function _civicrm_api3_xdedupe_merge_spec(&$spec)
         'title'       => 'Dedupe Run ID',
         'description' => 'If given, the tuple will be removed from this dedupe run, if the merge was successful',
     );
+    $spec['merge_log']        = array(
+            'name'        => 'merge_log',
+            'api.default' => '',
+            'type'        => CRM_Utils_Type::T_STRING,
+            'title'       => 'Merge Log',
+            'description' => 'If given, the merge\'s log messages will be appended to this log file, rather than the CiviCRM log. The file needs to be writable for CiviCRM.',
+    );
 }
 
 /**
