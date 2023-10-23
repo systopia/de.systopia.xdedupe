@@ -45,16 +45,6 @@ function xdedupe_civicrm_alterLogTables(&$logTableSpec)
 }
 
 /**
- * Implements hook_civicrm_xmlMenu().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_xmlMenu
- */
-function xdedupe_civicrm_xmlMenu(&$files)
-{
-  _xdedupe_civix_civicrm_xmlMenu($files);
-}
-
-/**
  * Implements hook_civicrm_install().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_install

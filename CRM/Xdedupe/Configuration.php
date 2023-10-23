@@ -30,6 +30,7 @@ class CRM_Xdedupe_Configuration
         'is_automatic' => 'Integer',
         'is_scheduled' => 'Integer',
         'weight'       => 'Integer',
+        'merge_log'    => 'String',
     ];
 
     protected $configuration_id;
@@ -125,7 +126,7 @@ class CRM_Xdedupe_Configuration
         while ($configuration_search->fetch()) {
             $data = [];
             foreach (self::$main_attributes as $attribute_name => $attribute_type) {
-                $data[$attribute_name] = $configuration_search->$attribute_name;
+                $data[$attribute_name] = $configuration_search->$attribute_name ?? null;
             }
             if (isset($configuration_search->config)) {
                 $config = json_decode($configuration_search->config, true);

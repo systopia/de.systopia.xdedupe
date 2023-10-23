@@ -74,10 +74,11 @@ class CRM_Xdedupe_Merge
         // initialise merge_log
         if (!empty($params['merge_log'])) {
             $this->merge_log = $params['merge_log'];
+            $this->merge_log_handle = fopen($this->merge_log, 'a');
         } else {
-            $this->merge_log = tempnam('/tmp', 'xdedupe_merge');
+            $this->merge_log = null;
+            $this->merge_log_handle = null;
         }
-        $this->merge_log_handle = fopen($this->merge_log, 'a');
 
         $this->log("Initialised merger: " . json_encode($params));
     }
@@ -134,8 +135,12 @@ class CRM_Xdedupe_Merge
      */
     public function log($message)
     {
-        fputs($this->merge_log_handle, $message);
-        CRM_Core_Error::debug_log_message("XMERGE: {$message}");
+        if (empty($this->merge_log_handle)) {
+            CRM_Core_Error::debug_log_message("XMERGE: {$message}");
+        } else {
+            $message = date('[Y-m-d H:i:s] ') . $message . "\n";
+            fputs($this->merge_log_handle, $message);
+        }
     }
 
     /**
@@ -143,7 +148,7 @@ class CRM_Xdedupe_Merge
      *
      * @param $message string message
      */
-    public function logError($message)
+    public function logError(string $message)
     {
         $this->stats['errors'][] = $message;
         $this->log("ERROR: " . $message);
@@ -155,7 +160,7 @@ class CRM_Xdedupe_Merge
      */
     public function multiMerge($main_contact_id, $other_contact_ids)
     {
-        $this->log("Merging [{$main_contact_id}] with [" . implode(',', $other_contact_ids) . ']');
+        $this->log("Merging into contact [{$main_contact_id}]: [" . implode(',', $other_contact_ids) . ']');
 
         // first check for poor judgement:
         if (in_array($main_contact_id, $other_contact_ids)) {

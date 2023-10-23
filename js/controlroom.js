@@ -96,6 +96,7 @@ cj("table.xdedupe-result").click(function (e) {
         let main_contact_id = cj(e.target).parent().find("span.xdedupe-main-contact-id").text();
         let other_contact_ids = cj(e.target).parent().find("span.xdedupe-other-contact-ids").text();
         let force_merge = cj("#force_merge").prop('checked') ? "1" : "0";
+        let merge_log = cj("#merge_log").val();
         let resolvers = cj("#auto_resolve").val();
         if (resolvers == null) {
             resolvers = [];
@@ -108,6 +109,7 @@ cj("table.xdedupe-result").click(function (e) {
             "main_contact_id": main_contact_id,
             "other_contact_ids": other_contact_ids,
             "force_merge": force_merge,
+            "merge_log": merge_log,
             "resolvers": resolvers.join(','),
             "pickers": pickers.join(','),
             "dedupe_run": CRM.vars['xdedupe_controlroom'].dedupe_run_id

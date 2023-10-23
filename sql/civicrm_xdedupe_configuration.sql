@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `civicrm_xdedupe_configuration`(
   `is_scheduled`   tinyint      COMMENT 'is configuration enabled for scheduled unsupervised execution',
   `config`         text         COMMENT 'configuration (JSON)',
   `last_run`       text         COMMENT 'stats of the last run (JSON)',
+  `merge_log`      text         COMMENT 'log file to be used (absolute file path)',
   `weight`         int unsigned COMMENT 'defines listing order',
   PRIMARY KEY ( `id` )
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;

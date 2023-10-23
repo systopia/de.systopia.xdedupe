@@ -91,4 +91,26 @@ class CRM_Xdedupe_Upgrader extends CRM_Extension_Upgrader_Base
         return true;
     }
 
+  /**
+   * Make sure the new table is known to logging
+   *
+   * @return boolean
+   *    TRUE on success
+   * @throws Exception
+   *    if something goes wrong
+   */
+  public function upgrade_1201()
+  {
+    $this->ctx->log->info('Adding merge log setting');
+
+    // add new column for new merge_log setting
+    if (!CRM_Core_BAO_SchemaHandler::checkIfFieldExists('civicrm_xdedupe_configuration', 'merge_log')) {
+      CRM_Core_DAO::executeQuery("ALTER TABLE `civicrm_xdedupe_configuration` ADD COLUMN `merge_log` TEXT");
+    }
+
+    // fix logging schema differences
+    $logging = new CRM_Logging_Schema();
+    $logging->fixSchemaDifferences();
+    return true;
+  }
 }

@@ -218,12 +218,13 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
                 $last_configuration                = $configuration->getConfig();
                 $last_configuration['name']        = $configuration->getAttribute('name');
                 $last_configuration['description'] = $configuration->getAttribute('description');
+                $last_configuration['merge_log']   = $configuration->getAttribute('merge_log');
                 CRM_Utils_System::setTitle(
-                    E::ts("Extendend Dedupe: '%1'", [1 => $configuration->getAttribute('name')])
+                    E::ts("Extended Dedupe: '%1'", [1 => $configuration->getAttribute('name')])
                 );
             } else {
                 // this is an
-                $last_configuration = self::getUserSettings()->get('xdedup_last_configuration');
+                $last_configuration = self::getUserSettings()->get('xdedupe_last_configuration');
                 unset($last_configuration['cid'], $last_configuration['name'], $last_configuration['description']);
             }
 
@@ -389,7 +390,16 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
             ['class' => 'huge crm-select2', 'multiple' => 'multiple']
         );
 
-        // build buttons
+        $this->add(
+            'text',
+            'merge_log',
+            E::ts("Merge Log"),
+            ['class' => 'huge'],
+            false,
+            []
+        );
+
+      // build buttons
         $buttons = [
             [
                 'type'      => 'find',
@@ -471,6 +481,24 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
                 }
             }
         }
+
+        // make sure that the merge_log is writable
+        if (!empty($values['merge_log'])) {
+            if (file_exists($values['merge_log'])) {
+                // file is there, let's see if we can append
+                if (!is_writable($values['merge_log'])) {
+                    $this->_errors['merge_log'] =
+                            E::ts("CiviCRM cannot write to file '%1'.", [1 => $values['merge_log']]);
+                }
+            } else {
+                // file does not exist, see if we can create it
+                if (!touch($values['merge_log'])) {
+                    $this->_errors['merge_log'] =
+                            E::ts("CiviCRM cannot create log file '%1'.", [1 => $values['merge_log']]);
+                }
+            }
+        }
+
         return count($this->_errors) == 0;
     }
 
@@ -560,7 +588,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
         $this->prepareSubmissionData($values);
 
         // store settings by user
-        self::getUserSettings()->set('xdedup_last_configuration', $values);
+        self::getUserSettings()->set('xdedupe_last_configuration', $values);
 
         if ($this->cr_command == 'clear') {
             CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/xdedupe/controlroom', "reset=1"));
@@ -609,6 +637,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
                     'force_merge' => empty($values['force_merge']) ? '0' : '1',
                     'resolvers'   => $values['auto_resolve'],
                     'pickers'     => $values['main_contact'],
+                    'merge_log'   => $values['merge_log'],
                 ],
                 $return_url
             );
