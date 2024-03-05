@@ -66,14 +66,15 @@ class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter
             $is_smart_group = CRM_Core_DAO::singleValueQuery(
                 "SELECT saved_search_id FROM civicrm_group WHERE id = %1",
                 [1 => [$this->group_id, 'Integer']]);
+            $table = 'civicrm_group_contact';
             if ($is_smart_group) {
-                CRM_Contact_BAO_GroupContactCache::loadAll($this->group_id);
+                CRM_Contact_BAO_GroupContactCache::loadAll([$this->group_id]);
+                $table = 'civicrm_group_contact_cache';
             }
 
             // finally: add the join
-            $joins[] = "LEFT JOIN civicrm_group_contact {$this->alias} ON {$this->alias}.contact_id = contact.id 
-                                                                 AND {$this->alias}.group_id = {$this->group_id}
-                                                                 AND {$this->alias}.status = 'Added'";
+            $joins[] = "LEFT JOIN {$table} {$this->alias} ON {$this->alias}.contact_id = contact.id 
+                                                                 AND {$this->alias}.group_id = {$this->group_id}" . ($is_smart_group ? '' : " AND {$this->alias}.status = 'Added'");
         }
     }
 
@@ -85,9 +86,9 @@ class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter
     public function addWHERES(&$wheres)
     {
         if ($this->include) {
-            $wheres[] = "{$this->alias}.id IS NOT NULL";
+            $wheres[] = "{$this->alias}.contact_id IS NOT NULL";
         } else {
-            $wheres[] = "{$this->alias}.id IS NULL";
+            $wheres[] = "{$this->alias}.contact_id IS NULL";
         }
     }
 }
