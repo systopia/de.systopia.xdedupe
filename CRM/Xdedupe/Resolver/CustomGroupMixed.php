@@ -19,7 +19,7 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Implements a resolver for contact custom fields
  */
-class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver
+class CRM_Xdedupe_Resolver_CustomGroupMixed extends CRM_Xdedupe_Resolver
 {
 
     /** @var integer ID of the custom field */
@@ -37,7 +37,7 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver
      */
     public function getSpec()
     {
-        return "CRM_Xdedupe_Resolver_CustomField:{$this->custom_field_id}";
+        return "CRM_Xdedupe_Resolver_CustomGroupMixed:{$this->custom_field_id}";
     }
 
     /**
@@ -188,7 +188,7 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver
         );
 
         foreach ($all_custom_fields as $custom_field) {
-            $list[] = "CRM_Xdedupe_Resolver_CustomField:{$custom_field['id']}";
+            $list[] = "CRM_Xdedupe_Resolver_CustomGroupMixed:{$custom_field['id']}";
         }
     }
 }
