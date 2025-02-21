@@ -19,15 +19,15 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Implements a resolver for contact custom fields
  */
-class CRM_Xdedupe_Resolver_CustomGroupMixed extends CRM_Xdedupe_Resolver
+class CRM_Xdedupe_Resolver_CustomGroupByField extends CRM_Xdedupe_Resolver
 {
 
     /** @var integer ID of the custom field */
-    protected $custom_field_id = null;
+    protected $custom_group_id = null;
 
-    public function __construct($merge, $custom_field_id)
+    public function __construct($merge, $custom_group_id)
     {
-        $this->custom_field_id = $custom_field_id;
+        $this->custom_group_id = $custom_group_id;
         parent::__construct($merge);
     }
 
@@ -37,7 +37,7 @@ class CRM_Xdedupe_Resolver_CustomGroupMixed extends CRM_Xdedupe_Resolver
      */
     public function getSpec()
     {
-        return "CRM_Xdedupe_Resolver_CustomGroupMixed:{$this->custom_field_id}";
+        return "CRM_Xdedupe_Resolver_CustomGroupByField:{$this->custom_group_id}";
     }
 
     /**
@@ -47,7 +47,7 @@ class CRM_Xdedupe_Resolver_CustomGroupMixed extends CRM_Xdedupe_Resolver
      */
     public function getContactAttributes()
     {
-        return ["custom_{$this->custom_field_id}"];
+        return ["custom_{$this->custom_group_id}"];
     }
 
     /**
@@ -56,11 +56,10 @@ class CRM_Xdedupe_Resolver_CustomGroupMixed extends CRM_Xdedupe_Resolver
      */
     public function getName()
     {
-        // $field_name = civicrm_api3('CustomField', 'getvalue', ['id' => $this->custom_field_id, 'return' => 'label']);
-        $field_name = civicrm_api4('CustomField', 'get', [ 'select' => [ 'label','custom_group_id',], 'where' => [ [ 'id', '=', $this->custom_field_id ] , ], ]);
-        $group_name = civicrm_api4('CustomGroup', 'get', [ 'select' => [ 'title',], 'where' => [ [ 'id', '=', $field_name[0]['custom_group_id'] ] , ], ]);
+        // $field_name = civicrm_api4('CustomField', 'get', [ 'select' => [ 'label','custom_group_id',], 'where' => [ [ 'id', '=', $this->custom_group_id ] , ], ]);
+        $group_name = civicrm_api4('CustomGroup', 'get', [ 'select' => [ 'title',], 'where' => [ [ 'id', '=',  $this->custom_group_id ] , ], ]);
         //\Civi::log('xdedupe')->debug('xdedupe: customfields {original}', ['original' => $group_name,]);
-        return E::ts("Merge '%1' Custom Field of Group '%2'", [1 => $field_name[0]['label'], 2 =>  $group_name[0]['title']]);
+        return E::ts("Merge by field for group '%1'", [ 1 =>  $group_name[0]['title']]);
     }
 
     /**
@@ -69,7 +68,7 @@ class CRM_Xdedupe_Resolver_CustomGroupMixed extends CRM_Xdedupe_Resolver
      */
     public function getHelp()
     {
-        $field_name = civicrm_api4('CustomField', 'get', [ 'select' => [ 'label',], 'where' => [ [ 'id', '=', $this->custom_field_id ] , ], ]);
+        $field_name = civicrm_api4('CustomField', 'get', [ 'select' => [ 'label',], 'where' => [ [ 'id', '=', $this->custom_group_id ] , ], ]);
         return E::ts(
             "The field '%1' is a custom field. This resolver will merge the values of all duplicates, so that the main contact will have all.",
             [1 => $field_name[0]['label']]
@@ -84,7 +83,7 @@ class CRM_Xdedupe_Resolver_CustomGroupMixed extends CRM_Xdedupe_Resolver
      */
     protected function getValues($contact_id)
     {
-        $field_name = "custom_{$this->custom_field_id}";
+        $field_name = "custom_{$this->custom_group_id}";
         $contact    = $this->getContext()->getContact($contact_id);
         $values     = CRM_Utils_Array::value($field_name, $contact, []);
         if ($values === '' || $values === null || $values === false) {
@@ -124,7 +123,7 @@ class CRM_Xdedupe_Resolver_CustomGroupMixed extends CRM_Xdedupe_Resolver
         // now, perform the contact updates if necessary
         sort($new_main_contact_values);
         $all_contact_ids = array_merge($other_contact_ids, [$main_contact_id]);
-        $field_name      = "custom_{$this->custom_field_id}";
+        $field_name      = "custom_{$this->custom_group_id}";
         foreach ($all_contact_ids as $contact_id) {
             $current_values = $this->getValues($contact_id);
             if ($current_values != $new_main_contact_values) {
@@ -188,7 +187,7 @@ class CRM_Xdedupe_Resolver_CustomGroupMixed extends CRM_Xdedupe_Resolver
         );
 
         foreach ($all_custom_fields as $custom_field) {
-            $list[] = "CRM_Xdedupe_Resolver_CustomGroupMixed:{$custom_field['id']}";
+            $list[] = "CRM_Xdedupe_Resolver_CustomGroupByField:{$custom_field['id']}";
         }
     }
 }
