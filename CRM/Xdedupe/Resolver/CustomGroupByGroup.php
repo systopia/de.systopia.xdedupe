@@ -56,10 +56,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver
      */
     public function getName()
     {
-        // $field_name = civicrm_api3('CustomField', 'getvalue', ['id' => $this->custom_group_id, 'return' => 'label']);
-        // $group_name = civicrm_api4('CustomField', 'get', [ 'select' => [ 'label','custom_group_id',], 'where' => [ [ 'id', '=', $this->custom_group_id ] , ], ]);
         $group_name = civicrm_api4('CustomGroup', 'get', [ 'select' => [ 'title',], 'where' => [ [ 'id', '=',  $this->custom_group_id ] , ], ]);
-        // \Civi::log('xdedupe')->debug('xdedupe: customfields {original}', ['original' => $group_name,]);
         return E::ts("Merge as a group '%1' Custom Group", [1 =>  $group_name[0]['title']]);
     }
 
@@ -80,13 +77,11 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver
 
     protected function getValues($contact_id)
     {
-        //$contact    = $this->getContext()->getContact($contact_id);
         $group_name = civicrm_api4('CustomGroup', 'get', [ 'select' => [ 'name',], 'where' => [ [ 'id', '=', $this->custom_group_id ] , ], ]);
-        // $group = $group_name[0]['name'];
         $group_values =  civicrm_api4('Contact', 'get', ['select' => [ $group_name[0]['name'] . '.*',], 'where' => [['id', '=', $contact_id], ], ]);
 
         $values = $group_values[0];
-        //\Civi::log('xdedupe')->debug('xdedupe: getValue {original}', ['original' => $values,]);
+
         // id is always set, so unset
         unset($values['id']);
 
@@ -94,9 +89,9 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver
     }
 
      /**
-     * join array
+     * join multidimensional array
      *
-     * @param $customGroupFields array custom group fields
+     * @param $customGroupFields array custom group as array
      * @return string
      */
      public function joinArray($customGroupFields)
@@ -122,11 +117,11 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver
     public function resolve($main_contact_id, $other_contact_ids)
     {
         $main_contact_values     = $this->getValues($main_contact_id);
-        // \Civi::log('xdedupe')->debug('xdedupe: merge as a group id: {$this->custom_group_id}', ['group_id' => $this->custom_group_id,]);
+        // seems not to work
         $this->addMergeDetail(
                             E::ts("Merge as group id: [%1]", [1 => $this->custom_group_id])
                     );
-        // if main contact custom group fields are not empty look at the duplicates
+        // if main contact custom group fields are empty look at the duplicates
         if( strlen($this->joinArray($main_contact_values)) === 0 ) {
             $new_main_contact_values = array();
             foreach ($other_contact_ids as $other_contact_id) {
@@ -135,6 +130,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver
                     // values found in other contact -> set all customvalues
                     $new_main_contact_values[] = $other_contact_values;
                     $new_values              = impode(',', $other_contact_values);
+                    // seems not to work
                     $this->addMergeDetail(
                             E::ts("Inherited value(s) '{$new_values}' from contact [%1]", [1 => $other_contact_id])
                     );
@@ -148,25 +144,14 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver
 
         // now, perform the contact updates if necessary
         $all_contact_ids = array_merge($other_contact_ids, [$main_contact_id]);
-        // prepare new values for update
-        /*foreach ($new_main_contact_values as $key_new_main_contact_value => $new_main_contact_value) {
-            // reformat option values
-            if(is_array($new_main_contact_value)) {
-
-            }
-        }*/
         foreach ($all_contact_ids as $contact_id) {
-            // $current_values = $this->getValues($contact_id);
-            //if ($current_values != $new_main_contact_values) {
-                civicrm_api4('Contact', 'update', [
-                  'values' => $new_main_contact_values,
-                  'where' => [
-                    ['id', '=', $contact_id],
-                  ],
-                  'checkPermissions' => FALSE,
-                ]);
-                //$this->getContext()->unloadContact($contact_id);
-            //}
+            civicrm_api4('Contact', 'update', [
+              'values' => $new_main_contact_values,
+              'where' => [
+                ['id', '=', $contact_id],
+              ],
+              'checkPermissions' => FALSE,
+            ]);
         }
 
         return true;
@@ -179,7 +164,6 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver
      */
     public static function addAllResolvers(&$list)
     {
-        // $contact_custom_group_ids = [];
         $contact_custom_groups    = civicrm_api4(
                 'CustomGroup',
                 'get',
