@@ -27,10 +27,10 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
    */
   protected $custom_group_id;
 
-    /**
-     * @param CRM_Xdedupe_Merge $merge
-     * @param integer $custom_group_id
-     */
+  /**
+   * @param CRM_Xdedupe_Merge $merge
+   * @param integer $custom_group_id
+   */
   public function __construct($merge, $custom_group_id) {
     $this->custom_group_id = $custom_group_id;
     parent::__construct($merge);
@@ -50,7 +50,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
    * @return array<string> list of contact attributes
    */
   public function getContactAttributes() {
-    return ["id"];
+    return ['id'];
   }
 
   /**
@@ -87,12 +87,13 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
         [1 => $group_name[0]['title']]
     );
   }
-    /**
-     * Get the contact's field values
-     *
-     * @param integer $contact_id contact ID
-     * @return array<string> values custom group
-     */
+
+  /**
+   * Get the contact's field values
+   *
+   * @param mixed $contact_id contact ID
+   * @return array<string, mixed> values custom group
+   */
   protected function getValues($contact_id) {
     $group_name = civicrm_api4(
             'CustomGroup', 'get',
@@ -120,7 +121,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
   /**
    * join multidimensional array
    *
-   * @param array<string> $customGroupFields custom group as array
+   * @param array<mixed> $customGroupFields custom group as array
    * @return string joined values of all fields
    */
   public function joinArray($customGroupFields) {
@@ -139,8 +140,8 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
   /**
    * Resolve the privacy conflicts by maintaining any opt-opt-outs
    *
-   * @param integer $main_contact_id  the main contact ID
-   * @param array<integer> $other_contact_ids  other contact IDs
+   * @param $main_contact_id  the main contact ID
+   * @param $other_contact_ids  other contact IDs
    * @return boolean TRUE, if there was a conflict to be resolved
    *
    */
@@ -155,7 +156,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
       $new_main_contact_values = [];
       foreach ($other_contact_ids as $other_contact_id) {
         $other_contact_values = $this->getValues($other_contact_id);
-        if (strlen($this->joinArray($main_contact_values)) > 0) {
+        if (strlen($this->joinArray($other_contact_values)) > 0) {
           // values found in other contact -> set all customvalues
           $new_main_contact_values[] = $other_contact_values;
           $new_values              = impode(',', $other_contact_values);
