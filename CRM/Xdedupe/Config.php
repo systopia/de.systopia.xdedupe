@@ -119,7 +119,7 @@ class CRM_Xdedupe_Config implements EventSubscriberInterface
         // add configurable resolvers
         CRM_Xdedupe_Resolver_MultiSelect::addAllResolvers($xdedupe_list->list);
         // CRM_Xdedupe_Resolver_CustomField::addAllResolvers($xdedupe_list->list);
-        CRM_Xdedupe_Resolver_CustomGroupByGroup::addAllResolvers($xdedupe_list->list);
+        CRM_Xdedupe_Resolver_CustomGroupIntegral::addAllResolvers($xdedupe_list->list);
         CRM_Xdedupe_Resolver_CustomGroupByField::addAllResolvers($xdedupe_list->list);
     }
 
