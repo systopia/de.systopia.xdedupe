@@ -60,7 +60,7 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver
         $field_name = civicrm_api4('CustomField', 'get', [ 'select' => [ 'label','custom_group_id',], 'where' => [ [ 'id', '=', $this->custom_field_id ] , ], ]);
         $group_name = civicrm_api4('CustomGroup', 'get', [ 'select' => [ 'title',], 'where' => [ [ 'id', '=', $field_name[0]['custom_group_id'] ] , ], ]);
         //\Civi::log('xdedupe')->debug('xdedupe: customfields {original}', ['original' => $group_name,]);
-        return E::ts("Merge '%1' Custom Field of Group '%2'", [1 => $field_name[0]['label'], 2 =>  $group_name[0]['title']]);
+        return E::ts("'%1' Custom Field of Group '%2'", [1 => $field_name[0]['label'], 2 =>  $group_name[0]['title']]);
     }
 
     /**
@@ -145,7 +145,7 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver
 
 
     /**
-     * Add a resolver spec for each Multi-Select field to the list
+     * Add a resolver spec for each INDIVIDUAL Multi-Select field to the list
      * @param $list array list of resolver specs
      */
     public static function addAllResolvers(&$list)
