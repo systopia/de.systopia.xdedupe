@@ -172,6 +172,8 @@ abstract class CRM_Xdedupe_Resolver
     public function addMergeDetail($information)
     {
         $resolver_name = $this->getName();
-        $this->merge->addMergeDetail("{$information} (resolver '{$resolver_name}')");
+        $merge_detail = "{$information} (resolver '{$resolver_name}')";
+        $this->merge->addMergeDetail($merge_detail);
+        Civi::log()->debug('X-Dedupe: ' . $merge_detail);
     }
 }
