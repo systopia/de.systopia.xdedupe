@@ -55,7 +55,7 @@ class CRM_Xdedupe_Resolver_CustomGroupMerge extends CRM_Xdedupe_Resolver_CustomG
               'where' => [['id', '=', $this->custom_group_id]],
             ]
     );
-    return E::ts("Merge values for custom group '%1'", [1 => $group_name[0]['title']]);
+    return E::ts("Merge '%1' values", [1 => $group_name[0]['title']]);
   }
 
 
@@ -71,43 +71,38 @@ class CRM_Xdedupe_Resolver_CustomGroupMerge extends CRM_Xdedupe_Resolver_CustomG
      * @note I'd prefer to do this via API, but I'm not sure it's possible
      */
     public function resolve($main_contact_id, $other_contact_ids) {
-        $priority_list_of_contact_ids = array_unique(array_merge([$main_contact_id], $other_contact_ids));
-        $priority_list_of_contact_ids_as_string = implode(',', $priority_list_of_contact_ids);
-        $table_name = $this->getTableName();
-        $group_title = $this->getCustomGroupData()['title'];
-        $prevailing_record_id = 0;
-        $existing_records = [];
+        // todo:
+        // 1) get all the record sets from main and other contacts
+        // 2) fill main contact with those values, no overwrite!
+        // 3) delete all entries for non-main contacts
 
-        // fetch all existing records
-        $existing_record_query = CRM_Core_DAO::executeQuery("
-        SELECT id, entity_id FROM {$table_name}
-        WHERE entity_id IN ({$priority_list_of_contact_ids_as_string})");
-        while ($existing_record_query->fetch()) {
-            $existing_records[$existing_record_query->id] = [
-                    'record_id'  => $existing_record_query->id,
-                    'contact_id' => $existing_record_query->entity_id
-            ];
-            // if the main contact has a record, keep that one
-            if ($existing_record_query->entity_id == $main_contact_id) {
-                $prevailing_record_id = (int) $existing_record_query->id;
-                $this->addMergeDetail(E::ts("Deleting all but the head's record for custom group '{$group_title}'"));
-            }
-        }
-
-        // if the prevailing_record_id isn't on the head, take the lowest ID
-        if (empty($prevailing_record_id)) {
-            $prevailing_record_id = (int) min(array_keys($existing_records));
-            $this->addMergeDetail(E::ts("Deleting all but the oldest record for custom group '{$group_title}'"));
-        }
-
-        // so... let's delete all the others to allow for a merge to succeed with no conflicts
-        foreach ($existing_records as $existing_record) {
-            if ($existing_record['record_id'] != $prevailing_record_id) {
-                CRM_Core_DAO::executeQuery("DELETE FROM {$table_name} WHERE id = {$existing_record['record_id']}");
-            }
-        }
+        // compare CRM_Xdedupe_Resolver_CustomGroupIntegral
 
         return TRUE;
     }
 
+
+    /**
+     * Add a resolver spec for each Multi-Select field to the list
+     * @param array<string> $list list of resolver specs
+     * @return void
+     */
+    public static function addAllResolvers(&$list) {
+        // currently disabled, implementation halted:
+//        $contact_custom_groups = civicrm_api4(
+//                'CustomGroup',
+//                'get',
+//                ['select' => ['id', 'title'],
+//                        'where' => [
+//                                ['extends', 'IN', ['Contact', 'Individual', 'Household', 'Organization']],
+//                                ['is_active', '=', TRUE],
+//                                ['is_multiple', '=', FALSE], // multiple entry groups can always be "merged" without any issue, so no resolver needed
+//                        ],
+//                ]
+//        );
+//
+//        foreach ($contact_custom_groups as $custom_group) {
+//            $list[] = "CRM_Xdedupe_Resolver_CustomGroupMerge:{$custom_group['id']}";
+//        }
+    }
 }
