@@ -97,12 +97,12 @@ class CRM_Xdedupe_Resolver_CustomGroupIntegral extends CRM_Xdedupe_Resolver {
   }
 
   /**
-   * get an explanation what the finder does
+   * get an explanation what this resolver does
    * @return string name
    */
   public function getHelp() {
     return E::ts(
-        "This resolver will make sure that any conflicts in the custom group '%1' will be solved by treating the custom group data as an integral record, i.e. it will <i>not</i> merge attributes from different custom group records, but rather select one of the existing records to prevail - preferredly the main contact's.",
+        "This resolver will make sure that any potential merge conflicts in the custom group '%1' will be solved by treating the custom group data as an integral record, i.e. it will <i>not</i> merge attributes from different custom group records, but rather select one of the existing records to prevail - preferredly the main contact's.",
         [1 => $this->getCustomGroupData()['title']]
     );
   }
