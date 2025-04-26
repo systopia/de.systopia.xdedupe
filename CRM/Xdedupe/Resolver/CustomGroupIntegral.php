@@ -144,8 +144,10 @@ class CRM_Xdedupe_Resolver_CustomGroupIntegral extends CRM_Xdedupe_Resolver {
 
     // if the prevailing_record_id isn't on the head, take the lowest ID
     if (empty($prevailing_record_id)) {
-        $prevailing_record_id = (int) min(array_keys($existing_records));
-        $this->addMergeDetail(E::ts("Deleting all but the oldest record for custom group '{$group_title}'"));
+        if (count($existing_records) > 1) {
+            $prevailing_record_id = (int) min(array_keys($existing_records));
+            $this->addMergeDetail(E::ts("Deleting all but the oldest record for custom group '{$group_title}'"));
+        }
     }
 
     // so... let's delete all the others to allow for a merge to succeed with no conflicts
