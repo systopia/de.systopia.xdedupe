@@ -1,7 +1,7 @@
 <?php
 /*-------------------------------------------------------+
 | SYSTOPIA's Extended Deduper                            |
-| Copyright (C) 2019 SYSTOPIA                            |
+| Copyright (C) 2025 SYSTOPIA                            |
 | Author: B. Endres (endres@systopia.de)                 |
 | http://www.systopia.de/                                |
 +--------------------------------------------------------+
@@ -77,27 +77,21 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver
     }
 
     /**
-     * Get the contact's field values
+     * Get the contact's field value
      *
      * @param $contact_id integer contact ID
-     * @return array
+     * @return mixed
      */
-    protected function getValues($contact_id)
+    protected function getValue($contact_id)
     {
         $field_name = "custom_{$this->custom_field_id}";
-        $contact    = $this->getContext()->getContact($contact_id);
-        $values     = CRM_Utils_Array::value($field_name, $contact, []);
-        if ($values === '' || $values === null || $values === false) {
-            $values = [];
-        } elseif (!is_array($values)) {
-            $values = [$values];
-        }
-        sort($values);
-        return $values;
+        $contact = $this->getContext()->getContact($contact_id);
+//        Civi::log()->debug("Field name is {$field_name}, contact data is: " . json_encode($contact));
+        return CRM_Utils_Array::value($field_name, $contact, '');
     }
 
     /**
-     * Resolve the privacy conflicts by maintaining any opt-opt-outs
+     * Resolve simple custom field conflicts by maintaining the main contact's one
      *
      * @param $main_contact_id    int     the main contact ID
      * @param $other_contact_ids  array   other contact IDs
@@ -106,40 +100,40 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver
      */
     public function resolve($main_contact_id, $other_contact_ids)
     {
-        $main_contact_values     = $this->getValues($main_contact_id);
-        $new_main_contact_values = $main_contact_values;
+        // get the resolved value
+//        Civi::log()->debug("main_contact_id: {$main_contact_id}");
+//        Civi::log()->debug("other_contact_ids: " . json_encode($other_contact_ids));
+        $resolved_contact_value = $this->getValue($main_contact_id);
+        if ($resolved_contact_value) {
+            $merged_value_origin_contact_id = $this->getValue($main_contact_id);
+        }
         foreach ($other_contact_ids as $other_contact_id) {
-            $other_contact_values      = $this->getValues($other_contact_id);
-            $only_other_contact_values = array_diff($other_contact_values, $main_contact_values);
-            if ($only_other_contact_values) {
-                // there are values that are only set in the other contact
-                $new_main_contact_values = array_merge($new_main_contact_values, $only_other_contact_values);
-                $new_values              = implode(',', $only_other_contact_values);
-                $this->addMergeDetail(
-                    E::ts("Inherited value(s) '{$new_values}' from contact [%1]", [1 => $other_contact_id])
-                );
+            if (empty($resolved_contact_value)) {
+                $resolved_contact_value = $this->getValue($other_contact_id);
+                if (!empty($resolved_contact_value)) {
+                    $merged_value_origin_contact_id = $other_contact_id;
+                }
             }
         }
 
-        // now, perform the contact updates if necessary
-        sort($new_main_contact_values);
-        $all_contact_ids = array_merge($other_contact_ids, [$main_contact_id]);
-        $field_name      = "custom_{$this->custom_field_id}";
-        foreach ($all_contact_ids as $contact_id) {
-            $current_values = $this->getValues($contact_id);
-            if ($current_values != $new_main_contact_values) {
-                civicrm_api3(
-                    'Contact',
-                    'create',
-                    [
-                        'id'        => $contact_id,
-                        $field_name => $new_main_contact_values
-                    ]
-                );
-                $this->getContext()->unloadContact($contact_id);
-            }
+        // now copy the value to all contacts
+        if ($resolved_contact_value) {
+            $this->addMergeDetail(E::ts("Picked value(s) '{$resolved_contact_value}' from contact [%1]", [1 => $merged_value_origin_contact_id]));
+
         }
 
+        // now set the value for all contacts - first main
+        $field_name = "custom_{$this->custom_field_id}";
+        civicrm_api3('Contact', 'create',
+                ['id' => $main_contact_id, $field_name => $resolved_contact_value]);
+        $this->getContext()->unloadContact($main_contact_id);
+
+        // then all the others
+        foreach ($other_contact_ids as $other_contact_id) {
+            civicrm_api3('Contact', 'create',
+                    ['id' => $other_contact_id, $field_name => $resolved_contact_value]);
+            $this->getContext()->unloadContact($other_contact_id);
+        }
         return true;
     }
 
