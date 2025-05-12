@@ -59,7 +59,6 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver
         // $field_name = civicrm_api3('CustomField', 'getvalue', ['id' => $this->custom_field_id, 'return' => 'label']);
         $field_name = civicrm_api4('CustomField', 'get', [ 'select' => [ 'label','custom_group_id',], 'where' => [ [ 'id', '=', $this->custom_field_id ] , ], ]);
         $group_name = civicrm_api4('CustomGroup', 'get', [ 'select' => [ 'title',], 'where' => [ [ 'id', '=', $field_name[0]['custom_group_id'] ] , ], ]);
-        //\Civi::log('xdedupe')->debug('xdedupe: customfields {original}', ['original' => $group_name,]);
         return E::ts("'%1' Custom Field of Group '%2'", [1 => $field_name[0]['label'], 2 =>  $group_name[0]['title']]);
     }
 
@@ -86,7 +85,6 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver
     {
         $field_name = "custom_{$this->custom_field_id}";
         $contact = $this->getContext()->getContact($contact_id);
-//        Civi::log()->debug("Field name is {$field_name}, contact data is: " . json_encode($contact));
         return CRM_Utils_Array::value($field_name, $contact, '');
     }
 
@@ -101,8 +99,6 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver
     public function resolve($main_contact_id, $other_contact_ids)
     {
         // get the resolved value
-//        Civi::log()->debug("main_contact_id: {$main_contact_id}");
-//        Civi::log()->debug("other_contact_ids: " . json_encode($other_contact_ids));
         $resolved_contact_value = $this->getValue($main_contact_id);
         if ($resolved_contact_value) {
             $merged_value_origin_contact_id = $this->getValue($main_contact_id);
