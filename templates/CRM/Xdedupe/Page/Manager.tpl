@@ -68,25 +68,25 @@
                     {if $configuration.is_manual}
                         <a href="{crmURL p='civicrm/xdedupe/controlroom' q="cid=$config_id"}"
                            class="action-item crm-hover-button"
-                           title="{ts}Take the configuration to the control room{/ts}">{ts}Edit &amp; Run Manually{/ts}</a>
+                           title="{ts escape='htmlattribute'}Take the configuration to the control room{/ts}">{ts}Edit &amp; Run Manually{/ts}</a>
                     {else}
-                        <a class="action-item crm-hover-button disabled" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
+                        <a class="action-item crm-hover-button disabled" title="{ts escape='htmlattribute'}Disabled{/ts}">{ts}Disabled{/ts}</a>
                     {/if}
                 </td>
                 <td>
                     {if $configuration.is_automatic}
                         <a href="{crmURL p='civicrm/xdedupe/manage' q="run=$config_id"}"
                            class="action-item crm-hover-button"
-                           title="{ts}Execute fully automatic merge{/ts}">{ts}Run Unsupervised Merge{/ts}</a>
+                           title="{ts escape='htmlattribute'}Execute fully automatic merge{/ts}">{ts}Run Unsupervised Merge{/ts}</a>
                     {else}
-                        <a class="action-item crm-hover-button disabled" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
+                        <a class="action-item crm-hover-button disabled" title="{ts escape='htmlattribute'}Disabled{/ts}">{ts}Disabled{/ts}</a>
                     {/if}
                 </td>
                 <td>
                     {if $configuration.is_scheduled}
-                        <a class="action-item crm-hover-button" title="{ts}Scheduled{/ts}">{ts}Scheduled{/ts}</a>
+                        <a class="action-item crm-hover-button" title="{ts escape='htmlattribute'}Scheduled{/ts}">{ts}Scheduled{/ts}</a>
                     {else}
-                        <a class="action-item crm-hover-button disabled" title="{ts}Disabled{/ts}">{ts}Disabled{/ts}</a>
+                        <a class="action-item crm-hover-button disabled" title="{ts escape='htmlattribute'}Disabled{/ts}">{ts}Disabled{/ts}</a>
                     {/if}
                 </td>
                 <td>
@@ -113,46 +113,46 @@
             <li>
               <!-- EDIT LINK -->
               <a href="{crmURL p='civicrm/xdedupe/controlroom' q="cid=$config_id"}" class="action-item crm-hover-button"
-                 title="{ts}Edit (in control room){/ts}">{ts}Edit{/ts}</a>
+                 title="{ts escape='htmlattribute'}Edit (in control room){/ts}">{ts}Edit{/ts}</a>
                 <!-- ENABLE/DISABLE -->
               {if $configuration.is_manual}
                   <a href="{crmURL p='civicrm/xdedupe/manage' q="disable_manual=$config_id"}"
                      class="action-item crm-hover-button small-popup"
-                     title="{ts}Disable for manual execution{/ts}">{ts}Disable Manual{/ts}</a>
+                     title="{ts escape='htmlattribute'}Disable for manual execution{/ts}">{ts}Disable Manual{/ts}</a>
 
 {else}
 
                   <a href="{crmURL p='civicrm/xdedupe/manage' q="enable_manual=$config_id"}"
                      class="action-item crm-hover-button small-popup"
-                     title="{ts}Enable for manual execution{/ts}">{ts}Enable Manual{/ts}</a>
+                     title="{ts escape='htmlattribute'}Enable for manual execution{/ts}">{ts}Enable Manual{/ts}</a>
               {/if}
                 {if $configuration.is_automatic}
                     <a href="{crmURL p='civicrm/xdedupe/manage' q="disable_automatic=$config_id"}"
                        class="action-item crm-hover-button small-popup"
-                       title="{ts}Disable for automatic execution{/ts}">{ts}Disable Unsupervised{/ts}</a>
+                       title="{ts escape='htmlattribute'}Disable for automatic execution{/ts}">{ts}Disable Unsupervised{/ts}</a>
 
 {else}
 
                     <a href="{crmURL p='civicrm/xdedupe/manage' q="enable_automatic=$config_id"}"
                        class="action-item crm-hover-button small-popup"
-                       title="{ts}Enable for automatic execution{/ts}">{ts}Enable Unsupervised{/ts}</a>
+                       title="{ts escape='htmlattribute'}Enable for automatic execution{/ts}">{ts}Enable Unsupervised{/ts}</a>
                 {/if}
                 {if $configuration.is_scheduled}
                     <a href="{crmURL p='civicrm/xdedupe/manage' q="disable_scheduled=$config_id"}"
                        class="action-item crm-hover-button small-popup"
-                       title="{ts}Don't schedule for automatic execution{/ts}">{ts}Don't Schedule{/ts}</a>
+                       title="{ts escape='htmlattribute'}Don't schedule for automatic execution{/ts}">{ts}Don't Schedule{/ts}</a>
 
 {else}
 
                     <a href="{crmURL p='civicrm/xdedupe/manage' q="enable_scheduled=$config_id"}"
                        class="action-item crm-hover-button small-popup"
-                       title="{ts}Schedule for automatic execution{/ts}">{ts}Schedule{/ts}</a>
+                       title="{ts escape='htmlattribute'}Schedule for automatic execution{/ts}">{ts}Schedule{/ts}</a>
                 {/if}
 
               <!-- OTHER LIFECYCLE -->
               <a href="{crmURL p='civicrm/xdedupe/manage' q="delete=$config_id"}"
                  class="action-item crm-hover-button small-popup"
-                 title="{ts}Delete Configuration{/ts}">{ts}Delete{/ts}</a>
+                 title="{ts escape='htmlattribute'}Delete Configuration{/ts}">{ts}Delete{/ts}</a>
             </li>
           </ul>
         </span>
