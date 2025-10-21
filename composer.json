@@ -1,0 +1,6 @@
+{
+    "name": "systopia/de.systopia.xdedupe",
+    "description": "CiviCRM Extended Dedupe Tools",
+    "type": "civicrm-ext",
+    "license": "AGPL-3.0"
+}
