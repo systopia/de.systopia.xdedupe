@@ -79,7 +79,7 @@ function civicrm_api3_xdedupe_run($params)
     }
 
     $all_stats   = [];
-    $merge_limit = CRM_Utils_Array::value('merge_limit', $params);
+    $merge_limit = $params['merge_limit'] ?? NULL;
     foreach ($configs_to_run as $config_to_run) {
         try {
             $all_stats[] = $config_to_run->run($params, $merge_limit);
