@@ -72,7 +72,7 @@ function _civicrm_api3_xdedupe_merge_spec(&$spec)
  *
  * @param array $params see specs
  * @return array result merge result
- * @throws CiviCRM_API3_Exception
+ * @throws CRM_Core_Exception
  */
 function civicrm_api3_xdedupe_merge($params)
 {
@@ -94,7 +94,7 @@ function civicrm_api3_xdedupe_merge($params)
         $null = null;
         return civicrm_api3_create_success([], $params, 'Xdedupe', 'merge', $null, $result);
     } catch (Exception $ex) {
-        throw new CiviCRM_API3_Exception($ex->getMessage(), $ex->getCode());
+        throw new CRM_Core_Exception($ex->getMessage(), $ex->getCode());
     }
 }
 

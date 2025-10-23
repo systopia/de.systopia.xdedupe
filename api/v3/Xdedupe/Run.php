@@ -53,7 +53,7 @@ function _civicrm_api3_xdedupe_run_spec(&$spec)
  *
  * @param array $params see specs
  * @return array result merge result
- * @throws CiviCRM_API3_Exception
+ * @throws CRM_Core_Exception
  */
 function civicrm_api3_xdedupe_run($params)
 {
