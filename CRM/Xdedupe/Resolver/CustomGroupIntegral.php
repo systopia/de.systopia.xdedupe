@@ -138,7 +138,7 @@ class CRM_Xdedupe_Resolver_CustomGroupIntegral extends CRM_Xdedupe_Resolver {
         // if the main contact has a record, keep that one
         if ($existing_record_query->entity_id == $main_contact_id) {
             $prevailing_record_id = (int) $existing_record_query->id;
-            $this->addMergeDetail(E::ts("Deleting all but the head's record for custom group '{$group_title}'"));
+            $this->addMergeDetail(E::ts("Deleting all but the head's record for custom group '%1'", [1 => $group_title]));
         }
     }
 
@@ -146,7 +146,7 @@ class CRM_Xdedupe_Resolver_CustomGroupIntegral extends CRM_Xdedupe_Resolver {
     if (empty($prevailing_record_id)) {
         if (count($existing_records) > 1) {
             $prevailing_record_id = (int) min(array_keys($existing_records));
-            $this->addMergeDetail(E::ts("Deleting all but the oldest record for custom group '{$group_title}'"));
+            $this->addMergeDetail(E::ts("Deleting all but the oldest record for custom group '%1'", [1 => $group_title]));
         }
     }
 
