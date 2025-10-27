@@ -211,7 +211,7 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
      * @param $contact_ids array  contact IDs
      *
      * @return TRUE if a change was performed
-     * @throws CiviCRM_API3_Exception
+     * @throws CRM_Core_Exception
      */
     protected function unsetValueForContacts($contact_ids)
     {
