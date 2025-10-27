@@ -81,7 +81,7 @@ abstract class CRM_Xdedupe_Resolver_AttributeCleanup extends CRM_Xdedupe_Resolve
         $contact_ids = array_merge([$main_contact_id], $other_contact_ids);
         foreach ($contact_ids as $contact_id) {
             $contact   = $this->getContext()->getContact($contact_id);
-            $new_value = $old_value = CRM_Utils_Array::value($this->attribute_name, $contact);
+            $new_value = $old_value = $contact[$this->attribute_name] ?? NULL;
             foreach ($this->regular_expressions as $search_replace) {
                 $new_value = preg_replace($search_replace[0], $search_replace[1], $new_value);
             }

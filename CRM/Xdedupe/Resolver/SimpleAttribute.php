@@ -186,7 +186,7 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
         $values = [];
         foreach ($contact_ids as $contact_id) {
             $contact = $this->getContext()->getContact($contact_id);
-            $value   = CRM_Utils_Array::value($this->attribute_name, $contact);
+            $value   = $contact[$this->attribute_name] ?? NULL;
             if (!$this->isValueEmpty($value)) {
                 $values[$value][] = $contact_id;
             }

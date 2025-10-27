@@ -728,7 +728,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
         // join picker fields
         $values['main_contact'] = [];
         foreach (range(1, self::PICKER_COUNT) as $i) {
-            $picker = CRM_Utils_Array::value("main_contact_{$i}", $values);
+            $picker = $values["main_contact_{$i}"] ?? NULL;
             if ($picker) {
                 $values['main_contact'][] = $picker;
             }
@@ -784,7 +784,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form
         // compare other
         $config = $configuration->getConfig();
         foreach ($config as $key => $stored_value) {
-            $current_value = CRM_Utils_Array::value($key, $current_values);
+            $current_value = $current_values[$key] ?? NULL;
             if (json_encode($current_value) != json_encode($stored_value)) {
                 return true;
             }

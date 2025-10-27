@@ -103,8 +103,8 @@ abstract class CRM_Xdedupe_Resolver_DetailMover extends CRM_Xdedupe_Resolver
     {
         $attributes = $this->getFieldList();
         foreach ($attributes as $attribute) {
-            $value1 = CRM_Utils_Array::value($attribute, $detail1);
-            $value2 = CRM_Utils_Array::value($attribute, $detail2);
+            $value1 = $detail1[$attribute] ?? NULL;
+            $value2 = $detail2[$attribute] ?? NULL;
             if ($value1 != $value2) {
                 return false;
             }

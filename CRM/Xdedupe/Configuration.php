@@ -55,7 +55,7 @@ class CRM_Xdedupe_Configuration
 
         // main attributes go into $this->attributes
         foreach (self::$main_attributes as $attribute_name => $attribute_type) {
-            $this->attributes[$attribute_name] = CRM_Utils_Array::value($attribute_name, $data);
+            $this->attributes[$attribute_name] = $data[$attribute_name] ?? NULL;
         }
 
         // extract the stats
@@ -315,7 +315,7 @@ class CRM_Xdedupe_Configuration
      */
     public function getAttribute($attribute_name)
     {
-        return CRM_Utils_Array::value($attribute_name, $this->attributes);
+        return $this->attributes[$attribute_name] ?? NULL;
     }
 
     /**
