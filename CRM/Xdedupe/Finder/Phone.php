@@ -14,49 +14,46 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
-use CRM_Xdedupe_ExtensionUtil as E;
+declare(strict_types = 1);
 
 /**
  * Implement a "Finder" based on the phone number
  */
-abstract class CRM_Xdedupe_Finder_Phone extends CRM_Xdedupe_Finder
-{
+// phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
+abstract class CRM_Xdedupe_Finder_Phone extends CRM_Xdedupe_Finder {
+// phpcs:enable
+  protected $column_name = [];
 
-    protected $column_name = [];
+  public function __construct($alias, $params, $column_name) {
+    parent::__construct($alias, $params);
+    $this->column_name = $column_name;
+  }
 
-    public function __construct($alias, $params, $column_name)
-    {
-        parent::__construct($alias, $params);
-        $this->column_name = $column_name;
-    }
+  /**
+   * Add this finder's JOIN clauses to the list
+   *
+   * @param $joins array
+   */
+  public function addJOINS(&$joins): void {
+    $joins[] = "LEFT JOIN civicrm_phone $this->alias ON $this->alias.contact_id = contact.id";
+  }
 
-    /**
-     * Add this finder's JOIN clauses to the list
-     *
-     * @param $joins array
-     */
-    public function addJOINS(&$joins)
-    {
-        $joins[] = "LEFT JOIN civicrm_phone {$this->alias} ON {$this->alias}.contact_id = contact.id";
-    }
+  /**
+   * Add this finder's GROUP BY clauses to the list
+   *
+   * @param $groupbys array
+   */
+  public function addGROUPBYS(&$groupbys): void {
+    $groupbys[] = "$this->alias.$this->column_name";
+  }
 
-    /**
-     * Add this finder's GROUP BY clauses to the list
-     *
-     * @param $groupbys array
-     */
-    public function addGROUPBYS(&$groupbys)
-    {
-        $groupbys[] = "{$this->alias}.{$this->column_name}";
-    }
+  /**
+   * Add this finder's WHERE clauses to the list
+   *
+   * @param $wheres array
+   */
+  public function addWHERES(&$wheres): void {
+    $wheres[] = "$this->alias.id IS NOT NULL";
+  }
 
-    /**
-     * Add this finder's WHERE clauses to the list
-     *
-     * @param $wheres array
-     */
-    public function addWHERES(&$wheres)
-    {
-        $wheres[] = "{$this->alias}.id IS NOT NULL";
-    }
 }

@@ -14,55 +14,56 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
-use CRM_Xdedupe_ExtensionUtil as E;
+declare(strict_types = 1);
 
 /**
  * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
  */
-abstract class CRM_Xdedupe_Finder extends CRM_Xdedupe_QueryPlugin
-{
-    /**
-     * Get a list of all available finder classes
-     *
-     * @return array list of class names
-     */
-    public static function getFinders()
-    {
-        $finder_list = [];
-        \Civi::dispatcher()->dispatch(
-            'civi.xdedupe.finders',
-            \Civi\Core\Event\GenericHookEvent::create(['list' => &$finder_list])
-        );
-        return $finder_list;
-    }
+// phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
+abstract class CRM_Xdedupe_Finder extends CRM_Xdedupe_QueryPlugin {
+// phpcs:enable
 
-    /**
-     * Get a list of all available finder classes
-     *
-     * @return array class => name
-     */
-    public static function getFinderList()
-    {
-        $finder_list      = [];
-        $finder_instances = self::getFinderInstances();
-        foreach ($finder_instances as $finder) {
-            $finder_list[get_class($finder)] = $finder->getName();
-        }
-        return $finder_list;
-    }
+  /**
+   * Get a list of all available finder classes
+   *
+   * @return array list of class names
+   */
+  public static function getFinders() {
+    $finder_list = [];
+    \Civi::dispatcher()->dispatch(
+        'civi.xdedupe.finders',
+        \Civi\Core\Event\GenericHookEvent::create(['list' => &$finder_list])
+    );
+    return $finder_list;
+  }
 
-    /**
-     * Get an instance of each finder
-     */
-    public static function getFinderInstances()
-    {
-        $finder_list    = [];
-        $finder_classes = self::getFinders();
-        foreach ($finder_classes as $finder_class) {
-            if (class_exists($finder_class)) {
-                $finder_list[] = new $finder_class(null, null); // dirty, i know...
-            }
-        }
-        return $finder_list;
+  /**
+   * Get a list of all available finder classes
+   *
+   * @return array class => name
+   */
+  public static function getFinderList(): array {
+    $finder_list      = [];
+    $finder_instances = self::getFinderInstances();
+    foreach ($finder_instances as $finder) {
+      $finder_list[get_class($finder)] = $finder->getName();
     }
+    return $finder_list;
+  }
+
+  /**
+   * Get an instance of each finder
+   */
+  public static function getFinderInstances(): array {
+    $finder_list    = [];
+    $finder_classes = self::getFinders();
+    foreach ($finder_classes as $finder_class) {
+      if (class_exists($finder_class)) {
+        // dirty, i know...
+        $finder_list[] = new $finder_class(NULL, NULL);
+      }
+    }
+    return $finder_list;
+  }
+
 }

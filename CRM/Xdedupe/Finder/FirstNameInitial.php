@@ -14,59 +14,56 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Find people by first name
  */
-class CRM_Xdedupe_Finder_FirstNameInitial extends CRM_Xdedupe_Finder
-{
+class CRM_Xdedupe_Finder_FirstNameInitial extends CRM_Xdedupe_Finder {
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Identical First Name Initial");
-    }
+  /**
+   * get the name of the finder
+   * @return string name
+   */
+  public function getName(): string {
+    return E::ts('Identical First Name Initial');
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Looks for identical first name initial");
-    }
+  /**
+   * get an explanation what the finder does
+   * @return string name
+   */
+  public function getHelp(): string {
+    return E::ts('Looks for identical first name initial');
+  }
 
-    /**
-     * Add this finder's JOIN clauses to the list
-     *
-     * @param $joins array
-     */
-    public function addJOINS(&$joins)
-    {
-    }
+  /**
+   * Add this finder's JOIN clauses to the list
+   *
+   * @param $joins array
+   */
+  public function addJOINS(&$joins): void {
+  }
 
-    /**
-     * Add this finder's GROUP BY clauses to the list
-     *
-     * @param $groupbys array
-     */
-    public function addGROUPBYS(&$groupbys)
-    {
-        $groupbys[] = "SUBSTRING(contact.first_name, 1, 1)";
-    }
+  /**
+   * Add this finder's GROUP BY clauses to the list
+   *
+   * @param $groupbys array
+   */
+  public function addGROUPBYS(&$groupbys): void {
+    $groupbys[] = 'SUBSTRING(contact.first_name, 1, 1)';
+  }
 
-    /**
-     * Add this finder's WHERE clauses to the list
-     *
-     * @param $wheres array
-     */
-    public function addWHERES(&$wheres)
-    {
-        $wheres[] = "contact.first_name IS NOT NULL";
-        $wheres[] = "CHAR_LENGTH(contact.first_name) > 0";
-    }
+  /**
+   * Add this finder's WHERE clauses to the list
+   *
+   * @param $wheres array
+   */
+  public function addWHERES(&$wheres): void {
+    $wheres[] = 'contact.first_name IS NOT NULL';
+    $wheres[] = 'CHAR_LENGTH(contact.first_name) > 0';
+  }
+
 }

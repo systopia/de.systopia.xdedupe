@@ -1,0 +1,3934 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot access offset ''id'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Config.php
+
+		-
+			message: '#^Cannot access offset ''values'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Config.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Config.php
+
+		-
+			message: '#^In method "CRM_Xdedupe_Config\:\:getMergeActivityTypeID", caught "Exception" must be rethrown\. Either catch a more specific exception, add a "throw" clause in the "catch" block to propagate the exception or add a "// @ignoreException" comment\.$#'
+			count: 1
+			path: CRM/Xdedupe/Config.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Config\:\:getConflictLocationTypeID\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Config.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Config\:\:resolveLocationType\(\) has parameter \$location_type_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Config.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$config\.$#'
+			identifier: property.notFound
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$last_run\.$#'
+			identifier: property.notFound
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Call to an undefined method object\:\:fetch\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Class CRM_Core_DAO referenced with incorrect case\: CRM_CORE_DAO\.$#'
+			identifier: class.nameCase
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 6
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Do not throw the \\Exception base class\.$#'
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 2
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:__construct\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:getAll\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:getAllScheduled\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:getConfig\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:getConfigurations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:getID\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:getStats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:run\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:run\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:setAttribute\(\) has parameter \$attribute_name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:setAttribute\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:setAttribute\(\) has parameter \$writeTrough with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:setConfig\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:setConfig\(\) has parameter \$config with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:setStats\(\) has parameter \$stats with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Configuration\:\:store\(\) should return int but returns string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, int\|null given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Configuration\:\:\$attributes has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Configuration\:\:\$config has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Configuration\:\:\$configuration_id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Configuration\:\:\$main_attributes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Configuration\:\:\$stats has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Variable property access on object\.$#'
+			identifier: property.dynamicName
+			count: 1
+			path: CRM/Xdedupe/Configuration.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$TABLE_NAME\.$#'
+			identifier: property.notFound
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$contact_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$contact_ids\.$#'
+			identifier: property.notFound
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Call to an undefined method object\:\:fetch\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '''
+				#^Call to deprecated method debug_log_message\(\) of class CRM_Core_Error\:
+				see https\://docs\.civicrm\.org/dev/en/latest/framework/logging/
+
+				Use \(e\.g\) `Civi\:\:log\(\)\-\>error\(\)` \(priority dependent\)\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Call to function array_search\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Constant CIVICRM_DSN not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 3
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:__construct\(\) has parameter \$identifier with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:addFilter\(\) has parameter \$filter_class with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:addFilter\(\) has parameter \$parameters with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:addFinder\(\) has parameter \$finder_class with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:addFinder\(\) has parameter \$parameters with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:find\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:getTuples\(\) has parameter \$count with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:getTuples\(\) has parameter \$offset with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:getTuples\(\) has parameter \$pickers with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:getTuples\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:removeTuple\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:setContactsMerged\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:setContactsMerged\(\) has parameter \$merged_count with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:updateTuple\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_DedupeRun\:\:updateTuple\(\) has parameter \$new_tuple with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, int\|false given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Property CRM_Xdedupe_DedupeRun\:\:\$filters has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Property CRM_Xdedupe_DedupeRun\:\:\$finders has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Property CRM_Xdedupe_DedupeRun\:\:\$identifier has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Variable \$GROUP_BYS in empty\(\) always exists and is always falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Variable \$WHERES in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: CRM/Xdedupe/DedupeRun.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter\:\:getFilterInstances\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Filter.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter\:\:getFilterList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Filter.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter\:\:getFilters\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Filter.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter\:\:purgeResults\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Filter.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter\:\:purgeResults\(\) has parameter \$run with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_DedupeException\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/DedupeException.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_DedupeException\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/DedupeException.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_DisplayNameEightySimilarity\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/DisplayNameEightySimilarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_DisplayNameEightySimilarity\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/DisplayNameEightySimilarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_DisplayNameNinetyFiveSimilarity\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/DisplayNameNinetyFiveSimilarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_DisplayNameNinetyFiveSimilarity\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/DisplayNameNinetyFiveSimilarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Group\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Group.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Group\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Group.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Group\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Group.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Group\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Group.php
+
+		-
+			message: '#^Only booleans are allowed in a ternary operator condition, string\|null given\.$#'
+			identifier: ternary.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Filter/Group.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, string\|null given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Filter/Group.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Filter_Group\:\:\$group_id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Filter/Group.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 2
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Cannot access offset ''values'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^If_\: Use a function e\.g\. `count\(\$foo\) \> 0` instead of `\$foo`\.$#'
+			identifier: voku.If
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 2
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:buildSimilarityMatrix\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:buildSimilarityMatrix\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:cacheDataForContacts\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:cacheDataForContacts\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getBestTuple\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getBestTuple\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getBestTuple\(\) has parameter \$matrix with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) has parameter \$cache with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) has parameter \$matrix with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) has parameter \$size with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:purgeResults\(\) has parameter \$run with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:rateTuple\(\) has parameter \$matrix with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:rateTuple\(\) has parameter \$tuple with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:similarity\(\) has parameter \$contact_id_a with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:similarity\(\) has parameter \$contact_id_b with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, array given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, int\<0, max\> given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Parameter \#1 \$str1 of function levenshtein expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strlen expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Parameter \#2 \$str2 of function levenshtein expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Filter_Similarity\:\:\$attributes has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Filter_Similarity\:\:\$batch_size has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Filter_Similarity\:\:\$data_cache has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Filter_Similarity\:\:\$threshold has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Filter/Similarity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Tag\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Tag.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Tag\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Tag.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Tag\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Tag.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_Tag\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/Tag.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Filter_Tag\:\:\$tag_id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Filter/Tag.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_UserAccounts\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/UserAccounts.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Filter_UserAccounts\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Filter/UserAccounts.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder\:\:getFinderInstances\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Finder.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder\:\:getFinderList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Finder.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder\:\:getFinders\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Finder.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Address\:\:__construct\(\) has parameter \$address_fields with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Address.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Address\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Address.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Address\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Address.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Address\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Address.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Address\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Address.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Address\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Address.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Finder_Address\:\:\$address_fields has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Finder/Address.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_BirthDate\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/BirthDate.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_BirthDate\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/BirthDate.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_BirthDate\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/BirthDate.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_City\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/City.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_City\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/City.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Email\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Email.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Email\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Email.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Email\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Email.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_FirstName\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/FirstName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_FirstName\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/FirstName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_FirstName\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/FirstName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_FirstNameInitial\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/FirstNameInitial.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_FirstNameInitial\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/FirstNameInitial.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_FirstNameInitial\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/FirstNameInitial.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_LastName\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/LastName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_LastName\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/LastName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_LastName\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/LastName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_OrganizationName\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/OrganizationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_OrganizationName\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/OrganizationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_OrganizationName\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/OrganizationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_OrganizationNameNoCase\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/OrganizationNameNoCase.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PartialOrganizationName\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PartialOrganizationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PartialOrganizationName\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PartialOrganizationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PartialOrganizationName\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PartialOrganizationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Phone\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Phone.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Phone\:\:__construct\(\) has parameter \$column_name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Phone.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Phone\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Phone.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Phone\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Phone.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Phone\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Phone.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Phone\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Phone.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Finder_Phone\:\:\$column_name has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Finder/Phone.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PhoneLiteral\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PhoneLiteral.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PhoneLiteral\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PhoneLiteral.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PhoneNumeric\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PhoneNumeric.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PhoneNumeric\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PhoneNumeric.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PostalCode\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PostalCode.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PostalCode\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PostalCode.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PostalCodeCity\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PostalCodeCity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PostalCodeCity\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PostalCodeCity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PostalCodeStreet\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PostalCodeStreet.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PostalCodeStreet\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PostalCodeStreet.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PostalCodeStreetCity\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PostalCodeStreetCity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_PostalCodeStreetCity\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/PostalCodeStreetCity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Prefix\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Prefix.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Prefix\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Prefix.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_Prefix\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/Prefix.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedAddress.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedAddress.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_SanitisedAddress\:\:__construct\(\) has parameter \$address_fields with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedAddress.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_SanitisedAddress\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedAddress.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_SanitisedAddress\:\:__construct\(\) has parameter \$filter_strings with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedAddress.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_SanitisedAddress\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedAddress.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_SanitisedAddress\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedAddress.php
+
+		-
+			message: '#^Part \$filter_character \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedAddress.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Finder_SanitisedAddress\:\:\$filter_strings type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedAddress.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_SanitisedPostalCodeStreet\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedPostalCodeStreet.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_SanitisedPostalCodeStreet\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedPostalCodeStreet.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_SanitisedPostalCodeStreetCity\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedPostalCodeStreetCity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_SanitisedPostalCodeStreetCity\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/SanitisedPostalCodeStreetCity.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_StreetAddress\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/StreetAddress.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Finder_StreetAddress\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Finder/StreetAddress.php
+
+		-
+			message: '''
+				#^Call to deprecated method output\(\) of class CRM_Utils_JSON\:
+				\- use CRM_Utils_System\:\:sendJSONResponse$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 6
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Cannot access offset ''_qf_ControlRoom_find''\|''_qf_default''\|''entryURL''\|''qfKey'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Cannot access offset ''cid'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Cannot access offset ''description'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Cannot access offset ''main_contact_1''\|''main_contact_10''\|''main_contact_2''\|''main_contact_3''\|''main_contact_4''\|''main_contact_5''\|''main_contact_6''\|''main_contact_7''\|''main_contact_8''\|''main_contact_9'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Cannot access offset ''name'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Cannot access offset ''values'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 3
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Cannot call method getBagByContact\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 12
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Do not throw the \\Exception base class\.$#'
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^In method "CRM_Xdedupe_Form_ControlRoom\:\:configChanged", you should not use the \$_GET superglobal\. You should instead rely on your framework that provides you with a "request" object \(for instance a PSR\-7 RequestInterface or a Symfony Request\)\. More info\: http\://bit\.ly/nosuperglobals$#'
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 3
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 3
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:buildQuickForm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:configChanged\(\) has parameter \$configuration with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:getContactImage\(\) has parameter \$contact with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:getContactTypeOptions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:getGroups\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:getTags\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:getTupleRowsAJAX\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:handle\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:handle\(\) has parameter \$actionName with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:postProcess\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:prepareSubmissionData\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:prepareSubmissionData\(\) has parameter \$values with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Only booleans are allowed in a negated boolean, mixed given\.$#'
+			identifier: booleanNot.exprNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, CRM_Xdedupe_Configuration\|null given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, int\|string\|null given\.$#'
+			identifier: if.condNotBoolean
+			count: 2
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, mixed given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Parameter \#1 \$defaultValues of method HTML_QuickForm\:\:setDefaults\(\) expects array\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Parameter \#1 \$key of static method CRM_Utils_Array\:\:value\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Parameter \#1 \$string of function substr expects string, int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Parameter \#2 \$list of static method CRM_Utils_Array\:\:value\(\) expects array\|ArrayAccess, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Part \$dedupe_run \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Form_ControlRoom\:\:\$cid has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Form_ControlRoom\:\:\$cr_command has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Form_ControlRoom\:\:\$null has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Form_ControlRoom\:\:\$offset has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Form/ControlRoom.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Binary operation "\+" between mixed and 1 results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '''
+				#^Call to deprecated method debug_log_message\(\) of class CRM_Core_Error\:
+				see https\://docs\.civicrm\.org/dev/en/latest/framework/logging/
+
+				Use \(e\.g\) `Civi\:\:log\(\)\-\>error\(\)` \(priority dependent\)\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 2
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Cannot access offset ''values'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 4
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 11
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Do not throw the \\Exception base class\.$#'
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^In method "CRM_Xdedupe_Merge\:\:merge", caught "Exception" must be rethrown\. Either catch a more specific exception, add a "throw" clause in the "catch" block to propagate the exception or add a "// @ignoreException" comment\.$#'
+			count: 2
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 2
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:addMergeDetail\(\) has parameter \$information with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:createMergeDetailNote\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:createMergeDetailNote\(\) has parameter \$subject with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:getContact\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:getContact\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:getLastMergeActivityID\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:getLastMergeActivityID\(\) should return int\|null but returns string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:getMergeDetails\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:getMergeDetails\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:getStats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:loadContacts\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:loadContacts\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:log\(\) has parameter \$message with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:merge\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:merge\(\) has parameter \$other_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:merge\(\) has parameter \$part_of_tuple with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:multiMerge\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:multiMerge\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:unloadContact\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Merge\:\:updateMergeActivity\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Only booleans are allowed in a negated boolean, int given\.$#'
+			identifier: booleanNot.exprNotBoolean
+			count: 2
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Only booleans are allowed in a negated boolean, int\|null given\.$#'
+			identifier: booleanNot.exprNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Only booleans are allowed in an elseif condition, int\<0, max\> given\.$#'
+			identifier: elseif.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, CRM_Xdedupe_Resolver\|null given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, int\<0, max\> given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, int\|true given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^PHPDoc tag @var has invalid value \(\$resolver CRM_Xdedupe_Resolver\)\: Unexpected token "\$resolver", expected type at offset 9 on line 1$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Merge\:\:\$_contact_cache has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Merge\:\:\$force_merge has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Merge\:\:\$merge_details has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Merge\:\:\$merge_log has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Merge\:\:\$merge_log_handle has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Merge\:\:\$required_contact_attributes has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Merge\:\:\$resolvers has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Merge\:\:\$stats has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Merge.php
+
+		-
+			message: '#^Cannot call method getStats\(\) on CRM_Xdedupe_Configuration\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Cannot call method setStats\(\) on CRM_Xdedupe_Configuration\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Method CRM_Xdedupe_MergeJob\:\:__construct\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Method CRM_Xdedupe_MergeJob\:\:__construct\(\) has parameter \$tuples with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Method CRM_Xdedupe_MergeJob\:\:launchMergeRunner\(\) has parameter \$dedupe_run_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Method CRM_Xdedupe_MergeJob\:\:launchMergeRunner\(\) has parameter \$onEndUrl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Method CRM_Xdedupe_MergeJob\:\:launchMergeRunner\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Method CRM_Xdedupe_MergeJob\:\:run\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Only numeric types are allowed in \+, int\|null given on the left side\.$#'
+			identifier: plus.leftNonNumeric
+			count: 2
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Property CRM_Xdedupe_MergeJob\:\:\$dedupe_run_id has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Property CRM_Xdedupe_MergeJob\:\:\$mode has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Property CRM_Xdedupe_MergeJob\:\:\$params has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Property CRM_Xdedupe_MergeJob\:\:\$title has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '#^Property CRM_Xdedupe_MergeJob\:\:\$tuples has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/MergeJob.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Cannot call method find\(\) on CRM_Xdedupe_Configuration\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Cannot call method getConfig\(\) on CRM_Xdedupe_Configuration\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Cannot call method getID\(\) on CRM_Xdedupe_Configuration\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Cannot call method setAttribute\(\) on CRM_Xdedupe_Configuration\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Cannot call method setStats\(\) on CRM_Xdedupe_Configuration\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Cannot call method store\(\) on CRM_Xdedupe_Configuration\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 7
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Page_Manager\:\:renderConfiguration\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Page_Manager\:\:renderDate\(\) has parameter \$string with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Page_Manager\:\:renderStats\(\) has parameter \$stats with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Only booleans are allowed in a negated boolean, mixed given\.$#'
+			identifier: booleanNot.exprNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, mixed given\.$#'
+			identifier: if.condNotBoolean
+			count: 5
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Parameter \#1 \$cid of static method CRM_Xdedupe_Configuration\:\:delete\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Parameter \#1 \$cid of static method CRM_Xdedupe_Configuration\:\:get\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Parameter \#1 \$configuration of method CRM_Xdedupe_Page_Manager\:\:renderConfiguration\(\) expects CRM_Xdedupe_Configuration, CRM_Xdedupe_Configuration\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strlen expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Parameter \#1 \$string of function substr expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Page/Manager.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Page_ModuleList\:\:assignModules\(\) has parameter \$modules with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Page/ModuleList.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Page_ModuleList\:\:assignModules\(\) has parameter \$variable with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Page/ModuleList.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Picker.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker\:\:getPickerInstances\(\) has parameter \$picker_classes with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Picker.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker\:\:getPickerInstances\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Picker.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker\:\:getPickerList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Picker.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker\:\:getPickers\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Picker.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker\:\:selectMainContact\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Picker.php
+
+		-
+			message: '#^Parameter \#2 \$title of static method CRM_Core_Session\:\:setStatus\(\) expects string, array\<int, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: CRM/Xdedupe/Picker.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker_AIVLPersonalActivities\:\:selectMainContact\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Picker/AIVLPersonalActivities.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Picker_AIVLPersonalActivities\:\:\$exclude_names type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Picker/AIVLPersonalActivities.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$activity_count\.$#'
+			identifier: property.notFound
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$contact_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Call to an undefined method object\:\:fetch\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Cannot access offset ''values'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 7
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker_Activities\:\:resolveActivityTypes\(\) has parameter \$activity_type_names with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker_Activities\:\:resolveActivityTypes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker_Activities\:\:selectMainContact\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Picker_Activities\:\:\$exclude_activity_ids has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Picker_Activities\:\:\$include_activity_ids has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Picker_Activities\:\:\$maximum_activity_date has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Picker_Activities\:\:\$minimum_activity_date has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Picker/Activities.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker_Oldest\:\:selectMainContact\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Picker/Oldest.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker_PersonalActivities\:\:selectMainContact\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Picker/PersonalActivities.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Picker_PersonalActivities\:\:\$exclude_names type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Picker/PersonalActivities.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Picker_Youngest\:\:selectMainContact\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Picker/Youngest.php
+
+		-
+			message: '#^Method CRM_Xdedupe_QueryPlugin\:\:__construct\(\) has parameter \$alias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/QueryPlugin.php
+
+		-
+			message: '#^Method CRM_Xdedupe_QueryPlugin\:\:__construct\(\) has parameter \$params with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/QueryPlugin.php
+
+		-
+			message: '#^Method CRM_Xdedupe_QueryPlugin\:\:addGROUPBYS\(\) has parameter \$groupbys with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/QueryPlugin.php
+
+		-
+			message: '#^Method CRM_Xdedupe_QueryPlugin\:\:addJOINS\(\) has parameter \$joins with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/QueryPlugin.php
+
+		-
+			message: '#^Method CRM_Xdedupe_QueryPlugin\:\:addWHERES\(\) has parameter \$wheres with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/QueryPlugin.php
+
+		-
+			message: '#^Property CRM_Xdedupe_QueryPlugin\:\:\$alias has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/QueryPlugin.php
+
+		-
+			message: '#^Property CRM_Xdedupe_QueryPlugin\:\:\$params has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/QueryPlugin.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:addMergeDetail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:addMergeDetail\(\) has parameter \$information with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:getContactAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:getResolverInstance\(\) has parameter \$resolver_spec with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:getResolverInstance\(\) should return CRM_Xdedupe_Resolver\|null but returns object\.$#'
+			identifier: return.type
+			count: 2
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:getResolverInstances\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:getResolverList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:getResolvers\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:postProcess\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:postProcess\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, CRM_Xdedupe_Resolver\|null given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, string\|false given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^PHPDoc tag @var has invalid value \(\$merge CRM_Xdedupe_Merge\)\: Unexpected token "\$merge", expected type at offset 14 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Resolver\:\:\$merge has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Resolver.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$addressee_custom\.$#'
+			identifier: property.notFound
+			count: 1
+			path: CRM/Xdedupe/Resolver/Addressee.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$addressee_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: CRM/Xdedupe/Resolver/Addressee.php
+
+		-
+			message: '#^Call to an undefined method object\:\:fetch\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: CRM/Xdedupe/Resolver/Addressee.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Addressee\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Addressee.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Addressee\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Addressee.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/AttributeCleanup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_AttributeCleanup\:\:__construct\(\) has parameter \$attribute_name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/AttributeCleanup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_AttributeCleanup\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/AttributeCleanup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_AttributeCleanup\:\:getContactAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/AttributeCleanup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_AttributeCleanup\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/AttributeCleanup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_AttributeCleanup\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/AttributeCleanup.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Resolver_AttributeCleanup\:\:\$regular_expressions type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/AttributeCleanup.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 2
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Cannot access offset ''values'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 2
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_BumpAddressConflicts\:\:addressEquals\(\) has parameter \$address1 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_BumpAddressConflicts\:\:addressEquals\(\) has parameter \$address2 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_BumpAddressConflicts\:\:containsConflictAddress\(\) has parameter \$addresses with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_BumpAddressConflicts\:\:getContactAddresses\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_BumpAddressConflicts\:\:getContactAddresses\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_BumpAddressConflicts\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_BumpAddressConflicts\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Resolver_BumpAddressConflicts\:\:\$relevant_address_fields type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CityCleanup\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CityCleanup.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Cannot access offset ''custom_group_id'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Cannot access offset ''id'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Cannot access offset ''label'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Cannot access offset ''title'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 3
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomField\:\:__construct\(\) has parameter \$custom_field_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomField\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomField\:\:addAllResolvers\(\) has parameter \$list with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomField\:\:getContactAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomField\:\:getValue\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomField\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomField\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, mixed given\.$#'
+			identifier: if.condNotBoolean
+			count: 2
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Part \$custom_field\[''id''\] \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Part \$resolved_contact_value \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomField.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''\.\*'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Call to function array_search\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Cannot access offset ''id'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Cannot access offset ''label'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Cannot access offset ''name'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Cannot access offset ''title'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByField\:\:__construct\(\) has parameter \$custom_group_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByField\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByField\:\:addAllResolvers\(\) has parameter \$list with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByField\:\:getContactAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByField\:\:getValues\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByField\:\:getValues\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByField\:\:getValues\(\) should return array but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByField\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByField\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Part \$custom_group\[''id''\] \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByField.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''\.\*'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Cannot access offset ''id'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Cannot access offset ''name'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Cannot access offset ''title'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Comparison operation "\>" between 0 and 0 is always false\.$#'
+			identifier: greater.alwaysFalse
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Function impode not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByGroup\:\:__construct\(\) has parameter \$custom_group_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByGroup\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByGroup\:\:addAllResolvers\(\) has parameter \$list with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByGroup\:\:getContactAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByGroup\:\:getValues\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByGroup\:\:getValues\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByGroup\:\:joinArray\(\) has parameter \$customGroupFields with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByGroup\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupByGroup\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Part \$custom_group\[''id''\] \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$entity_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Call to an undefined method object\:\:fetch\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Cannot access offset ''id'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupIntegral\:\:getCustomGroupData\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupIntegral\:\:getCustomGroupData\(\) should return array but returns array\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupIntegral\:\:getTableName\(\) with return type void returns mixed but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupIntegral\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_CustomGroupIntegral\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Part \$custom_group\[''id''\] \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Resolver_CustomGroupIntegral\:\:\$custom_group_data type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Result of method CRM_Xdedupe_Resolver_CustomGroupIntegral\:\:getTableName\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 1
+			path: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+
+		-
+			message: '#^Cannot access offset ''values'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:deleteDetail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:deleteDetail\(\) has parameter \$detail with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:detailsEqual\(\) has parameter \$detail1 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:detailsEqual\(\) has parameter \$detail2 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:getDetails\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:getDetails\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:getFieldList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:getOneLiner\(\) has parameter \$detail with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:isDetailPresent\(\) has parameter \$detail with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:isDetailPresent\(\) has parameter \$main_details with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:moveDetail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:moveDetail\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:moveDetail\(\) has parameter \$detail with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DetailMover\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DetailMover.php
+
+		-
+			message: '#^Cannot access offset ''values'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/DropSamePhones.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/DropSamePhones.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DropSamePhones\:\:getContactPhones\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DropSamePhones.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DropSamePhones\:\:getContactPhones\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/DropSamePhones.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DropSamePhones\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DropSamePhones.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_DropSamePhones\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/DropSamePhones.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/EmailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_EmailMover\:\:detailsEqual\(\) has parameter \$detail1 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/EmailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_EmailMover\:\:detailsEqual\(\) has parameter \$detail2 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/EmailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_EmailMover\:\:getFieldList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/EmailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_EmailMover\:\:getOneLiner\(\) has parameter \$detail with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/EmailMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_ExternalIdentifier\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/ExternalIdentifier.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_FirstNameCleanup\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/FirstNameCleanup.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 2
+			path: CRM/Xdedupe/Resolver/IMMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_IMMover\:\:detailsEqual\(\) has parameter \$detail1 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/IMMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_IMMover\:\:detailsEqual\(\) has parameter \$detail2 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/IMMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_IMMover\:\:getFieldList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/IMMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_IMMover\:\:getOneLiner\(\) has parameter \$detail with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/IMMover.php
+
+		-
+			message: '#^Binary operation "\." between '' '' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: CRM/Xdedupe/Resolver/IndividualName.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 3
+			path: CRM/Xdedupe/Resolver/IndividualName.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/IndividualName.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/IndividualName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_IndividualName\:\:getContactAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/IndividualName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_IndividualName\:\:renderName\(\) has parameter \$contact with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/IndividualName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_IndividualName\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/IndividualName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_IndividualName\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/IndividualName.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Resolver_IndividualName\:\:\$name_attributes has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Resolver/IndividualName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Language\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Language.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Resolver_Language\:\:\$option_group_name has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Resolver/Language.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_LastNameCleanup\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/LastNameCleanup.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Cannot access offset ''values'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^If_\: Use a function e\.g\. `count\(\$foo\) \> 0` instead of `\$foo`\.$#'
+			identifier: voku.If
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_MultiSelect\:\:__construct\(\) has parameter \$custom_field_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_MultiSelect\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_MultiSelect\:\:addAllResolvers\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_MultiSelect\:\:addAllResolvers\(\) has parameter \$list with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_MultiSelect\:\:getContactAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_MultiSelect\:\:getValues\(\) has parameter \$contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_MultiSelect\:\:getValues\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_MultiSelect\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_MultiSelect\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, array given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Resolver/MultiSelect.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 1
+			path: CRM/Xdedupe/Resolver/OptionValueAttribute.php
+
+		-
+			message: '#^Cannot access offset ''values'' on array\|int\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: CRM/Xdedupe/Resolver/OptionValueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OptionValueAttribute\:\:__construct\(\) has parameter \$attribute_name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OptionValueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OptionValueAttribute\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OptionValueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OptionValueAttribute\:\:__construct\(\) has parameter \$option_group_name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OptionValueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OptionValueAttribute\:\:getValueToWeight\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Resolver/OptionValueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OptionValueAttribute\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OptionValueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OptionValueAttribute\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OptionValueAttribute.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Resolver_OptionValueAttribute\:\:\$option_group_name has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Resolver/OptionValueAttribute.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationName\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationName\:\:getValueRating\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationName\:\:getValueRating\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationName\:\:getValueRating\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationName\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationName\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationName.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationNameCleanup\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationNameCleanup.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationNameLongest\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationNameLongest.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationNameLongest\:\:getValueRating\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationNameLongest.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationNameLongest\:\:getValueRating\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationNameLongest.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationNameLongest\:\:getValueRating\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationNameLongest.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationNameLongest\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationNameLongest.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_OrganisationNameLongest\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/OrganisationNameLongest.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 2
+			path: CRM/Xdedupe/Resolver/PhoneMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_PhoneMover\:\:detailsEqual\(\) has parameter \$detail1 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/PhoneMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_PhoneMover\:\:detailsEqual\(\) has parameter \$detail2 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/PhoneMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_PhoneMover\:\:getFieldList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/PhoneMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_PhoneMover\:\:getOneLiner\(\) has parameter \$detail with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/PhoneMover.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 2
+			path: CRM/Xdedupe/Resolver/Privacy.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 3
+			path: CRM/Xdedupe/Resolver/Privacy.php
+
+		-
+			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
+			identifier: notEqual.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/Privacy.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Privacy\:\:getContactAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/Privacy.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Privacy\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Privacy.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Privacy\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Privacy.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Resolver_Privacy\:\:\$privacy_attributes has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Resolver/Privacy.php
+
+		-
+			message: '#^BitwiseOr\: Do not compare boolean and integer\.$#'
+			identifier: voku.BitwiseOr
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 2
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:__construct\(\) has parameter \$attribute_name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getAttributeName\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getBestValue\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getBestValue\(\) has parameter \$values with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getContactAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getDistinctValuesFromContacts\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getDistinctValuesFromContacts\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getValueFromContacts\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getValueRating\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getValueRating\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getValueRating\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getValuesFromContacts\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:getValuesFromContacts\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:isValueEmpty\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:isValueEqual\(\) has parameter \$value1 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:isValueEqual\(\) has parameter \$value2 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:resolveKingOfTheHill\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:resolveKingOfTheHill\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:resolveKingOfTheHill\(\) should return bool but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:resolveTheGreatEqualiser\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:resolveTheGreatEqualiser\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:setValueForContacts\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:setValueForContacts\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:setValueForContacts\(\) should return true but returns bool\.$#'
+			identifier: return.type
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:unsetValueForContacts\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_SimpleAttribute\:\:unsetValueForContacts\(\) should return true but returns bool\.$#'
+			identifier: return.type
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, string given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Property CRM_Xdedupe_Resolver_SimpleAttribute\:\:\$attribute_name has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: CRM/Xdedupe/Resolver/SimpleAttribute.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$contact_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$source\.$#'
+			identifier: property.notFound
+			count: 2
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Call to an undefined method object\:\:fetch\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.$#'
+			identifier: function.strict
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Source\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Source\:\:getDistinctValuesFromContacts\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Source\:\:getDistinctValuesFromContacts\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Source\:\:getValueRating\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Source\:\:getValueRating\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Source\:\:getValueRating\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Source\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_Source\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/Source.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_StreetAddressCleanup\:\:__construct\(\) has parameter \$merge with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/StreetAddressCleanup.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/UniqueAttribute.php
+
+		-
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
+			count: 1
+			path: CRM/Xdedupe/Resolver/UniqueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_UniqueAttribute\:\:isValueEqual\(\) has parameter \$value1 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/UniqueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_UniqueAttribute\:\:isValueEqual\(\) has parameter \$value2 with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/UniqueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_UniqueAttribute\:\:resolve\(\) has parameter \$main_contact_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/UniqueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_UniqueAttribute\:\:resolve\(\) has parameter \$other_contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/UniqueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_UniqueAttribute\:\:setValueForContacts\(\) has parameter \$contact_ids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/UniqueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_UniqueAttribute\:\:setValueForContacts\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/UniqueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_UniqueAttribute\:\:setValueForContacts\(\) should return true but returns bool\.$#'
+			identifier: return.type
+			count: 1
+			path: CRM/Xdedupe/Resolver/UniqueAttribute.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, string given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: CRM/Xdedupe/Resolver/UniqueAttribute.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_WebsiteMover\:\:getFieldList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: CRM/Xdedupe/Resolver/WebsiteMover.php
+
+		-
+			message: '#^Method CRM_Xdedupe_Resolver_WebsiteMover\:\:getOneLiner\(\) has parameter \$detail with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: CRM/Xdedupe/Resolver/WebsiteMover.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 2
+			path: api/v3/Xdedupe/Merge.php
+
+		-
+			message: '#^Dead catch \- Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: api/v3/Xdedupe/Merge.php
+
+		-
+			message: '#^Empty catch block\.$#'
+			count: 1
+			path: api/v3/Xdedupe/Merge.php
+
+		-
+			message: '#^Function _civicrm_api3_xdedupe_merge_spec\(\) has parameter \$spec with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: api/v3/Xdedupe/Merge.php
+
+		-
+			message: '#^Function civicrm_api3_xdedupe_merge\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: api/v3/Xdedupe/Merge.php
+
+		-
+			message: '#^Function civicrm_api3_xdedupe_merge\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: api/v3/Xdedupe/Merge.php
+
+		-
+			message: '#^In function "civicrm_api3_xdedupe_merge", caught "Exception" must be rethrown\. Either catch a more specific exception, add a "throw" clause in the "catch" block to propagate the exception or add a "// @ignoreException" comment\.$#'
+			count: 1
+			path: api/v3/Xdedupe/Merge.php
+
+		-
+			message: '#^Thrown exceptions in a catch block must bundle the previous exception \(see throw statement line 98\)\.$#'
+			count: 1
+			path: api/v3/Xdedupe/Merge.php
+
+		-
+			message: '#^Binary operation "\+" between array\<mixed, mixed\> and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^Binary operation "\+" between float\|int\|numeric\-string and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '''
+				#^Call to deprecated method value\(\) of class CRM_Utils_Array\:
+				In most cases this can be replaced with
+				  \$list\[\$key\] \?\? \$default
+				with the minor difference that when \$list\[\$key\] exists and is NULL, this function will always
+				return NULL\.$#
+			'''
+			identifier: staticMethod.deprecated
+			count: 2
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+			identifier: empty.notAllowed
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^Dead catch \- Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^Function civicrm_api3_xdedupe_run\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^Function civicrm_api3_xdedupe_run\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^In function "civicrm_api3_xdedupe_run", caught "Exception" must be rethrown\. Either catch a more specific exception, add a "throw" clause in the "catch" block to propagate the exception or add a "// @ignoreException" comment\.$#'
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^Only booleans are allowed in an elseif condition, int\|false given\.$#'
+			identifier: elseif.condNotBoolean
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, CRM_Xdedupe_Configuration\|null given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, int given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^Only booleans are allowed in \|\|, mixed given on the right side\.$#'
+			identifier: booleanOr.rightNotBoolean
+			count: 1
+			path: api/v3/Xdedupe/Run.php
+
+		-
+			message: '#^Function _xdedupe_menu_exists\(\) has parameter \$menu with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: xdedupe.php
+
+		-
+			message: '#^Function _xdedupe_menu_exists\(\) has parameter \$path with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: xdedupe.php
+
+		-
+			message: '#^Function xdedupe_civicrm_config\(\) has parameter \$config with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: xdedupe.php
+
+		-
+			message: '#^Function xdedupe_civicrm_navigationMenu\(\) has parameter \$menu with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: xdedupe.php

@@ -14,36 +14,35 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Implement a filter that excludes contacts that don't meet the string similarity
  */
-class CRM_Xdedupe_Filter_DisplayNameNinetyFiveSimilarity extends CRM_Xdedupe_Filter_Similarity
-{
+class CRM_Xdedupe_Filter_DisplayNameNinetyFiveSimilarity extends CRM_Xdedupe_Filter_Similarity {
 
-    public function __construct($alias, $params)
-    {
-        parent::__construct($alias, $params);
-        $this->attributes = ['display_name'];
-        $this->threshold  = 0.95;
-    }
+  public function __construct($alias, $params) {
+    parent::__construct($alias, $params);
+    $this->attributes = ['display_name'];
+    $this->threshold  = 0.95;
+  }
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("(!) %1% %2 Similarity", [1 => (int)($this->threshold * 100), 2 => E::ts("Display Name")]);
-    }
+  /**
+   * get the name of the finder
+   * @return string name
+   */
+  public function getName(): string {
+    return E::ts('(!) %1% %2 Similarity', [1 => (int) ($this->threshold * 100), 2 => E::ts('Display Name')]);
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Remove contacts that don't have a similar %1", [1 => E::ts('display name')]);
-    }
+  /**
+   * get an explanation what the finder does
+   * @return string name
+   */
+  public function getHelp(): string {
+    return E::ts("Remove contacts that don't have a similar %1", [1 => E::ts('display name')]);
+  }
+
 }

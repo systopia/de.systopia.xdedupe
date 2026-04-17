@@ -14,34 +14,33 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
  */
-class CRM_Xdedupe_Finder_City extends CRM_Xdedupe_Finder_Address
-{
+class CRM_Xdedupe_Finder_City extends CRM_Xdedupe_Finder_Address {
 
-    public function __construct($alias, $params)
-    {
-        parent::__construct($alias, $params, ['city']);
-    }
+  public function __construct($alias, $params) {
+    parent::__construct($alias, $params, ['city']);
+  }
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("City (only)");
-    }
+  /**
+   * get the name of the finder
+   * @return string name
+   */
+  public function getName(): string {
+    return E::ts('City (only)');
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Looks for identical city (of any address)");
-    }
+  /**
+   * get an explanation what the finder does
+   * @return string name
+   */
+  public function getHelp(): string {
+    return E::ts('Looks for identical city (of any address)');
+  }
+
 }

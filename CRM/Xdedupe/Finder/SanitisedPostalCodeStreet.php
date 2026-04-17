@@ -14,34 +14,33 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
  */
-class CRM_Xdedupe_Finder_SanitisedPostalCodeStreet extends CRM_Xdedupe_Finder_SanitisedAddress
-{
+class CRM_Xdedupe_Finder_SanitisedPostalCodeStreet extends CRM_Xdedupe_Finder_SanitisedAddress {
 
-    public function __construct($alias, $params)
-    {
-        parent::__construct($alias, $params, ['postal_code', 'street_address']);
-    }
+  public function __construct($alias, $params) {
+    parent::__construct($alias, $params, ['postal_code', 'street_address']);
+  }
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Postal Code and Street Address (sanitised)");
-    }
+  /**
+   * get the name of the finder
+   * @return string name
+   */
+  public function getName(): string {
+    return E::ts('Postal Code and Street Address (sanitised)');
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Looks for identical postal code and street address (sanitised)");
-    }
+  /**
+   * get an explanation what the finder does
+   * @return string name
+   */
+  public function getHelp(): string {
+    return E::ts('Looks for identical postal code and street address (sanitised)');
+  }
+
 }
