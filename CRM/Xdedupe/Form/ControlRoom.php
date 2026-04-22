@@ -153,10 +153,11 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     }
 
     $total_count = $dedupe_run->getTupleCount();
-    CRM_Utils_System::sendJSONResponse(
+    // @phpstan-ignore staticMethod.deprecated
+    CRM_Utils_JSON::output(
       [
-        'data' => $records,
-        'recordsTotal' => $total_count,
+        'data'            => $records,
+        'recordsTotal'    => $total_count,
         'recordsFiltered' => $total_count,
       ]
     );
