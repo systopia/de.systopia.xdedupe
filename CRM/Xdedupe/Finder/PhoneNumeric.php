@@ -23,21 +23,19 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 class CRM_Xdedupe_Finder_PhoneNumeric extends CRM_Xdedupe_Finder_Phone {
 
-  public function __construct($alias, $params) {
+  public function __construct(?string $alias, ?array $params) {
     parent::__construct($alias, $params, 'phone_numeric');
   }
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Phone (numeric)');
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     // phpcs:ignore Generic.Files.LineLength.TooLong

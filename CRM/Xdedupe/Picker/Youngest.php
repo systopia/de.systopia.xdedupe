@@ -25,6 +25,7 @@ class CRM_Xdedupe_Picker_Youngest extends CRM_Xdedupe_Picker {
 
   /**
    * get the name of the finder
+   *
    * @return string name
    */
   public function getName(): string {
@@ -33,6 +34,7 @@ class CRM_Xdedupe_Picker_Youngest extends CRM_Xdedupe_Picker {
 
   /**
    * get an explanation what the finder does
+   *
    * @return string name
    */
   public function getHelp(): string {
@@ -40,13 +42,10 @@ class CRM_Xdedupe_Picker_Youngest extends CRM_Xdedupe_Picker {
   }
 
   /**
-   * Select the main contact from a set of contacts
-   *
-   * @param $contact_ids array list of contact IDs
-   * @return int|null one of the contacts in the list. null means "can't decide"
+   * @inheritDoc
    */
   public function selectMainContact($contact_ids): ?int {
-    return max($contact_ids);
+    return (int) max($contact_ids);
   }
 
 }

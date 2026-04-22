@@ -16,14 +16,12 @@
 
 declare(strict_types = 1);
 
-use CRM_Xdedupe_ExtensionUtil as E;
-
 /**
  * Simple ExternalIdentifier Resolver
  */
 class CRM_Xdedupe_Resolver_ExternalIdentifier extends CRM_Xdedupe_Resolver_UniqueAttribute {
 
-  public function __construct($merge) {
+  public function __construct(?CRM_Xdedupe_Merge $merge) {
     parent::__construct($merge, 'external_identifier');
   }
 

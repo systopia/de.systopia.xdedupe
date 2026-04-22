@@ -34,12 +34,12 @@ class CRM_Xdedupe_Page_ModuleList extends CRM_Core_Page {
   }
 
   /**
-   * Assign modules info to the page
+   * Assign modules' info to the page
    *
-   * @param $variable string smarty variable name
-   * @param $modules  array  list of module instances
+   * @param string $variable smarty variable name
+   * @param array<CRM_Xdedupe_QueryPlugin|CRM_Xdedupe_Picker|CRM_Xdedupe_Resolver> $modules list of module instances
    */
-  protected function assignModules($variable, $modules): void {
+  protected function assignModules(string $variable, array $modules): void {
     $module_data = [];
     foreach ($modules as $module) {
       $module_data[] = [

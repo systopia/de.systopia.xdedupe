@@ -23,21 +23,19 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 class CRM_Xdedupe_Finder_PostalCodeStreetCity extends CRM_Xdedupe_Finder_Address {
 
-  public function __construct($alias, $params) {
+  public function __construct(?string $alias, ?array $params) {
     parent::__construct($alias, $params, ['postal_code', 'street_address', 'city']);
   }
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Postal Code, Street Address and City');
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts('Looks for identical postal code, street address, and city');

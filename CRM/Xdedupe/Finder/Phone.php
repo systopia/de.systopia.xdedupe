@@ -22,35 +22,29 @@ declare(strict_types = 1);
 // phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
 abstract class CRM_Xdedupe_Finder_Phone extends CRM_Xdedupe_Finder {
 // phpcs:enable
-  protected $column_name = [];
+  protected string $column_name;
 
-  public function __construct($alias, $params, $column_name) {
+  public function __construct(?string $alias, ?array $params, string $column_name) {
     parent::__construct($alias, $params);
     $this->column_name = $column_name;
   }
 
   /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
+   * @inheritDoc
    */
   public function addJOINS(&$joins): void {
     $joins[] = "LEFT JOIN civicrm_phone $this->alias ON $this->alias.contact_id = contact.id";
   }
 
   /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
+   * @inheritDoc
    */
   public function addGROUPBYS(&$groupbys): void {
     $groupbys[] = "$this->alias.$this->column_name";
   }
 
   /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
+   * @inheritDoc
    */
   public function addWHERES(&$wheres): void {
     $wheres[] = "$this->alias.id IS NOT NULL";

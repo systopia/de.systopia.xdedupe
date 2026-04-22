@@ -24,34 +24,31 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
 
   /**
-   * @var integer ID of the custom field */
-  protected $custom_group_id = NULL;
+   * @var string ID of the custom field
+   */
+  protected string $custom_group_id;
 
-  public function __construct($merge, $custom_group_id) {
+  public function __construct(?CRM_Xdedupe_Merge $merge, string $custom_group_id) {
     $this->custom_group_id = $custom_group_id;
     parent::__construct($merge);
   }
 
   /**
-   * Get the spec (i.e. class name) that refers to this resolver
-   * @return string spec string
+   * @inheritDoc
    */
   public function getSpec(): string {
-    return "CRM_Xdedupe_Resolver_CustomGroupByGroup:{$this->custom_group_id}";
+    return "CRM_Xdedupe_Resolver_CustomGroupByGroup:$this->custom_group_id";
   }
 
   /**
-   * Report the contact attributes that this resolver requires
-   *
-   * @return array list of contact attributes
+   * @inheritDoc
    */
   public function getContactAttributes(): array {
-    return ["custom_{$this->custom_group_id}"];
+    return ["custom_$this->custom_group_id"];
   }
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     $group_name = civicrm_api4('CustomGroup', 'get', [
@@ -62,8 +59,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     $group_name = civicrm_api4('CustomGroup', 'get', [
@@ -71,14 +67,14 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
       'where' => [['id', '=', $this->custom_group_id]],
     ]);
     return E::ts(
-      // phpcs:disable Generic.Files.LineLength.TooLong
-    "The group '%1' is a custom group. This resolver will take the values for all fields of the custom group from the first duplicate that has values in the fields if all fields in the main contact are empty.",
-        // phpcs:enable
-        [1 => $group_name[0]['title']]
+    // phpcs:disable Generic.Files.LineLength.TooLong
+      "The group '%1' is a custom group. This resolver will take the values for all fields of the custom group from the first duplicate that has values in the fields if all fields in the main contact are empty.",
+      // phpcs:enable
+      [1 => $group_name[0]['title']]
     );
   }
 
-  protected function getValues($contact_id) {
+  protected function getValues($contact_id): mixed {
     $group_name = civicrm_api4('CustomGroup', 'get', [
       'select' => ['name'],
       'where' => [['id', '=', $this->custom_group_id]],
@@ -99,10 +95,11 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
   /**
    * join multidimensional array
    *
-   * @param $customGroupFields array custom group as array
+   * @param array<array|string> $customGroupFields custom group as array
+   *
    * @return string
    */
-  public function joinArray($customGroupFields): string {
+  public function joinArray(array $customGroupFields): string {
     $joinedFields = '';
     foreach ($customGroupFields as $customGroupField) {
       if (is_array($customGroupField)) {
@@ -118,29 +115,26 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
   /**
    * Resolve the privacy conflicts by maintaining any opt-opt-outs
    *
-   * @param $main_contact_id    int     the main contact ID
-   * @param $other_contact_ids  array   other contact IDs
-   * @return boolean TRUE, if there was a conflict to be resolved
-   * @throws Exception if the conflict couldn't be resolved
+   * @inheritDoc
    */
   public function resolve($main_contact_id, $other_contact_ids): bool {
     $main_contact_values = $this->getValues($main_contact_id);
     // seems not to work
     $this->addMergeDetail(
-                        E::ts('Merge as group id: [%1]', [1 => $this->custom_group_id])
-                );
+      E::ts('Merge as group id: [%1]', [1 => $this->custom_group_id])
+    );
     // if main contact custom group fields are empty look at the duplicates
-    if (strlen($this->joinArray($main_contact_values)) === 0) {
+    if ($this->joinArray($main_contact_values) === '') {
       $new_main_contact_values = [];
       foreach ($other_contact_ids as $other_contact_id) {
         $other_contact_values = $this->getValues($other_contact_id);
-        if (strlen($this->joinArray($main_contact_values)) > 0) {
+        if ($this->joinArray($main_contact_values) !== '') {
           // values found in other contact -> set all customvalues
           $new_main_contact_values[] = $other_contact_values;
-          $new_values              = impode(',', $other_contact_values);
+          $new_values = implode(',', $other_contact_values);
           // seems not to work
           $this->addMergeDetail(
-            E::ts("Inherited value(s) '{$new_values}' from contact [%1]", [1 => $other_contact_id])
+            E::ts("Inherited value(s) '$new_values' from contact [%1]", [1 => $other_contact_id])
           );
           break;
         }
@@ -152,12 +146,11 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
     }
 
     // now, perform the contact updates if necessary
-    $all_contact_ids = array_merge($other_contact_ids, [$main_contact_id]);
-    foreach ($all_contact_ids as $contact_id) {
+    foreach (array_merge($other_contact_ids, [$main_contact_id]) as $contact_id) {
       civicrm_api4('Contact', 'update', [
         'values' => $new_main_contact_values,
         'where' => [
-        ['id', '=', $contact_id],
+          ['id', '=', $contact_id],
         ],
         'checkPermissions' => FALSE,
       ]);
@@ -168,24 +161,29 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
 
   /**
    * Add a resolver spec for each Multi-Select field to the list
+   *
    * @param $list array list of resolver specs
+   *
+   * @throws \CRM_Core_Exception
+   * @throws \Civi\API\Exception\NotImplementedException
    */
   public static function addAllResolvers(&$list): void {
     $contact_custom_groups = civicrm_api4(
-            'CustomGroup',
-            'get',
-            [
-              'select' => [
-                'id', 'title',
-              ],
-              'where' => [
-                    ['extends', 'IN', ['Contact', 'Individual', 'Household', 'Organization']],
-                    ['is_active', '=', TRUE],
-              ],
-            ]
+      'CustomGroup',
+      'get',
+      [
+        'select' => [
+          'id',
+          'title',
+        ],
+        'where' => [
+          ['extends', 'IN', ['Contact', 'Individual', 'Household', 'Organization']],
+          ['is_active', '=', TRUE],
+        ],
+      ]
     );
 
-    if (empty($contact_custom_groups)) {
+    if ($contact_custom_groups->count() === 0) {
       return;
     }
 

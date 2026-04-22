@@ -30,16 +30,14 @@ class CRM_Xdedupe_Filter_DisplayNameNinetyFiveSimilarity extends CRM_Xdedupe_Fil
   }
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('(!) %1% %2 Similarity', [1 => (int) ($this->threshold * 100), 2 => E::ts('Display Name')]);
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts("Remove contacts that don't have a similar %1", [1 => E::ts('display name')]);

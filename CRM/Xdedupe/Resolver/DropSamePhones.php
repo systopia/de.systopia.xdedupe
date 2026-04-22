@@ -24,33 +24,23 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Resolver_DropSamePhones extends CRM_Xdedupe_Resolver {
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Drop Same Phones');
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts('Will drop phones that are numerically the same.');
   }
 
   /**
-   * Resolve the merge conflicts by editing the contact
-   *
-   * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
-   *  $this->merge->unloadContact($contact_id)
-   *
-   * @param $main_contact_id    int     the main contact ID
-   * @param $other_contact_ids  array   other contact IDs
-   * @return boolean TRUE, if there was a conflict to be resolved
-   * @throws Exception if the conflict couldn't be resolved
+   * @inheritDoc
    */
-  public function resolve($main_contact_id, $other_contact_ids): bool {
+  public function resolve(int $main_contact_id, array $other_contact_ids): bool {
     $changes = FALSE;
 
     // get main contact's phones
@@ -88,11 +78,11 @@ class CRM_Xdedupe_Resolver_DropSamePhones extends CRM_Xdedupe_Resolver {
   /**
    * Get the given contact's phone records
    *
-   * @param $contact_id int contact ID
+   * @param int $contact_id contact ID
    *
    * @return array key (numeric-location_type_id) => phone data
    */
-  protected function getContactPhones($contact_id) {
+  protected function getContactPhones(int $contact_id) {
     $phones = [];
     $query  = civicrm_api3(
         'Phone',

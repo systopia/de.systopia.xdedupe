@@ -29,11 +29,9 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
   protected $data_cache = [];
 
   /**
-   * Filter dedupe run, i.e. remove items that don't match the criteria
-   *
-   * @param $run CRM_Xdedupe_DedupeRun
+   * @inheritDoc
    */
-  public function purgeResults($run): void {
+  public function purgeResults(CRM_Xdedupe_DedupeRun $run): void {
     $offset      = 0;
     $tuple_count = $run->getTupleCount();
 
@@ -254,8 +252,8 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
     if ($this->attributes) {
       $similarity = 0.00;
       foreach ($this->attributes as $attribute) {
-        $value_a    = CRM_Utils_Array::value($attribute, $this->data_cache[$contact_id_a], '');
-        $value_b    = CRM_Utils_Array::value($attribute, $this->data_cache[$contact_id_b], '');
+        $value_a    = $this->data_cache[$contact_id_a][$attribute] ?? '';
+        $value_b    = $this->data_cache[$contact_id_b][$attribute] ?? '';
         $similarity += (float) levenshtein($value_a, $value_b) / (float) max(strlen($value_a), strlen($value_b));
       }
       return 1.0 - ($similarity / (float) count($this->attributes));

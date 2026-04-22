@@ -24,34 +24,31 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Resolver_MultiSelect extends CRM_Xdedupe_Resolver {
 
   /**
-   * @var integer ID of the custom field of type Multi-Select */
-  protected $custom_field_id = NULL;
+   * @var int ID of the custom field of type Multi-Select
+   */
+  protected int $custom_field_id;
 
-  public function __construct($merge, $custom_field_id) {
-    $this->custom_field_id = $custom_field_id;
+  public function __construct(?CRM_Xdedupe_Merge $merge, int|string $custom_field_id) {
+    $this->custom_field_id = (int) $custom_field_id;
     parent::__construct($merge);
   }
 
   /**
-   * Get the spec (i.e. class name) that refers to this resolver
-   * @return string spec string
+   * @inheritDoc
    */
   public function getSpec(): string {
-    return "CRM_Xdedupe_Resolver_MultiSelect:{$this->custom_field_id}";
+    return "CRM_Xdedupe_Resolver_MultiSelect:$this->custom_field_id";
   }
 
   /**
-   * Report the contact attributes that this resolver requires
-   *
-   * @return array list of contact attributes
+   * @inheritDoc
    */
   public function getContactAttributes(): array {
-    return ["custom_{$this->custom_field_id}"];
+    return ["custom_$this->custom_field_id"];
   }
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     $field_name = civicrm_api3('CustomField', 'getvalue', ['id' => $this->custom_field_id, 'return' => 'label']);
@@ -59,28 +56,28 @@ class CRM_Xdedupe_Resolver_MultiSelect extends CRM_Xdedupe_Resolver {
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     $field_name = civicrm_api3('CustomField', 'getvalue', ['id' => $this->custom_field_id, 'return' => 'label']);
     return E::ts(
-      // phpcs:ignore Generic.Files.LineLength.TooLong
-        "The field '%1' is a multi-select field. This resolver will merge the values of all duplicates, so that the main contact will have all.",
-        [1 => $field_name]
+    // phpcs:ignore Generic.Files.LineLength.TooLong
+      "The field '%1' is a multi-select field. This resolver will merge the values of all duplicates, so that the main contact will have all.",
+      [1 => $field_name]
     );
   }
 
   /**
    * Get the contact's field values
    *
-   * @param $contact_id integer contact ID
+   * @param int $contact_id contact ID
+   *
    * @return array
    */
-  protected function getValues($contact_id) {
-    $field_name = "custom_{$this->custom_field_id}";
-    $contact    = $this->getContext()->getContact($contact_id);
-    $values     = CRM_Utils_Array::value($field_name, $contact, []);
+  protected function getValues(int $contact_id): array {
+    $field_name = "custom_$this->custom_field_id";
+    $contact = $this->getContext()?->getContact($contact_id);
+    $values = $contact[$field_name] ?? [];
     if ($values === '' || $values === NULL || $values === FALSE) {
       $values = [];
     }
@@ -92,25 +89,20 @@ class CRM_Xdedupe_Resolver_MultiSelect extends CRM_Xdedupe_Resolver {
   }
 
   /**
-   * Resolve the privacy conflicts by maintaining any opt-opt-outs
-   *
-   * @param $main_contact_id    int     the main contact ID
-   * @param $other_contact_ids  array   other contact IDs
-   * @return boolean TRUE, if there was a conflict to be resolved
-   * @throws Exception if the conflict couldn't be resolved
+   * @inheritDoc
    */
-  public function resolve($main_contact_id, $other_contact_ids): bool {
-    $main_contact_values     = $this->getValues($main_contact_id);
+  public function resolve(int $main_contact_id, array $other_contact_ids): bool {
+    $main_contact_values = $this->getValues($main_contact_id);
     $new_main_contact_values = $main_contact_values;
     foreach ($other_contact_ids as $other_contact_id) {
-      $other_contact_values      = $this->getValues($other_contact_id);
+      $other_contact_values = $this->getValues($other_contact_id);
       $only_other_contact_values = array_diff($other_contact_values, $main_contact_values);
-      if ($only_other_contact_values) {
+      if (count($only_other_contact_values) > 0) {
         // there are values that are only set in the other contact
         $new_main_contact_values = array_merge($new_main_contact_values, $only_other_contact_values);
-        $new_values              = implode(',', $only_other_contact_values);
+        $new_values = implode(',', $only_other_contact_values);
         $this->addMergeDetail(
-        E::ts("Inherited value(s) '{$new_values}' from contact [%1]", [1 => $other_contact_id])
+          E::ts("Inherited value(s) '{$new_values}' from contact [%1]", [1 => $other_contact_id])
         );
       }
     }
@@ -118,19 +110,19 @@ class CRM_Xdedupe_Resolver_MultiSelect extends CRM_Xdedupe_Resolver {
     // now, perform the contact updates if necessary
     sort($new_main_contact_values);
     $all_contact_ids = array_merge($other_contact_ids, [$main_contact_id]);
-    $field_name      = "custom_{$this->custom_field_id}";
+    $field_name = "custom_$this->custom_field_id";
     foreach ($all_contact_ids as $contact_id) {
       $current_values = $this->getValues($contact_id);
       if ($current_values != $new_main_contact_values) {
         civicrm_api3(
-        'Contact',
-        'create',
-        [
-          'id'        => $contact_id,
-          $field_name => $new_main_contact_values,
-        ]
+          'Contact',
+          'create',
+          [
+            'id' => $contact_id,
+            $field_name => $new_main_contact_values,
+          ]
         );
-        $this->getContext()->unloadContact($contact_id);
+        $this->getContext()?->unloadContact($contact_id);
       }
     }
 
@@ -139,37 +131,38 @@ class CRM_Xdedupe_Resolver_MultiSelect extends CRM_Xdedupe_Resolver {
 
   /**
    * Add a resolver spec for each Multi-Select field to the list
+   *
    * @param $list array list of resolver specs
    */
-  public static function addAllResolvers(&$list) {
+  public static function addAllResolvers(&$list): void {
     $contact_custom_group_ids = [];
-    $contact_custom_groups    = civicrm_api3(
-        'CustomGroup',
-        'get',
-        [
-          'option.limit' => 0,
-          'extends'      => ['IN' => ['Contact', 'Individual', 'Organization', 'Household']],
-          'is_active'    => 1,
-          'return'       => 'id',
-        ]
+    $contact_custom_groups = civicrm_api3(
+      'CustomGroup',
+      'get',
+      [
+        'option.limit' => 0,
+        'extends' => ['IN' => ['Contact', 'Individual', 'Organization', 'Household']],
+        'is_active' => 1,
+        'return' => 'id',
+      ]
     );
     foreach ($contact_custom_groups['values'] as $contact_custom_group) {
       $contact_custom_group_ids[] = $contact_custom_group['id'];
     }
-    if (empty($contact_custom_group_ids)) {
+    if (count($contact_custom_group_ids) === 0) {
       return;
     }
 
     $all_multi_selects = civicrm_api3(
-        'CustomField',
-        'get',
-        [
-          'option.limit'    => 0,
-          'html_type'       => 'Multi-Select',
-          'custom_group_id' => ['IN' => $contact_custom_group_ids],
-          'is_active'       => 1,
-          'return'          => 'id',
-        ]
+      'CustomField',
+      'get',
+      [
+        'option.limit' => 0,
+        'html_type' => 'Multi-Select',
+        'custom_group_id' => ['IN' => $contact_custom_group_ids],
+        'is_active' => 1,
+        'return' => 'id',
+      ]
     );
     foreach ($all_multi_selects['values'] as $multi_select) {
       $list[] = "CRM_Xdedupe_Resolver_MultiSelect:{$multi_select['id']}";

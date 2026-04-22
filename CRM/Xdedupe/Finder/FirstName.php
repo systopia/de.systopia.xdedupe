@@ -24,42 +24,34 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Finder_FirstName extends CRM_Xdedupe_Finder {
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Identical First Name');
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts('Looks for fully identical first names');
   }
 
   /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
+   * @inheritDoc
    */
   public function addJOINS(&$joins): void {
   }
 
   /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
+   * @inheritDoc
    */
   public function addGROUPBYS(&$groupbys): void {
     $groupbys[] = 'contact.first_name';
   }
 
   /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
+   * @inheritDoc
    */
   public function addWHERES(&$wheres): void {
     $wheres[] = 'contact.first_name IS NOT NULL';

@@ -16,35 +16,38 @@
 
 declare(strict_types = 1);
 
+use Civi\Core\Event\GenericHookEvent;
+
 /**
  * Implement a "Resolver", i.e. a class that can automatically resolve certain merge conflicts
  */
 // phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
 abstract class CRM_Xdedupe_Resolver {
-// phpcs:enable
 
-  /**
-   * @var $merge CRM_Xdedupe_Merge */
-  protected $merge = NULL;
+  // phpcs:enable
 
-  public function __construct($merge) {
+  protected ?CRM_Xdedupe_Merge $merge = NULL;
+
+  public function __construct(?CRM_Xdedupe_Merge $merge) {
     $this->merge = $merge;
   }
 
   /**
    * Get the merge object, this is running in
-   * @return CRM_Xdedupe_Merge context
+   *
+   * @return \CRM_Xdedupe_Merge|null context
    */
-  public function getContext() {
+  public function getContext(): ?CRM_Xdedupe_Merge {
     return $this->merge;
   }
 
   /**
    * Get the spec (i.e. class name) that refers to this resolver
+   *
    * @return string spec string
    */
   public function getSpec(): string {
-    return get_class($this);
+    return static::class;
   }
 
   /**
@@ -53,79 +56,80 @@ abstract class CRM_Xdedupe_Resolver {
    * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
    *  $this->merge->unloadContact($contact_id)
    *
-   * @param $main_contact_id    int     the main contact ID
-   * @param $other_contact_ids  array   other contact IDs
-   * @return boolean TRUE, if there was a conflict to be resolved
+   * @param int $main_contact_id the main contact ID
+   * @param list<int> $other_contact_ids other contact IDs
+   *
+   * @return bool TRUE, if there was a conflict to be resolved
    * @throws Exception if the conflict couldn't be resolved
    */
-  abstract public function resolve($main_contact_id, $other_contact_ids): bool;
+  abstract public function resolve(int $main_contact_id, array $other_contact_ids): bool;
 
   /**
    * Run some postprocessing, e.g. clean-up or similar, after the merge was successful
    *
    * @param $main_contact_id    int     the main contact ID
    * @param $other_contact_ids  array   other contact IDs
+   *
    * @throws Exception if the conflict couldn't be resolved
    */
-  public function postProcess($main_contact_id, $other_contact_ids): void {
-  }
+  public function postProcess(int $main_contact_id, array $other_contact_ids): void {}
 
   /**
    * Report the contact attributes that this resolver requires
    *
-   * @return array list of contact attributes
+   * @return list<string> list of contact attributes
    */
   public function getContactAttributes(): array {
     return [];
   }
 
   /**
-   * get the name of the finder
+   * get the name of the resolver
+   *
    * @return string name
    */
   abstract public function getName(): string;
 
   /**
-   * get an explanation what the finder does
+   * get an explanation what the resolver does
+   *
    * @return string name
    */
   abstract public function getHelp(): string;
 
   /**
-   * Get a list of all available finder classes
+   * Get a list of all available resolver classes
    *
-   * @return array list of class names
+   * @return list<string> list of class names
    */
   public static function getResolvers(): array {
     $resolver_list = [];
-    \Civi::dispatcher()->dispatch(
-        'civi.xdedupe.resolvers',
-        \Civi\Core\Event\GenericHookEvent::create(['list' => &$resolver_list])
+    Civi::dispatcher()->dispatch(
+      'civi.xdedupe.resolvers',
+      GenericHookEvent::create(['list' => &$resolver_list])
     );
     return $resolver_list;
   }
 
   /**
-   * Get a list of all available finder classes
+   * Get a list of all available resolver classes
    *
-   * @return array class => name
+   * @return array<string, string> class => name
    */
   public static function getResolverList(): array {
-    $resolver_list      = [];
-    $resolver_instances = self::getResolverInstances();
-    foreach ($resolver_instances as $resolver) {
+    $resolver_list = [];
+    foreach (self::getResolverInstances() as $resolver) {
       $resolver_list[$resolver->getSpec()] = $resolver->getName();
     }
     return $resolver_list;
   }
 
   /**
-   * Get an instance of each finder
+   * @return array<CRM_Xdedupe_Resolver>
    */
   public static function getResolverInstances(): array {
-    $resolver_list    = [];
-    $resolver_classes = self::getResolvers();
-    foreach ($resolver_classes as $resolver_class) {
+    $resolver_list = [];
+    foreach (self::getResolvers() as $resolver_class) {
       $resolver = self::getResolverInstance($resolver_class);
       if ($resolver) {
         $resolver_list[] = $resolver;
@@ -137,23 +141,23 @@ abstract class CRM_Xdedupe_Resolver {
   /**
    * Generate a resolver instance
    *
-   * @param $resolver_spec string spec or class name
-   * @param CRM_Xdedupe_Merge $merge merge object
-   * @return CRM_Xdedupe_Resolver|null resolver instance
+   * @param string $resolver_spec spec or class name
+   * @param CRM_Xdedupe_Merge|NULl $merge merge object
+   *
+   * @return CRM_Xdedupe_Resolver|NULL resolver instance
    */
-  public static function getResolverInstance($resolver_spec, $merge = NULL) {
+  public static function getResolverInstance(string $resolver_spec, ?CRM_Xdedupe_Merge $merge = NULL): ?self {
     $resolver_parameter = NULL;
-    if (strstr($resolver_spec, ':')) {
+    if (str_contains($resolver_spec, ':')) {
       // this is a spec, i.e. a class name : parameter
-      list($resolver_spec, $resolver_parameter) = explode(':', $resolver_spec, 2);
+      [$resolver_spec, $resolver_parameter] = explode(':', $resolver_spec, 2);
     }
     if (class_exists($resolver_spec)) {
       if ($resolver_parameter === NULL) {
         return new $resolver_spec($merge);
       }
-      else {
-        return new $resolver_spec($merge, $resolver_parameter);
-      }
+
+      return new $resolver_spec($merge, $resolver_parameter);
     }
     return NULL;
   }
@@ -161,11 +165,11 @@ abstract class CRM_Xdedupe_Resolver {
   /**
    * Add a merge detail (detailed merge changes)
    *
-   * @param $information string info
+   * @param string $information info
    */
-  public function addMergeDetail($information) {
+  public function addMergeDetail(string $information): void {
     $resolver_name = $this->getName();
-    $merge_detail = "{$information} (resolver '{$resolver_name}')";
+    $merge_detail = "$information (resolver '$resolver_name')";
     $this->merge->addMergeDetail($merge_detail);
     Civi::log()->debug('X-Dedupe: ' . $merge_detail);
   }

@@ -24,7 +24,6 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Resolver_PhoneMover extends CRM_Xdedupe_Resolver_DetailMover {
 
   /**
-   * get the name of the finder
    * @return string name
    */
   public function getName(): string {
@@ -32,7 +31,6 @@ class CRM_Xdedupe_Resolver_PhoneMover extends CRM_Xdedupe_Resolver_DetailMover {
   }
 
   /**
-   * get an explanation what the finder does
    * @return string name
    */
   public function getHelp(): string {
@@ -40,42 +38,33 @@ class CRM_Xdedupe_Resolver_PhoneMover extends CRM_Xdedupe_Resolver_DetailMover {
   }
 
   /**
-   * Get the entity name
-   * @return string
+   * @inheritDoc
    */
   protected function getEntity(): string {
     return 'Phone';
   }
 
   /**
-   * Get a one-line representation of the detail data
-   *
-   * @param $detail array detail data
-   * @return string
+   * @inheritDoc
    */
-  protected function getOneLiner($detail): string {
+  protected function getOneLiner(array $detail): string {
     $location_type = CRM_Xdedupe_Config::resolveLocationType($detail['location_type_id']);
     return "{$detail['phone']} ({$location_type})";
   }
 
   /**
-   * Get the list of relevant fields for this entity
-   * @return array
+   * @inheritDoc
    */
   protected function getFieldList(): array {
     return ['phone_numeric', 'location_type_id', 'phone_type_id'];
   }
 
   /**
-   * Are these two details identical?
-   *
-   * @param $detail1 array detail data
-   * @param $detail2 array detail data
-   * @return boolean
+   * @inheritDoc
    */
-  protected function detailsEqual($detail1, $detail2): bool {
+  protected function detailsEqual(array $detail1, array $detail2): bool {
     return $detail1['phone_numeric'] == $detail2['phone_numeric']
-            && $detail1['phone_type_id'] == $detail2['phone_type_id'];
+      && $detail1['phone_type_id'] == $detail2['phone_type_id'];
   }
 
 }

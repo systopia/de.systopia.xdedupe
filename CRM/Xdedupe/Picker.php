@@ -16,29 +16,36 @@
 
 declare(strict_types = 1);
 
+use Civi\Core\Event\GenericHookEvent;
+use CRM_Xdedupe_ExtensionUtil as E;
+
 /**
  * Implement a "ContactPicker", i.e. a class that will identify the main contact from a list of contacts
  */
 // phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
 abstract class CRM_Xdedupe_Picker {
-// phpcs:enable
+
+  // phpcs:enable
 
   /**
    * Select the main contact from a set of contacts
    *
-   * @param $contact_ids array list of contact IDs
+   * @param list<int> $contact_ids list of contact IDs
+   *
    * @return int|null one of the contacts in the list. null means "can't decide"
    */
-  abstract public function selectMainContact($contact_ids): ?int;
+  abstract public function selectMainContact(array $contact_ids): ?int;
 
   /**
    * get the name of the finder
+   *
    * @return string name
    */
   abstract public function getName(): string;
 
   /**
    * get an explanation what the finder does
+   *
    * @return string name
    */
   abstract public function getHelp(): string;
@@ -46,13 +53,13 @@ abstract class CRM_Xdedupe_Picker {
   /**
    * Get a list of all available finder classes
    *
-   * @return array list of class names
+   * @return list<string> list of class names
    */
   public static function getPickers(): array {
     $picker_list = [];
-    \Civi::dispatcher()->dispatch(
-        'civi.xdedupe.pickers',
-        \Civi\Core\Event\GenericHookEvent::create(['list' => &$picker_list])
+    Civi::dispatcher()->dispatch(
+      'civi.xdedupe.pickers',
+      GenericHookEvent::create(['list' => &$picker_list])
     );
     return $picker_list;
   }
@@ -65,8 +72,7 @@ abstract class CRM_Xdedupe_Picker {
   public static function getPickerList(): array {
     $picker_list = [];
     $picker_classes = self::getPickers();
-    $pickers = self::getPickerInstances($picker_classes);
-    foreach ($pickers as $picker) {
+    foreach (self::getPickerInstances($picker_classes) as $picker) {
       $picker_list[get_class($picker)] = $picker->getName();
     }
     return $picker_list;
@@ -75,21 +81,22 @@ abstract class CRM_Xdedupe_Picker {
   /**
    * Get a list of all available finder classes
    *
-   * @param $picker_classes array list of class names
-   * @return array picker instances
+   * @param list<string>|NULL $picker_classes list of class names
+   *
+   * @return array<CRM_Xdedupe_Picker> picker instances
    */
-  public static function getPickerInstances($picker_classes = NULL): array {
+  public static function getPickerInstances(array|null $picker_classes = NULL): array {
     $picker_list = [];
     if ($picker_classes === NULL) {
       $picker_classes = self::getPickers();
     }
     foreach ($picker_classes as $picker_class) {
-      if (!empty($picker_class)) {
+      if (($picker_class ?? '') !== '') {
         if (class_exists($picker_class)) {
           $picker_list[] = new $picker_class();
         }
         else {
-          CRM_Core_Session::setStatus("Picker '%1' could not be found!", [1 => $picker_class]);
+          CRM_Core_Session::setStatus(E::ts("Picker '%1' could not be found!", [1 => $picker_class]));
         }
       }
     }

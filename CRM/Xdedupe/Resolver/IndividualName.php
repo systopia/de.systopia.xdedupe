@@ -24,73 +24,66 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 class CRM_Xdedupe_Resolver_IndividualName extends CRM_Xdedupe_Resolver {
 
-  protected static $name_attributes = ['first_name', 'middle_name', 'last_name'];
+  /**
+   * @var list<string>
+   */
+  protected static array $name_attributes = ['first_name', 'middle_name', 'last_name'];
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Main Individual Names');
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts('In case of conflicts, keep the first, middle, and last name of the main contact.');
   }
 
   /**
-   * Report the contact attributes that this resolver requires
-   *
-   * @return array list of contact attributes
+   * @inheritDoc
    */
   public function getContactAttributes(): array {
     return self::$name_attributes;
   }
 
   /**
-   * Resolve the merge conflicts by editing the contact
-   *
-   * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
-   *  $this->merge->unloadContact($contact_id)
-   *
-   * @param $main_contact_id    int     the main contact ID
-   * @param $other_contact_ids  array   other contact IDs
-   * @return boolean TRUE, if there was a conflict to be resolved
-   * @throws Exception if the conflict couldn't be resolved
+   * @inheritDoc
    */
-  public function resolve($main_contact_id, $other_contact_ids): bool {
+  // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
+  public function resolve(int $main_contact_id, array $other_contact_ids): bool {
+  // phpcs:enable
     // set all names to the chosen one
-    $main_contact = $this->getContext()->getContact($main_contact_id);
+    $main_contact = $this->getContext()?->getContact($main_contact_id);
 
     foreach ($other_contact_ids as $contact_id) {
-      $contact        = $this->getContext()->getContact($contact_id);
+      $contact = $this->getContext()?->getContact($contact_id);
       $contact_update = [];
       foreach (self::$name_attributes as $attribute) {
-        $main_value    = CRM_Utils_Array::value($attribute, $main_contact, '');
-        $contact_value = CRM_Utils_Array::value($attribute, $contact, '');
+        $main_value = $main_contact[$attribute] ?? '';
+        $contact_value = $contact[$attribute] ?? '';
         if ($main_value != $contact_value) {
           $contact_update[$attribute] = $main_value;
         }
       }
 
-      if (!empty($contact_update)) {
+      if (count($contact_update) > 0) {
         $contact_update['id'] = $contact_id;
         civicrm_api3('Contact', 'create', $contact_update);
         $this->addMergeDetail(
-        E::ts(
+          E::ts(
             "Discarded name '%1' of contact [%2] in favour of '%3' in order to resolve merge conflicts",
             [
-              1 => $this->renderName($contact),
+              1 => $this->renderName($contact ?? []),
               2 => $contact_id,
-              3 => $this->renderName($main_contact),
+              3 => $this->renderName($main_contact ?? []),
             ]
-        )
+          )
         );
-        $this->getContext()->unloadContact($contact_id);
+        $this->getContext()?->unloadContact($contact_id);
       }
     }
 
@@ -100,13 +93,14 @@ class CRM_Xdedupe_Resolver_IndividualName extends CRM_Xdedupe_Resolver {
   /**
    * Create a textual representation of the contact's name
    *
-   * @param $contact array contact data
+   * @param array<string, string> $contact contact data
+   *
    * @return string contact name
    */
-  protected function renderName($contact) {
+  protected function renderName(array $contact): string {
     $name = '';
     foreach (self::$name_attributes as $attribute) {
-      $name .= ' ' . CRM_Utils_Array::value($attribute, $contact, '');
+      $name .= ' ' . ($contact[$attribute] ?? '');
     }
     return str_replace('/ +/', ' ', $name);
   }

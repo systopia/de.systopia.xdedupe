@@ -38,7 +38,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
 
     // get configs
     $configurations = CRM_Xdedupe_Configuration::getAll();
-    if (empty($configurations)) {
+    if ($configurations === []) {
       // no configurations yet -> redirect to control room
       CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/xdedupe/controlroom', 'reset=1'));
     }
@@ -65,7 +65,9 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
    * Delete task
    */
   protected function processDeleteCommand(): void {
+    /** @var int $delete_id */
     $delete_id = CRM_Utils_Request::retrieve('delete', 'Integer');
+    /** @var int $confirmed */
     $confirmed = CRM_Utils_Request::retrieve('confirmed', 'Integer');
     if ($delete_id) {
       if ($confirmed) {
@@ -82,6 +84,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
    * Process Merge Run
    */
   protected function processAutomergeCommand(): void {
+    /** @var int $config_id */
     $config_id = CRM_Utils_Request::retrieve('run', 'Integer');
     if ($config_id) {
       // load config ID
@@ -109,9 +112,9 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
 
       // and call the runner for the merge
       CRM_Xdedupe_MergeJob::launchMergeRunner(
-        $dedupe_run->getID(),
+        (string) $dedupe_run->getID(),
         [
-          'force_merge' => empty($config['force_merge']) ? '0' : '1',
+          'force_merge' => (bool) ($config['force_merge'] ?? FALSE) ? '1' : '0',
           'resolvers'   => $config['auto_resolve'],
           'pickers'     => $config['main_contact'],
           'merge_log'   => $config['merge_log'],
@@ -127,7 +130,9 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
    */
   protected function processEnableDisableCommand(): void {
     foreach (['manual', 'automatic', 'scheduled'] as $mode) {
+      /** @var int $enable_id */
       $enable_id  = CRM_Utils_Request::retrieve("enable_{$mode}", 'Integer');
+      /** @var int $disable_id */
       $disable_id = CRM_Utils_Request::retrieve("disable_{$mode}", 'Integer');
 
       if ($enable_id) {
@@ -153,15 +158,15 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
    * @return array
    *   data structure to be passed to the template engine
    */
-  protected function renderConfiguration($configuration): array {
+  protected function renderConfiguration(CRM_Xdedupe_Configuration $configuration): array {
     $data = [
       'id'           => $configuration->getID(),
       'name'         => $configuration->getAttribute('name'),
-      'description'  => $configuration->getAttribute('description'),
+      'description'  => (string) $configuration->getAttribute('description'),
       'is_manual'    => $configuration->getAttribute('is_manual'),
       'is_automatic' => $configuration->getAttribute('is_automatic'),
       'is_scheduled' => $configuration->getAttribute('is_scheduled'),
-      'last_run'     => $this->renderDate(CRM_Utils_Array::value('last_run', $configuration->getStats())),
+      'last_run'     => $this->renderDate($configuration->getStats()['last_run'] ?? NULL),
     ];
     if (strlen($data['description']) > 64) {
       $data['short_desc'] = substr($data['description'], 0, 64) . '...';
@@ -176,7 +181,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
    * render a date
    */
   protected function renderDate($string): string {
-    if (empty($string)) {
+    if ($string === NULL || $string === '') {
       return E::ts('never');
     }
 
@@ -185,11 +190,13 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
 
   /**
    * render stats
+   *
+   * @param array $stats
    */
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.MaxExceeded
-  protected function renderStats($stats): string {
+  protected function renderStats(array $stats): string {
   // phpcs:enable
-    if (empty($stats)) {
+    if ($stats === []) {
       return E::ts('No statistics available');
     }
 
@@ -221,7 +228,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
 
         case 'errors':
           $label = E::ts('Merge Errors');
-          if (empty($value)) {
+          if ($value === [] || $value === NULL) {
             $value = E::ts('none');
           }
           else {
@@ -236,7 +243,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
 
         case 'failed':
           $label = E::ts('Merge Failure Count');
-          if (empty($value)) {
+          if ($value === 0 || $value === NULL || $value === '') {
             $value = E::ts('none');
           }
           break;
@@ -265,7 +272,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
 
         case 'aborted':
           $label = E::ts('Was aborted?');
-          if (empty($value)) {
+          if ((int) ($value ?? 0) === 0) {
             $value = E::ts('No');
           }
           else {

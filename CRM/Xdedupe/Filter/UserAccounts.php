@@ -24,37 +24,31 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Filter_UserAccounts extends CRM_Xdedupe_Filter {
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Exclude System Users');
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts('Exclude contacts (not tuples!) that are connected to a user account.');
   }
 
   /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
+   * @inheritDoc
    */
   public function addJOINS(&$joins): void {
-    $joins[] = "LEFT JOIN civicrm_uf_match {$this->alias} ON {$this->alias}.contact_id = contact.id";
+    $joins[] = "LEFT JOIN civicrm_uf_match $this->alias ON $this->alias.contact_id = contact.id";
   }
 
   /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
+   * @inheritDoc
    */
   public function addWHERES(&$wheres): void {
-    $wheres[] = "{$this->alias}.uf_id IS NULL";
+    $wheres[] = "$this->alias.uf_id IS NULL";
   }
 
 }

@@ -38,16 +38,14 @@ class CRM_Xdedupe_Resolver_BumpAddressConflicts extends CRM_Xdedupe_Resolver {
   ];
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Bump Address Conflicts');
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts(
@@ -57,15 +55,7 @@ class CRM_Xdedupe_Resolver_BumpAddressConflicts extends CRM_Xdedupe_Resolver {
   }
 
   /**
-   * Resolve the merge conflicts by editing the contact
-   *
-   * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
-   *  $this->merge->unloadContact($contact_id)
-   *
-   * @param $main_contact_id    int     the main contact ID
-   * @param $other_contact_ids  array   other contact IDs
-   * @return boolean TRUE, if there was a conflict to be resolved
-   * @throws Exception if the conflict couldn't be resolved
+   * @inheritDoc
    */
   public function resolve($main_contact_id, $other_contact_ids): bool {
     // get main contact's phones
@@ -162,8 +152,8 @@ class CRM_Xdedupe_Resolver_BumpAddressConflicts extends CRM_Xdedupe_Resolver {
    */
   protected function addressEquals($address1, $address2): bool {
     foreach (self::$relevant_address_fields as $attribute) {
-      $value1 = CRM_Utils_Array::value($attribute, $address1, '');
-      $value2 = CRM_Utils_Array::value($attribute, $address2, '');
+      $value1 = $address1[$attribute] ?? '';
+      $value2 = $address2[$attribute] ?? '';
       if ($value1 != $value2) {
         return FALSE;
       }

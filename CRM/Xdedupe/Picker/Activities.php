@@ -45,37 +45,34 @@ class CRM_Xdedupe_Picker_Activities extends CRM_Xdedupe_Picker {
   }
 
   /**
-   * Select the main contact from a set of contacts
-   *
-   * @param $contact_ids array list of contact IDs
-   * @return int|null one of the contacts in the list. null means "can't decide"
+   * @inheritDoc
    */
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
-  public function selectMainContact($contact_ids): ?int {
+  public function selectMainContact(array $contact_ids): ?int {
   // phpcs:enable
 
     $where_clauses = [];
-    if (!empty($contact_ids)) {
+    if ($contact_ids !== []) {
       $contact_id_list = implode(',', $contact_ids);
-      $where_clauses[] = "ac.contact_id IN ({$contact_id_list})";
+      $where_clauses[] = "ac.contact_id IN ($contact_id_list)";
     }
-    if (!empty($this->include_activity_ids)) {
+    if (($this->include_activity_ids ?? []) !== []) {
       $id_list         = implode(',', $this->include_activity_ids);
       $where_clauses[] = "a.activity_type_id IN ($id_list)";
     }
-    if (!empty($this->exclude_activity_ids)) {
+    if (($this->exclude_activity_ids ?? []) !== []) {
       $id_list         = implode(',', $this->exclude_activity_ids);
       $where_clauses[] = "a.activity_type_id NOT IN ($id_list)";
     }
-    if (!empty($this->minimum_activity_date)) {
-      $where_clauses[] = "a.activity_date_time >= ({$this->minimum_activity_date})";
+    if (($this->minimum_activity_date ?? '') !== '') {
+      $where_clauses[] = "a.activity_date_time >= ($this->minimum_activity_date)";
     }
-    if (!empty($this->maximum_activity_date)) {
-      $where_clauses[] = "a.activity_date_time <= ({$this->maximum_activity_date})";
+    if (($this->maximum_activity_date ?? '') !== '') {
+      $where_clauses[] = "a.activity_date_time <= ($this->maximum_activity_date)";
     }
 
     // build where clause
-    if (empty($where_clauses)) {
+    if ($where_clauses === []) {
       $where_clause = 'TRUE';
     }
     else {
@@ -102,7 +99,7 @@ class CRM_Xdedupe_Picker_Activities extends CRM_Xdedupe_Picker {
         $best_contact_id = $query->contact_id;
       }
       elseif ($query->activity_count == $highest_amount) {
-        if (empty($best_contact_id)) {
+        if ($best_contact_id === NULL) {
           $best_contact_id = $query->contact_id;
         }
         else {
@@ -114,16 +111,18 @@ class CRM_Xdedupe_Picker_Activities extends CRM_Xdedupe_Picker {
       }
     }
 
-    return $best_contact_id;
+    return (int) $best_contact_id;
   }
 
   /**
    * Will resolve the given activity type names
    *
-   * @param $activity_type_names     array list of activity type names
+   * @param list<string> $activity_type_names list of activity type names
+   *
    * @return array|null list of activity type IDs
+   * @throws \CRM_Core_Exception
    */
-  protected function resolveActivityTypes($activity_type_names): ?array {
+  protected function resolveActivityTypes(array $activity_type_names): ?array {
     $activity_ids = NULL;
     $query        = civicrm_api3(
         'OptionValue',

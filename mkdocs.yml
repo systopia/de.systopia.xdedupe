@@ -1,5 +1,5 @@
 site_name: X-Dedupe
-site_description: Extended Dedupe. A powerful tool for large scale deduping
+site_description: Extended Dedupe. A powerful tool for large scale deduping.
 site_author: SYSTOPIA
 repo_url: https://github.com/systopia/de.systopia.xdedupe
 theme:

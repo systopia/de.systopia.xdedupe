@@ -24,26 +24,23 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver {
 
   /**
-   * @var integer ID of the custom field */
-  protected $custom_field_id;
+   * @var int ID of the custom field */
+  protected int $custom_field_id;
 
-  public function __construct($merge, $custom_field_id) {
-    $this->custom_field_id = $custom_field_id;
+  public function __construct(?CRM_Xdedupe_Merge $merge, $custom_field_id) {
+    $this->custom_field_id = (int) $custom_field_id;
     parent::__construct($merge);
   }
 
   /**
-   * Get the spec (i.e. class name) that refers to this resolver
-   * @return string spec string
+   * @inheritDoc
    */
   public function getSpec(): string {
     return "CRM_Xdedupe_Resolver_CustomField:$this->custom_field_id";
   }
 
   /**
-   * Report the contact attributes that this resolver requires
-   *
-   * @return array list of contact attributes
+   * @inheritDoc
    */
   public function getContactAttributes(): array {
     return ["custom_$this->custom_field_id"];
@@ -52,9 +49,7 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver {
   /**
    * get the name of the finder
    *
-   * @return string name
-   * @throws \CRM_Core_Exception
-   * @throws \Civi\API\Exception\NotImplementedException
+   * @inheritDoc
    */
   public function getName(): string {
     // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
@@ -73,9 +68,7 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver {
   /**
    * get an explanation what the finder does
    *
-   * @return string name
-   * @throws \CRM_Core_Exception
-   * @throws \Civi\API\Exception\NotImplementedException
+   * @inheritDoc
    */
   public function getHelp(): string {
     $field_name = civicrm_api4('CustomField', 'get', [
@@ -92,33 +85,30 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver {
   /**
    * Get the contact's field value
    *
-   * @param $contact_id integer contact ID
-   * @return mixed
+   * @param int $contact_id contact ID
+   * @return string
    */
-  protected function getValue($contact_id) {
+  protected function getValue(int $contact_id): string {
     $field_name = "custom_$this->custom_field_id";
-    $contact = $this->getContext()->getContact($contact_id);
-    return CRM_Utils_Array::value($field_name, $contact, '');
+    $contact = $this->getContext()?->getContact($contact_id);
+    return $contact[$field_name] ?? '';
   }
 
   /**
    * Resolve simple custom field conflicts by maintaining the main contact's one
    *
-   * @param $main_contact_id    int     the main contact ID
-   * @param $other_contact_ids  array   other contact IDs
-   * @return boolean TRUE, if there was a conflict to be resolved
-   * @throws Exception if the conflict couldn't be resolved
+   * @inheritDoc
    */
   public function resolve($main_contact_id, $other_contact_ids): bool {
     // get the resolved value
     $resolved_contact_value = $this->getValue($main_contact_id);
-    if ($resolved_contact_value) {
+    if ($resolved_contact_value !== '') {
       $merged_value_origin_contact_id = $this->getValue($main_contact_id);
     }
     foreach ($other_contact_ids as $other_contact_id) {
-      if (empty($resolved_contact_value)) {
+      if ($resolved_contact_value === '') {
         $resolved_contact_value = $this->getValue($other_contact_id);
-        if (!empty($resolved_contact_value)) {
+        if ($resolved_contact_value !== '') {
           $merged_value_origin_contact_id = $other_contact_id;
         }
       }
@@ -153,7 +143,7 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver {
   /**
    * Add a resolver spec for each INDIVIDUAL Multi-Select field to the list
    *
-   * @param $list array list of resolver specs
+   * @param list<string> $list list of resolver specs
    *
    * @throws \CRM_Core_Exception
    * @throws \Civi\API\Exception\NotImplementedException
@@ -177,7 +167,7 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver {
     foreach ($contact_custom_groups as $contact_custom_group) {
       $contact_custom_group_ids[] = $contact_custom_group['id'];
     }
-    if (empty($contact_custom_group_ids)) {
+    if (count($contact_custom_group_ids) === 0) {
       return;
     }
 

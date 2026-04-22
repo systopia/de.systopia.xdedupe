@@ -36,7 +36,7 @@ abstract class CRM_Xdedupe_Resolver_AttributeCleanup extends CRM_Xdedupe_Resolve
    * @var array list of preg_replace patterns as a tuple [search pattern, replace pattern] */
   protected $regular_expressions;
 
-  public function __construct($merge, $attribute_name) {
+  public function __construct(?CRM_Xdedupe_Merge $merge, $attribute_name) {
     parent::__construct($merge);
     $this->attribute_name = $attribute_name;
     $this->attribute_label = $attribute_name;
@@ -57,30 +57,20 @@ abstract class CRM_Xdedupe_Resolver_AttributeCleanup extends CRM_Xdedupe_Resolve
   }
 
   /**
-   * Report the contact attributes that this resolver requires
-   *
-   * @return array list of contact attributes
+   * @inheritDoc
    */
   public function getContactAttributes(): array {
     return [$this->attribute_name];
   }
 
   /**
-   * Resolve the merge conflicts by editing the contact
-   *
-   * CAUTION: IT IS PARAMOUNT TO UNLOAD A CONTACT FROM THE CACHE IF CHANGED AS FOLLOWS:
-   *  $this->merge->unloadContact($contact_id)
-   *
-   * @param $main_contact_id    int     the main contact ID
-   * @param $other_contact_ids  array   other contact IDs
-   * @return boolean TRUE, if there was a conflict to be resolved
-   * @throws Exception if the conflict couldn't be resolved
+   * @inheritDoc
    */
   public function resolve($main_contact_id, $other_contact_ids): bool {
     $something_changed = FALSE;
     $contact_ids = array_merge([$main_contact_id], $other_contact_ids);
     foreach ($contact_ids as $contact_id) {
-      $contact   = $this->getContext()->getContact($contact_id);
+      $contact   = $this->getContext()?->getContact($contact_id);
       $new_value = $old_value = $contact[$this->attribute_name] ?? NULL;
       foreach ($this->regular_expressions as $search_replace) {
         $new_value = preg_replace($search_replace[0], $search_replace[1], $new_value);
@@ -94,7 +84,7 @@ abstract class CRM_Xdedupe_Resolver_AttributeCleanup extends CRM_Xdedupe_Resolve
           $this->attribute_name => $new_value,
         ]
         );
-        $this->getContext()->unloadContact($contact_id);
+        $this->getContext()?->unloadContact($contact_id);
         $this->addMergeDetail(
         E::ts(
           // phpcs:ignore Generic.Files.LineLength.TooLong
@@ -114,16 +104,14 @@ abstract class CRM_Xdedupe_Resolver_AttributeCleanup extends CRM_Xdedupe_Resolve
   }
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts("Cleanup '%1'", [1 => $this->getAttributeName()]);
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts(

@@ -26,14 +26,13 @@ class CRM_Xdedupe_Resolver_CityCleanup extends CRM_Xdedupe_Resolver_AttributeCle
   public function __construct($merge) {
     parent::__construct($merge, 'city');
     $this->regular_expressions = [
-    // remove multiple whitespaces
-            ['/\s+/', ' '],
+      // remove multiple whitespaces
+      ['/\s+/', ' '],
     ];
   }
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Clean City');

@@ -16,6 +16,8 @@
 
 declare(strict_types = 1);
 
+use Civi\Core\Event\GenericHookEvent;
+
 /**
  * Implement a "Filter", i.e. a class that will restrict the set of duplicates found
  *
@@ -24,26 +26,26 @@ declare(strict_types = 1);
  */
 // phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
 abstract class CRM_Xdedupe_Filter extends CRM_Xdedupe_QueryPlugin {
-// phpcs:enable
+
+  // phpcs:enable
 
   /**
    * Filter dedupe run, i.e. remove items that don't match the criteria
    *
-   * @param $run CRM_Xdedupe_DedupeRun
+   * @param CRM_Xdedupe_DedupeRun $run
    */
-  public function purgeResults($run) {
-  }
+  public function purgeResults(CRM_Xdedupe_DedupeRun $run): void {}
 
   /**
    * Get a list of all available finder classes
    *
-   * @return array list of class names
+   * @return list<string> list of class names
    */
-  public static function getFilters() {
+  public static function getFilters(): array {
     $filter_list = [];
-    \Civi::dispatcher()->dispatch(
-        'civi.xdedupe.filters',
-        \Civi\Core\Event\GenericHookEvent::create(['list' => &$filter_list])
+    Civi::dispatcher()->dispatch(
+      'civi.xdedupe.filters',
+      GenericHookEvent::create(['list' => &$filter_list])
     );
     return $filter_list;
   }
@@ -51,12 +53,11 @@ abstract class CRM_Xdedupe_Filter extends CRM_Xdedupe_QueryPlugin {
   /**
    * Get a list of all available finder classes
    *
-   * @return array class => name
+   * @return array<string, string> class => name
    */
-  public static function getFilterList() {
-    $filter_list      = [];
-    $filter_instances = self::getFilterInstances();
-    foreach ($filter_instances as $filter) {
+  public static function getFilterList(): array {
+    $filter_list = [];
+    foreach (self::getFilterInstances() as $filter) {
       $filter_list[get_class($filter)] = $filter->getName();
     }
     return $filter_list;
@@ -64,11 +65,12 @@ abstract class CRM_Xdedupe_Filter extends CRM_Xdedupe_QueryPlugin {
 
   /**
    * Get an instance of each finder
+   *
+   * @return array<CRM_Xdedupe_Filter>
    */
   public static function getFilterInstances(): array {
-    $filter_list    = [];
-    $filter_classes = self::getFilters();
-    foreach ($filter_classes as $filter_class) {
+    $filter_list = [];
+    foreach (self::getFilters() as $filter_class) {
       if (class_exists($filter_class)) {
         // dirty, i know...
         $filter_list[] = new $filter_class(NULL, NULL);

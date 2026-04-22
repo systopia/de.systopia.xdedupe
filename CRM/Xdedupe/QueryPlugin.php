@@ -21,23 +21,31 @@ declare(strict_types = 1);
  */
 // phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
 abstract class CRM_Xdedupe_QueryPlugin {
-// phpcs:enable
-  protected $alias = NULL;
-  protected $params = NULL;
 
-  public function __construct($alias, $params) {
+  // phpcs:enable
+  protected ?string $alias = NULL;
+
+  protected ?array $params = NULL;
+
+  /**
+   * @param string|NULL $alias
+   * @param array|NULL $params
+   */
+  public function __construct(?string $alias, ?array $params) {
     $this->params = $params;
-    $this->alias  = $alias;
+    $this->alias = $alias;
   }
 
   /**
    * get the name of the finder
+   *
    * @return string name
    */
   abstract public function getName(): string;
 
   /**
    * get an explanation what the finder does
+   *
    * @return string name
    */
   abstract public function getHelp(): string;
@@ -45,25 +53,24 @@ abstract class CRM_Xdedupe_QueryPlugin {
   /**
    * Add this finder's JOIN clauses to the list
    *
-   * @param $joins array
+   * @param list<string> $joins array
    */
-  public function addJOINS(&$joins): void {
-  }
+  public function addJOINS(array &$joins): void {}
 
   /**
    * Add this finder's WHERE clauses to the list
    *
-   * @param $wheres array
+   * @param list<string> $wheres array
+   *
+   * @return void
    */
-  public function addWHERES(&$wheres): void {
-  }
+  public function addWHERES(array &$wheres): void {}
 
   /**
    * Add this finder's GROUP BY clauses to the list
    *
-   * @param $groupbys array
+   * @param list<string> $groupbys array
    */
-  public function addGROUPBYS(&$groupbys): void {
-  }
+  public function addGROUPBYS(array &$groupbys): void {}
 
 }

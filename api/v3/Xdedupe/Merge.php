@@ -21,46 +21,46 @@ declare(strict_types = 1);
  *  using resolvers
  */
 function _civicrm_api3_xdedupe_merge_spec(&$spec): void {
-  $spec['main_contact_id']   = [
-    'name'         => 'main_contact_id',
+  $spec['main_contact_id'] = [
+    'name' => 'main_contact_id',
     'api.required' => 1,
-    'type'         => CRM_Utils_Type::T_INT,
-    'title'        => 'Main Contact ID',
-    'description'  => 'Contact ID of the contact to prevail in the merging process',
+    'type' => CRM_Utils_Type::T_INT,
+    'title' => 'Main Contact ID',
+    'description' => 'Contact ID of the contact to prevail in the merging process',
   ];
   $spec['other_contact_ids'] = [
-    'name'         => 'other_contact_ids',
+    'name' => 'other_contact_ids',
     'api.required' => 1,
-    'type'         => CRM_Utils_Type::T_STRING,
-    'title'        => 'Other Contact IDs',
-    'description'  => 'Comma-separated list of other contact IDs to be merged into the main contact.',
+    'type' => CRM_Utils_Type::T_STRING,
+    'title' => 'Other Contact IDs',
+    'description' => 'Comma-separated list of other contact IDs to be merged into the main contact.',
   ];
-  $spec['force_merge']       = [
-    'name'        => 'force_merge',
+  $spec['force_merge'] = [
+    'name' => 'force_merge',
     'api.default' => 0,
-    'type'        => CRM_Utils_Type::T_BOOLEAN,
-    'title'       => 'Force-Merge?',
+    'type' => CRM_Utils_Type::T_BOOLEAN,
+    'title' => 'Force-Merge?',
     'description' => 'Should the contacts be force-merged, i.e. merged even if that means losing data?',
   ];
-  $spec['resolvers']         = [
-    'name'        => 'resolvers',
+  $spec['resolvers'] = [
+    'name' => 'resolvers',
     'api.default' => '',
-    'type'        => CRM_Utils_Type::T_STRING,
-    'title'       => 'Resolver List',
+    'type' => CRM_Utils_Type::T_STRING,
+    'title' => 'Resolver List',
     'description' => 'Comma-separated list of resolver classes, to automatically deal with data conflicts.',
   ];
-  $spec['dedupe_run']        = [
-    'name'        => 'dedupe_run',
+  $spec['dedupe_run'] = [
+    'name' => 'dedupe_run',
     'api.default' => '',
-    'type'        => CRM_Utils_Type::T_STRING,
-    'title'       => 'Dedupe Run ID',
+    'type' => CRM_Utils_Type::T_STRING,
+    'title' => 'Dedupe Run ID',
     'description' => 'If given, the tuple will be removed from this dedupe run, if the merge was successful',
   ];
-  $spec['merge_log']        = [
-    'name'        => 'merge_log',
+  $spec['merge_log'] = [
+    'name' => 'merge_log',
     'api.default' => '',
-    'type'        => CRM_Utils_Type::T_STRING,
-    'title'       => 'Merge Log',
+    'type' => CRM_Utils_Type::T_STRING,
+    'title' => 'Merge Log',
     // phpcs:ignore Generic.Files.LineLength.TooLong
     'description' => 'If given, the merge\'s log messages will be appended to this log file, rather than the CiviCRM log. The file needs to be writable for CiviCRM.',
   ];
@@ -71,22 +71,27 @@ function _civicrm_api3_xdedupe_merge_spec(&$spec): void {
  *  using resolvers
  *
  * @param array $params see specs
+ *
  * @return array result merge result
  * @throws CRM_Core_Exception
  */
 function civicrm_api3_xdedupe_merge($params): array {
   try {
     $merger = new CRM_Xdedupe_Merge($params);
-    $merger->multiMerge($params['main_contact_id'], explode(',', $params['other_contact_ids']));
+    $merger->multiMerge(
+      (int) $params['main_contact_id'],
+      array_map('intval', explode(',', $params['other_contact_ids']))
+    );
     $result = $merger->getStats();
 
-    if (!empty($result['tuples_merged']) && !empty($params['dedupe_run'])) {
+    if (($result['tuples_merged'] ?? 0) > 0 && ($params['dedupe_run'] ?? '') !== '') {
       // merge successful -> remove from dedupe run
       try {
         $dedupe_run = new CRM_Xdedupe_DedupeRun($params['dedupe_run']);
-        $dedupe_run->removeTuple($params['main_contact_id']);
+        $dedupe_run->removeTuple((int) $params['main_contact_id']);
       }
       catch (Exception) {
+        // @ignoreException
         // probably means that the run doesn't exist, no problem
       }
     }
@@ -95,6 +100,6 @@ function civicrm_api3_xdedupe_merge($params): array {
     return civicrm_api3_create_success([], $params, 'Xdedupe', 'merge', $null, $result);
   }
   catch (Exception $ex) {
-    throw new CRM_Core_Exception($ex->getMessage(), $ex->getCode());
+    throw new CRM_Core_Exception($ex->getMessage(), $ex->getCode(), [], $ex);
   }
 }

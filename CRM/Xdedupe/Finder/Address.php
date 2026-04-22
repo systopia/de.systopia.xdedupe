@@ -22,26 +22,28 @@ declare(strict_types = 1);
 // phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
 abstract class CRM_Xdedupe_Finder_Address extends CRM_Xdedupe_Finder {
 // phpcs:enable
-  protected $address_fields = [];
 
-  public function __construct($alias, $params, $address_fields) {
+  protected array $address_fields = [];
+
+  /**
+   * @param string|NULL $alias
+   * @param array|NULL $params
+   * @param list<string> $address_fields
+   */
+  public function __construct(?string $alias, ?array $params, array $address_fields) {
     parent::__construct($alias, $params);
     $this->address_fields = $address_fields;
   }
 
   /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
+   * @inheritDoc
    */
   public function addJOINS(&$joins): void {
     $joins[] = "LEFT JOIN civicrm_address $this->alias ON $this->alias.contact_id = contact.id";
   }
 
   /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
+   * @inheritDoc
    */
   public function addGROUPBYS(&$groupbys): void {
     foreach ($this->address_fields as $address_field) {
@@ -50,9 +52,7 @@ abstract class CRM_Xdedupe_Finder_Address extends CRM_Xdedupe_Finder {
   }
 
   /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
+   * @inheritDoc
    */
   public function addWHERES(&$wheres): void {
     $wheres[] = "$this->alias.id IS NOT NULL";

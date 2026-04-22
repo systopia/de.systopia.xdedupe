@@ -16,6 +16,8 @@
 
 declare(strict_types = 1);
 
+use Civi\Core\Exception\DBQueryException;
+
 /**
  * This is the algorithm to identify and filter dedupe candidates
  *
@@ -27,16 +29,22 @@ class CRM_Xdedupe_DedupeRun {
 
   /**
    * name of the underlying temp table*/
-  protected $identifier;
-  protected $finders = [];
-  protected $filters = [];
+  protected string $identifier;
+
+  protected array $finders = [];
+
+  protected array $filters = [];
 
   /**
-   * @var float last runtime of the find call */
-  protected $last_find_runtime = 0.0;
+   * @var float last runtime of the find call
+   */
+  protected float $last_find_runtime = 0.0;
 
-  public function __construct($identifier = NULL) {
-    if (!$identifier) {
+  /**
+   * @param string|NULL $identifier
+   */
+  public function __construct(?string $identifier = NULL) {
+    if (NULL === $identifier) {
       $identifier = date('YmdHis') . '_' . substr(sha1(microtime()), 0, 32);
     }
     $this->identifier = $identifier;
@@ -47,33 +55,36 @@ class CRM_Xdedupe_DedupeRun {
    * Remove old tables from previous runs
    */
   public function cleanupDB(): void {
-    $own_table_name     = $this->getTableName();
+    $own_table_name = $this->getTableName();
     $deletion_threshold = strtotime('now - ' . self::MAX_TABLE_RETENTION);
 
-    $dsn         = DB::parseDSN(CIVICRM_DSN);
-    $table_query = CRM_Core_DAO::executeQuery(
+    $dsn = DB::parseDSN(CIVICRM_DSN);
+    try {
+      $table_query = CRM_Core_DAO::executeQuery(
         "SELECT TABLE_NAME FROM information_schema.TABLES
-                  WHERE TABLE_SCHEMA = '{$dsn['database']}'  AND TABLE_NAME LIKE 'tmp_xdedupe_%'"
-    );
-    while ($table_query->fetch()) {
-      $table_name = $table_query->TABLE_NAME;
-      if ($table_name == $own_table_name) {
-        continue;
-      } // don't want to drop our own table
+                    WHERE TABLE_SCHEMA = '{$dsn['database']}'  AND TABLE_NAME LIKE 'tmp_xdedupe_%'"
+      );
+      while ($table_query->fetch()) {
+        $table_name = $table_query->TABLE_NAME;
+        if ($table_name === $own_table_name) {
+          continue;
+        } // don't want to drop our own table
 
-      // parse table name
-      if (preg_match('/^tmp_xdedupe_(?<date>[0-9]{14})_(?<hash>[0-9a-f]{32})$/', $table_name, $match)) {
-        $table_date = strtotime($match['date']);
-        if ($table_date < $deletion_threshold) {
-          // this table is too old => drop it
-          CRM_Core_DAO::executeQuery("DROP TABLE `{$table_name}`");
+        // parse table name
+        if (preg_match('/^tmp_xdedupe_(?<date>\d{14})_(?<hash>[0-9a-f]{32})$/', $table_name, $match)) {
+          $table_date = strtotime($match['date']);
+          if ($table_date < $deletion_threshold) {
+            // this table is too old => drop it
+            CRM_Core_DAO::executeQuery("DROP TABLE `$table_name`");
+          }
+        }
+        else {
+          Civi::log()->debug("Unrecognised table found: '$table_name'. Please clean up manually.");
         }
       }
-      else {
-        CRM_Core_Error::debug_log_message(
-        "Unrecognised table found: '{$table_name}'. Please clean up manually."
-          );
-      }
+    }
+    catch (DBQueryException $e) {
+      Civi::log()->error('Error while cleaning up DB: ' . $e->getMessage());
     }
   }
 
@@ -91,7 +102,7 @@ class CRM_Xdedupe_DedupeRun {
    *
    * @return float table name
    */
-  public function getFinderRuntime() {
+  public function getFinderRuntime(): float {
     return $this->last_find_runtime;
   }
 
@@ -102,27 +113,33 @@ class CRM_Xdedupe_DedupeRun {
    */
   public function getTupleCount(): int {
     $table_name = $this->getTableName();
-    return (int) CRM_Core_DAO::singleValueQuery("SELECT COUNT(*) FROM `$table_name`");
+    try {
+      return (int) CRM_Core_DAO::singleValueQuery("SELECT COUNT(*) FROM `$table_name`");
+    }
+    catch (CRM_Core_Exception $e) {
+      Civi::log()->error("Could not get tuple count for table '$table_name': {$e->getMessage()}");
+      return 0;
+    }
   }
 
   /**
    * Get a number of contact tuples
    *
-   * @param $count  int number of tuples to add
-   * @param $offset int offset/paging
-   * @param $pickers array CRM_Xdedupe_Pickers to use to determine the main contact
-   * @return array [main_contact_id => duplicates' contact ids]
+   * @param int $count number of tuples to add
+   * @param int $offset offset/paging
+   * @param array<CRM_Xdedupe_Picker> $pickers CRM_Xdedupe_Pickers to use to determine the main contact
+   *
+   * @return array<int, list<int>> [main_contact_id => duplicates' contact ids]
+   * @throws \Civi\Core\Exception\DBQueryException
    */
-  public function getTuples($count, $offset = 0, $pickers = []) {
+  public function getTuples(int $count, int $offset = 0, array $pickers = []): array {
     $tuple_list = [];
-    $count      = (int) $count;
-    $offset     = (int) $offset;
     $table_name = $this->getTableName();
-    $query      = CRM_Core_DAO::executeQuery(
-        "SELECT contact_ids, contact_id FROM `{$table_name}` LIMIT {$count} OFFSET {$offset}"
+    $query = CRM_Core_DAO::executeQuery(
+      "SELECT contact_ids, contact_id FROM `$table_name` LIMIT $count OFFSET $offset"
     );
     while ($query->fetch()) {
-      $contact_ids     = explode(',', $query->contact_ids);
+      $contact_ids = array_map('intval', explode(',', $query->contact_ids));
       $main_contact_id = NULL;
       foreach ($pickers as $picker) {
         $main_contact_id = $picker->selectMainContact($contact_ids);
@@ -132,11 +149,11 @@ class CRM_Xdedupe_DedupeRun {
       }
       if (!$main_contact_id) {
         // fallback is the minimum contact ID
-        $main_contact_id = $query->contact_id;
+        $main_contact_id = (int) $query->contact_id;
       }
 
       // remove main contact from rest
-      $key = array_search($main_contact_id, $contact_ids);
+      $key = array_search($main_contact_id, $contact_ids, FALSE);
       unset($contact_ids[$key]);
       // fix index
       $contact_ids = array_values($contact_ids);
@@ -152,6 +169,7 @@ class CRM_Xdedupe_DedupeRun {
    * Get the number of contacts involved
    *
    * @return int number of tuples found
+   * @throws \CRM_Core_Exception
    */
   public function getContactCount(): int {
     $table_name = $this->getTableName();
@@ -160,10 +178,12 @@ class CRM_Xdedupe_DedupeRun {
 
   /**
    * Clear the results
+   *
+   * @throws \CRM_Core_Exception
    */
   public function clear(): void {
     $table_name = $this->getTableName();
-    CRM_Core_DAO::singleValueQuery("DELETE FROM `{$table_name}`");
+    CRM_Core_DAO::singleValueQuery("DELETE FROM `$table_name`");
   }
 
   /**
@@ -172,8 +192,8 @@ class CRM_Xdedupe_DedupeRun {
   public function verifyTable(): void {
     $table_name = $this->getTableName();
     CRM_Core_DAO::executeQuery(
-        "
-      CREATE TABLE IF NOT EXISTS `{$table_name}`(
+      "
+      CREATE TABLE IF NOT EXISTS `$table_name`(
        `contact_id`   int unsigned NOT NULL     COMMENT 'minimum contact ID for index, not necessarily main contact',
        `match_count`  int unsigned NOT NULL     COMMENT 'number of contacts',
        `contact_ids`  varchar(255) NOT NULL     COMMENT 'all contact ids, comma separated',
@@ -187,47 +207,51 @@ class CRM_Xdedupe_DedupeRun {
   /**
    * Get the unqiue identifier for this run
    *
-   * @return string identifier
+   * @return ?string identifier
    */
-  public function getID() {
+  public function getID(): ?string {
     return $this->identifier;
   }
 
   /**
    * Add a filter to the run
    *
-   * @param $filter_class string class name of the filter
-   * @param $parameters   array  parameters
+   * @param string $filter_class class name of the filter
+   * @param array<string, mixed> $parameters  parameters
    */
-  public function addFilter($filter_class, $parameters = []): void {
-    $filter_index                 = count($this->filters) + 1;
-    $this->filters[$filter_index] = new $filter_class("filter{$filter_index}", $parameters);
+  public function addFilter(string $filter_class, array $parameters = []): void {
+    $filter_index = count($this->filters) + 1;
+    $this->filters[$filter_index] = new $filter_class("filter$filter_index", $parameters);
   }
 
   /**
    * Add a finder to the run
    *
-   * @param $finder_class string class name of the finder
-   * @param $parameters   array  parameters
+   * @param string $finder_class class name of the finder
+   * @param array<string, mixed> $parameters parameters
    */
-  public function addFinder($finder_class, $parameters = []): void {
-    $finder_index                 = count($this->finders) + 1;
-    $this->finders[$finder_index] = new $finder_class("finder{$finder_index}", $parameters);
+  public function addFinder(string $finder_class, array $parameters = []): void {
+    $finder_index = count($this->finders) + 1;
+    $this->finders[$finder_index] = new $finder_class("finder$finder_index", $parameters);
   }
 
   /**
    * Find all contacts and put them in the list
+   *
+   * @param array<string, mixed> $params
+   *
+   * @throws \Civi\Core\Exception\DBQueryException
    */
-  public function find($params): void {
+  public function find(array $params): void {
     $timestamp = microtime(TRUE);
 
     // build SQL query
-    $JOINS     = [];
-    $WHERES    = [];
+    $JOINS = [];
+    $WHERES = [];
     $GROUP_BYS = [];
 
     // add default stuff
-    if (!empty($params['contact_type'])) {
+    if (($params['contact_type'] ?? '') !== '') {
       $WHERES[] = "contact.contact_type = '{$params['contact_type']}'";
     }
     $WHERES[] = '(contact.is_deleted = 0 OR contact.is_deleted IS NULL)';
@@ -243,13 +267,13 @@ class CRM_Xdedupe_DedupeRun {
       $filter->addWHERES($WHERES);
     }
     $JOINS = implode(" \n    ", $JOINS);
-    if (empty($WHERES)) {
+    if ($WHERES === []) {
       $WHERES = 'TRUE';
     }
     else {
       $WHERES = '(' . implode(") \n      AND (", $WHERES) . ')';
     }
-    if (empty($GROUP_BYS)) {
+    if ($GROUP_BYS === []) {
       $GROUP_BYS = '';
     }
     else {
@@ -257,8 +281,8 @@ class CRM_Xdedupe_DedupeRun {
     }
 
     $table_name = $this->getTableName();
-    $sql        = "
-    INSERT IGNORE INTO `{$table_name}` (contact_id, match_count, contact_ids)
+    $sql = "
+    INSERT IGNORE INTO `$table_name` (contact_id, match_count, contact_ids)
     SELECT
      MIN(contact.id)                    AS contact_id,
      COUNT(DISTINCT(contact.id))        AS match_count,
@@ -283,26 +307,33 @@ class CRM_Xdedupe_DedupeRun {
   /**
    * Remove the tuple identified by the main contact ID
    *
-   * @param $main_contact_id int    contact ID
+   * @param int $main_contact_id contact ID
    */
-  public function removeTuple($main_contact_id): void {
-    $main_contact_id = (int) $main_contact_id;
-    $table_name      = $this->getTableName();
-    CRM_Core_DAO::executeQuery("DELETE FROM `{$table_name}` WHERE contact_id = {$main_contact_id}");
+  public function removeTuple(int $main_contact_id): void {
+    $table_name = $this->getTableName();
+    try {
+      CRM_Core_DAO::executeQuery("DELETE FROM `$table_name` WHERE contact_id = $main_contact_id");
+    }
+    catch (DBQueryException $e) {
+      Civi::log()->error("Could not remove tuple for main contact ID $main_contact_id: {$e->getMessage()}");
+    }
   }
 
   /**
-   * Replae the tuple identified by $main_contact_id with this one
+   * Replace the tuple identified by $main_contact_id with this one
+   *
    * @param $main_contact_id
    * @param $new_tuple
+   *
+   * @throws \Civi\Core\Exception\DBQueryException
    */
   public function updateTuple($main_contact_id, $new_tuple): void {
     if ($new_tuple && $main_contact_id) {
       $new_main_contact_id = (int) min($new_tuple);
-      $contact_ids         = implode(',', $new_tuple);
-      $table_name          = $this->getTableName();
+      $contact_ids = implode(',', $new_tuple);
+      $table_name = $this->getTableName();
       CRM_Core_DAO::executeQuery(
-        "UPDATE `{$table_name}` SET contact_id = %3, contact_ids = %2 WHERE contact_id = %1",
+        "UPDATE `$table_name` SET contact_id = %3, contact_ids = %2 WHERE contact_id = %1",
         [
           1 => [$main_contact_id, 'Integer'],
           2 => [$contact_ids, 'String'],
@@ -314,14 +345,16 @@ class CRM_Xdedupe_DedupeRun {
 
   /**
    * Update the merged_count column in the box
-   * @param $main_contact_id  int main contact ID
-   * @param $merged_count     int amount of contacts merged
+   *
+   * @param int $main_contact_id main contact ID
+   * @param int $merged_count amount of contacts merged
+   *
+   * @throws \Civi\Core\Exception\DBQueryException
    */
-  public function setContactsMerged($main_contact_id, $merged_count): void {
-    $merged_count = (int) $merged_count;
-    $table_name   = $this->getTableName();
+  public function setContactsMerged(int $main_contact_id, int $merged_count): void {
+    $table_name = $this->getTableName();
     CRM_Core_DAO::executeQuery(
-        "UPDATE `{$table_name}` SET merged_count = {$merged_count} WHERE contact_id = {$main_contact_id}"
+      "UPDATE `$table_name` SET merged_count = $merged_count WHERE contact_id = $main_contact_id"
     );
   }
 

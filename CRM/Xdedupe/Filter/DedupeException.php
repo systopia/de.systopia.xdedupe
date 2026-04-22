@@ -24,25 +24,21 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Filter_DedupeException extends CRM_Xdedupe_Filter {
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Exclude Dedupe Exceptions');
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts("Exclude contacts (not tuples!) that are in the system's dedupe exception list.");
   }
 
   /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
+   * @inheritDoc
    */
   public function addJOINS(&$joins): void {
     $joins[] = "LEFT JOIN civicrm_dedupe_exception {$this->alias}_a ON {$this->alias}_a.contact_id1 = contact.id";
@@ -50,9 +46,7 @@ class CRM_Xdedupe_Filter_DedupeException extends CRM_Xdedupe_Filter {
   }
 
   /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
+   * @inheritDoc
    */
   public function addWHERES(&$wheres): void {
     $wheres[] = "({$this->alias}_a.id IS NULL AND {$this->alias}_b.id IS NULL)";

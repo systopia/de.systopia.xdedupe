@@ -23,6 +23,9 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 class CRM_Xdedupe_Picker_PersonalActivities extends CRM_Xdedupe_Picker_Activities {
 
+  /**
+   * @var list<string>
+   */
   protected static array $exclude_names = [
     'Bulk Email',
     'Change Membership Status',
@@ -32,12 +35,9 @@ class CRM_Xdedupe_Picker_PersonalActivities extends CRM_Xdedupe_Picker_Activitie
   ];
 
   /**
-   * Select the main contact from a set of contacts
-   *
-   * @param $contact_ids array list of contact IDs
-   * @return int|null one of the contacts in the list. null means "can't decide"
+   * @inheritDoc
    */
-  public function selectMainContact($contact_ids): ?int {
+  public function selectMainContact(array $contact_ids): ?int {
     // look up activity ids
     if ($this->exclude_activity_ids === NULL) {
       $this->exclude_activity_ids = $this->resolveActivityTypes(self::$exclude_names);

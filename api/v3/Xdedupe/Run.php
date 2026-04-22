@@ -20,6 +20,7 @@ use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * XDedupe run: run a single configuration or all
+ *
  * @param array<string, array<string, mixed>> $spec
  */
 function _civicrm_api3_xdedupe_run_spec(&$spec): void {
@@ -55,7 +56,7 @@ function _civicrm_api3_xdedupe_run_spec(&$spec): void {
 /**
  * API Specs:Xdedupe.run: run and merge a configuration
  *
- * @param array $params see specs
+ * @param array $params<string, mixed> see specs
  *
  * @return array result merge result
  * @throws CRM_Core_Exception
@@ -68,7 +69,7 @@ function civicrm_api3_xdedupe_run($params): array {
     $configs_to_run = CRM_Xdedupe_Configuration::getAllScheduled();
   }
   elseif (preg_match('/[0-9, ]+/', $params['cid'])) {
-    $scheduled_override = !empty($params['scheduled_override']);
+    $scheduled_override = (bool) ($params['scheduled_override'] ?? FALSE);
     $configs_to_run = [];
     foreach (explode(',', $params['cid']) as $cid) {
       $cid = (int) $cid;
@@ -93,6 +94,7 @@ function civicrm_api3_xdedupe_run($params): array {
       $all_stats[] = $config_to_run->run($params, $merge_limit);
     }
     catch (Exception $ex) {
+      // @ignoreException
       $config_id = $config_to_run->getID();
       return civicrm_api3_create_error(
         "An exception occurred with configuration [$config_id]: " . $ex->getMessage()
@@ -105,10 +107,10 @@ function civicrm_api3_xdedupe_run($params): array {
   foreach ($all_stats as $stats) {
     foreach ($stats as $key => $value) {
       if (is_numeric($value)) {
-        $final_stats[$key] = $value + CRM_Utils_Array::value($key, $final_stats, 0);
+        $final_stats[$key] = $value + ($final_stats[$key] ?? 0);
       }
       elseif (is_array($value)) {
-        $final_stats[$key] = $value + CRM_Utils_Array::value($key, $final_stats, []);
+        $final_stats[$key] = $value + ($final_stats[$key] ?? []);
       }
     }
   }

@@ -23,10 +23,10 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter {
 
-  protected $group_id;
+  protected ?int $group_id = NULL;
   protected bool $include = TRUE;
 
-  public function __construct($alias, $params) {
+  public function __construct(?string $alias, ?array $params) {
     parent::__construct($alias, $params);
     if (isset($params['group_id'])) {
       $this->group_id = (int) $params['group_id'];
@@ -37,25 +37,22 @@ class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter {
   }
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Group %1', [1 => $this->group_id]);
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts('Filter for contacts in the given group');
   }
 
   /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
+   * @inheritDoc
+   * @throws \CRM_Core_Exception
    */
   public function addJOINS(&$joins): void {
     if ($this->group_id) {
@@ -70,23 +67,21 @@ class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter {
       }
 
       // finally: add the join
-      $joins[] = "LEFT JOIN {$table} {$this->alias} ON {$this->alias}.contact_id = contact.id
-        AND {$this->alias}.group_id = {$this->group_id}" .
-        ($is_smart_group ? '' : " AND {$this->alias}.status = 'Added'");
+      $joins[] = "LEFT JOIN $table $this->alias ON $this->alias.contact_id = contact.id
+        AND $this->alias.group_id = $this->group_id" .
+        ($is_smart_group ? '' : " AND $this->alias.status = 'Added'");
     }
   }
 
   /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
+   * @inheritDoc
    */
   public function addWHERES(&$wheres): void {
     if ($this->include) {
-      $wheres[] = "{$this->alias}.contact_id IS NOT NULL";
+      $wheres[] = "$this->alias.contact_id IS NOT NULL";
     }
     else {
-      $wheres[] = "{$this->alias}.contact_id IS NULL";
+      $wheres[] = "$this->alias.contact_id IS NULL";
     }
   }
 

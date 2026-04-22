@@ -24,16 +24,14 @@ use CRM_Xdedupe_ExtensionUtil as E;
 class CRM_Xdedupe_Finder_OrganizationNameNoCase extends CRM_Xdedupe_Finder_OrganizationName {
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Identical Organization Name (case insensitive)');
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     // phpcs:ignore Generic.Files.LineLength.TooLong
@@ -41,9 +39,7 @@ class CRM_Xdedupe_Finder_OrganizationNameNoCase extends CRM_Xdedupe_Finder_Organ
   }
 
   /**
-   * Add this finder's GROUP BY clauses to the list
-   *
-   * @param $groupbys array
+   * @inheritDoc
    */
   public function addGROUPBYS(&$groupbys): void {
     $groupbys[] = 'LOWER(contact.organization_name)';

@@ -33,41 +33,35 @@ class CRM_Xdedupe_Filter_Tag extends CRM_Xdedupe_Filter {
   }
 
   /**
-   * get the name of the finder
-   * @return string name
+   * @inheritDoc
    */
   public function getName(): string {
     return E::ts('Tag %1', [1 => $this->tag_id]);
   }
 
   /**
-   * get an explanation what the finder does
-   * @return string name
+   * @inheritDoc
    */
   public function getHelp(): string {
     return E::ts('Filter for contacts in the given tag');
   }
 
   /**
-   * Add this finder's JOIN clauses to the list
-   *
-   * @param $joins array
+   * @inheritDoc
    */
   public function addJOINS(&$joins): void {
     if ($this->tag_id) {
-      $joins[] = "LEFT JOIN civicrm_entity_tag {$this->alias} ON {$this->alias}.entity_id = contact.id
-                                                              AND {$this->alias}.entity_table = 'civicrm_contact'
-                                                              AND {$this->alias}.tag_id = {$this->tag_id}";
+      $joins[] = "LEFT JOIN civicrm_entity_tag $this->alias ON $this->alias.entity_id = contact.id
+                                                              AND $this->alias.entity_table = 'civicrm_contact'
+                                                              AND $this->alias.tag_id = $this->tag_id";
     }
   }
 
   /**
-   * Add this finder's WHERE clauses to the list
-   *
-   * @param $wheres array
+   * @inheritDoc
    */
   public function addWHERES(&$wheres): void {
-    $wheres[] = "{$this->alias}.id IS NOT NULL";
+    $wheres[] = "$this->alias.id IS NOT NULL";
   }
 
 }

@@ -143,7 +143,7 @@ class CRM_Xdedupe_Config implements EventSubscriberInterface {
     static $conflict_location_type_id = NULL;
     if ($conflict_location_type_id === NULL) {
       $location_type = civicrm_api3('LocationType', 'get', ['name' => 'Conflict']);
-      if (empty($location_type['id'])) {
+      if (($location_type['id'] ?? 0) === 0) {
         // create it
         $result                    = civicrm_api3(
         'LocationType',
@@ -220,12 +220,13 @@ class CRM_Xdedupe_Config implements EventSubscriberInterface {
         ]
         );
       }
-      catch (Exception $ex) {
+      catch (Exception) {
+        // @ignoreException
         // doesn't exist
         $merge_activity_id = 0;
       }
     }
-    return $merge_activity_id;
+    return (int) $merge_activity_id;
   }
 
 }
