@@ -43,7 +43,9 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   /**
    * AJAX call to get the data for tuple data
    */
+  // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
   public static function getTupleRowsAJAX() {
+  // phpcs:enable
     $params = CRM_Core_Page_AJAX::defaultSortAndPagerParams();
     $params += CRM_Core_Page_AJAX::validateParams(['dedupe_run' => 'String', 'pickers' => 'String']);
     // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
@@ -593,7 +595,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
     return $tag_list;
   }
 
-  // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
+  // phpcs:disable Generic.Metrics.CyclomaticComplexity.MaxExceeded
   public function postProcess() {
     // phpcs:enable
     $values = $this->exportValues();

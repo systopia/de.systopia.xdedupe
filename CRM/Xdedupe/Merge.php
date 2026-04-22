@@ -213,7 +213,7 @@ class CRM_Xdedupe_Merge {
    * @return bool merge succeeded?
    * @throws \CRM_Core_Exception
    */
-  // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh,Generic.Metrics.NestingLevel.TooHigh
+  // phpcs:disable Generic.Metrics.CyclomaticComplexity.MaxExceeded,Generic.Metrics.NestingLevel.TooHigh
   public function merge(int $main_contact_id, int $other_contact_id, bool $part_of_tuple = FALSE): bool {
     // phpcs:enable
     if ($main_contact_id === $other_contact_id) {

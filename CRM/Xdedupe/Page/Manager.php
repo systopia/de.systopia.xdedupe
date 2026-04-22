@@ -89,23 +89,23 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
     if ($config_id) {
       // load config ID
       $configuration = CRM_Xdedupe_Configuration::get($config_id);
-      $config        = $configuration->getConfig();
+      $config = $configuration->getConfig();
 
       // create + configure dedupe run
       $dedupe_run = $configuration->find();
 
       $configuration->setStats(
         [
-          'tuples_found'    => $dedupe_run->getTupleCount(),
-          'contact_count'   => $dedupe_run->getContactCount(),
-          'finder_runtime'  => $dedupe_run->getFinderRuntime(),
-          'merger_runtime'  => 0.0,
-          'tuples_merged'   => 0,
+          'tuples_found' => $dedupe_run->getTupleCount(),
+          'contact_count' => $dedupe_run->getContactCount(),
+          'finder_runtime' => $dedupe_run->getFinderRuntime(),
+          'merger_runtime' => 0.0,
+          'tuples_merged' => 0,
           'contacts_merged' => 0,
-          'last_run'        => date('YmdHis'),
-          'type'            => 'manual',
-      // will be set to 0 at the end
-          'aborted'         => 1,
+          'last_run' => date('YmdHis'),
+          'type' => 'manual',
+          // will be set to 0 at the end
+          'aborted' => 1,
         ],
         TRUE
       );
@@ -115,10 +115,10 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
         (string) $dedupe_run->getID(),
         [
           'force_merge' => (bool) ($config['force_merge'] ?? FALSE) ? '1' : '0',
-          'resolvers'   => $config['auto_resolve'],
-          'pickers'     => $config['main_contact'],
-          'merge_log'   => $config['merge_log'],
-          'config_id'   => $configuration->getID(),
+          'resolvers' => $config['auto_resolve'],
+          'pickers' => $config['main_contact'],
+          'merge_log' => $config['merge_log'],
+          'config_id' => $configuration->getID(),
         ],
         CRM_Utils_System::url('civicrm/xdedupe/manage', 'reset=1')
       );
@@ -131,7 +131,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
   protected function processEnableDisableCommand(): void {
     foreach (['manual', 'automatic', 'scheduled'] as $mode) {
       /** @var int $enable_id */
-      $enable_id  = CRM_Utils_Request::retrieve("enable_{$mode}", 'Integer');
+      $enable_id = CRM_Utils_Request::retrieve("enable_{$mode}", 'Integer');
       /** @var int $disable_id */
       $disable_id = CRM_Utils_Request::retrieve("disable_{$mode}", 'Integer');
 
@@ -160,13 +160,13 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
    */
   protected function renderConfiguration(CRM_Xdedupe_Configuration $configuration): array {
     $data = [
-      'id'           => $configuration->getID(),
-      'name'         => $configuration->getAttribute('name'),
-      'description'  => (string) $configuration->getAttribute('description'),
-      'is_manual'    => $configuration->getAttribute('is_manual'),
+      'id' => $configuration->getID(),
+      'name' => $configuration->getAttribute('name'),
+      'description' => (string) $configuration->getAttribute('description'),
+      'is_manual' => $configuration->getAttribute('is_manual'),
       'is_automatic' => $configuration->getAttribute('is_automatic'),
       'is_scheduled' => $configuration->getAttribute('is_scheduled'),
-      'last_run'     => $this->renderDate($configuration->getStats()['last_run'] ?? NULL),
+      'last_run' => $this->renderDate($configuration->getStats()['last_run'] ?? NULL),
     ];
     if (strlen($data['description']) > 64) {
       $data['short_desc'] = substr($data['description'], 0, 64) . '...';
@@ -195,7 +195,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
    */
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.MaxExceeded
   protected function renderStats(array $stats): string {
-  // phpcs:enable
+    // phpcs:enable
     if ($stats === []) {
       return E::ts('No statistics available');
     }
@@ -294,7 +294,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
    */
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
   protected function processRearrangeCommand(): void {
-  // phpcs:enable
+    // phpcs:enable
     foreach (['top', 'up', 'down', 'bottom'] as $cmd) {
       $configuration_id = CRM_Utils_Request::retrieve($cmd, 'Integer');
       if (!$configuration_id) {
@@ -302,7 +302,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
       }
 
       $configuration_order = CRM_Xdedupe_Configuration::getAll();
-      $original_order      = $configuration_order;
+      $original_order = $configuration_order;
 
       // find the task
       $index = FALSE;

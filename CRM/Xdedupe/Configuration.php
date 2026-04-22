@@ -364,7 +364,9 @@ class CRM_Xdedupe_Configuration {
    * @return CRM_Xdedupe_DedupeRun
    *   the run containing all tuples
    */
+  // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
   public function find(?string $dedupe_run_id = NULL): CRM_Xdedupe_DedupeRun {
+  // phpcs:enable
     // get/init the dedupe run object
     if ($dedupe_run_id) {
       $dedupe_run = new CRM_Xdedupe_DedupeRun($dedupe_run_id);
