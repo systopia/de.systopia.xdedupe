@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 use Civi\Test;
 use Civi\Test\HeadlessInterface;
-use Civi\Test\HookInterface;
 use Civi\Test\TransactionalInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -13,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @group headless
  */
-class CRM_Xdedupe_DedupeRunTest extends TestCase implements HeadlessInterface, HookInterface, TransactionalInterface {
+class CRM_Xdedupe_DedupeRunTest extends TestCase implements HeadlessInterface, TransactionalInterface {
 
   public function setUpHeadless(): Test\CiviEnvBuilder {
     return Test::headless()
