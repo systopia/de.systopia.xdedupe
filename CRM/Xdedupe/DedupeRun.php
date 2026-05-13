@@ -27,8 +27,7 @@ class CRM_Xdedupe_DedupeRun {
 
   public const MAX_TABLE_RETENTION = '2 days';
 
-  /**
-   * name of the underlying temp table*/
+  // name of the underlying temp table
   protected string $identifier;
 
   protected array $finders = [];
@@ -217,7 +216,7 @@ class CRM_Xdedupe_DedupeRun {
    * Add a filter to the run
    *
    * @param string $filter_class class name of the filter
-   * @param array<string, mixed> $parameters  parameters
+   * @param array<string, mixed> $parameters parameters
    */
   public function addFilter(string $filter_class, array $parameters = []): void {
     $filter_index = count($this->filters) + 1;
@@ -322,13 +321,13 @@ class CRM_Xdedupe_DedupeRun {
   /**
    * Replace the tuple identified by $main_contact_id with this one
    *
-   * @param $main_contact_id
-   * @param $new_tuple
+   * @param int $main_contact_id
+   * @param list<int> $new_tuple
    *
    * @throws \Civi\Core\Exception\DBQueryException
    */
-  public function updateTuple($main_contact_id, $new_tuple): void {
-    if ($new_tuple && $main_contact_id) {
+  public function updateTuple(int $main_contact_id, array $new_tuple): void {
+    if ($main_contact_id > 0 && count($new_tuple) > 0) {
       $new_main_contact_id = (int) min($new_tuple);
       $contact_ids = implode(',', $new_tuple);
       $table_name = $this->getTableName();

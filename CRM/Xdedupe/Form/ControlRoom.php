@@ -16,6 +16,7 @@
 
 declare(strict_types = 1);
 
+use Civi\Core\SettingsBag;
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
@@ -44,7 +45,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    * AJAX call to get the data for tuple data
    */
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
-  public static function getTupleRowsAJAX() {
+  public static function getTupleRowsAJAX(): void {
   // phpcs:enable
     $params = CRM_Core_Page_AJAX::defaultSortAndPagerParams();
     $params += CRM_Core_Page_AJAX::validateParams(['dedupe_run' => 'String', 'pickers' => 'String']);
@@ -166,7 +167,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   }
 
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
-  public function buildQuickForm() {
+  public function buildQuickForm(): void {
     // phpcs:enable
     CRM_Utils_System::setTitle(E::ts('Extendend Dedupe - Control Room'));
     // these are defaults, and will most likely be overwritten later
@@ -486,7 +487,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    *
    * @return bool
    */
-  public function validate() {
+  public function validate(): bool {
     parent::validate();
 
     // make sure that the save/save_as function has a name set
@@ -530,7 +531,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    *
    * @return \Civi\Core\SettingsBag
    */
-  public static function getUserSettings() {
+  public static function getUserSettings(): SettingsBag {
     return Civi::service('settings_manager')->getBagByContact(
       CRM_Core_Config::domainID(),
       CRM_Core_Session::getLoggedInContactID()
@@ -539,8 +540,10 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
   /**
    * Get a list of filter options
+   *
+   * @return array<string,string>
    */
-  protected function getContactTypeOptions() {
+  protected function getContactTypeOptions(): array {
     // todo: dynamic?
     return [
       '' => E::ts('any'),
@@ -552,8 +555,10 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
   /**
    * Get the list of all (active) groups
+   *
+   * @return array<string,string>|null
    */
-  protected function getGroups() {
+  protected function getGroups(): ?array {
     static $group_list = NULL;
     if ($group_list === NULL) {
       $group_list = ['' => E::ts('None')];
@@ -576,8 +581,10 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
   /**
    * Get the list of all active contact tags
+   *
+   * @return array<string,string>
    */
-  protected function getTags() {
+  protected function getTags(): array {
     $tag_list = ['' => E::ts('None')];
     $tags = civicrm_api3(
       'Tag',
@@ -596,7 +603,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   }
 
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.MaxExceeded
-  public function postProcess() {
+  public function postProcess(): void {
     // phpcs:enable
     $values = $this->exportValues();
 
@@ -734,7 +741,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    * @throws Exception
    *   If the configuration ID doesn't exist.
    */
-  protected function getConfiguration() {
+  protected function getConfiguration(): CRM_Xdedupe_Configuration {
     $configuration = CRM_Xdedupe_Configuration::get($this->cid);
     if ($configuration) {
       return $configuration;
@@ -748,7 +755,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    *
    * @param $values
    */
-  protected function prepareSubmissionData(&$values) {
+  protected function prepareSubmissionData(&$values): void {
     // join picker fields
     $values['main_contact'] = [];
     foreach (range(1, self::PICKER_COUNT) as $i) {
@@ -767,7 +774,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    *
    * @return string HTML code for image
    */
-  protected function getContactImage($contact) {
+  protected function getContactImage($contact): string {
     return CRM_Contact_BAO_Contact_Utils::getImage(
       ($contact['contact_sub_type'] ?? '') === '' ? $contact['contact_type'] : $contact['contact_sub_type'],
       FALSE,
@@ -785,7 +792,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
    * @return boolean
    *   true if the config has changed
    */
-  protected function configChanged($configuration) {
+  protected function configChanged($configuration): bool {
     if (($_GET['cid'] ?? '') !== '') {
       // if it's fresh from the URL, this hasn't been touched yet
       return FALSE;

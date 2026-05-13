@@ -81,8 +81,9 @@ class CRM_Xdedupe_Configuration {
   /**
    * Delete a configuration with the given ID
    *
-   * @param integer $cid
-   *      configuration ID
+   * @param int|string $cid configuration ID
+   *
+   * @throws \Civi\Core\Exception\DBQueryException
    */
   public static function delete($cid): void {
     $cid = (int) $cid;
@@ -94,8 +95,8 @@ class CRM_Xdedupe_Configuration {
   /**
    * Get a list of all configurations
    *
-   * @return array
-   *   list of CRM_Xdedupe_Configuration objects
+   * @return array<int, CRM_Xdedupe_Configuration> list of CRM_Xdedupe_Configuration objects
+   *
    * @throws \Civi\Core\Exception\DBQueryException
    */
   public static function getAll(): array {
@@ -105,8 +106,8 @@ class CRM_Xdedupe_Configuration {
   /**
    * Get a list of all configurations
    *
-   * @return array
-   *   list of CRM_Xdedupe_Configuration objects
+   * @return array<int, CRM_Xdedupe_Configuration> list of CRM_Xdedupe_Configuration objects
+   *
    * @throws \Civi\Core\Exception\DBQueryException
    */
   public static function getAllScheduled(): array {
@@ -121,8 +122,8 @@ class CRM_Xdedupe_Configuration {
    * @param string $sql_query
    *      selection criteria to load from rows from civicrm_xdedupe_configuration
    *
-   * @return array
-   *   list of CRM_Xdedupe_Configuration objects
+   * @return array<int, CRM_Xdedupe_Configuration> list of CRM_Xdedupe_Configuration objects
+   *
    * @throws \Civi\Core\Exception\DBQueryException
    */
   public static function getConfigurations(string $sql_query): array {
@@ -155,22 +156,26 @@ class CRM_Xdedupe_Configuration {
    * @param int $cid
    *      configuration ID
    *
-   * @return CRM_Xdedupe_Configuration|null
-   *   return a configuration object
+   * @return CRM_Xdedupe_Configuration|NULL return a configuration object
+   *
+   * @throws \Civi\Core\Exception\DBQueryException
    */
   public static function get(int $cid): ?CRM_Xdedupe_Configuration {
     if ($cid === 0) {
       return NULL;
     }
     $configurations = self::getConfigurations("SELECT * FROM `civicrm_xdedupe_configuration` WHERE id = $cid");
-    return reset($configurations);
+    $result = reset($configurations);
+    if ($result === FALSE) {
+      return NULL;
+    }
+    return $result;
   }
 
   /**
    * get a single attribute from the configuration
    *
-   * @return int
-   *   configuration ID
+   * @return int configuration ID
    */
   public function getID(): int {
     return $this->configuration_id;
@@ -366,7 +371,7 @@ class CRM_Xdedupe_Configuration {
    */
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
   public function find(?string $dedupe_run_id = NULL): CRM_Xdedupe_DedupeRun {
-  // phpcs:enable
+    // phpcs:enable
     // get/init the dedupe run object
     if ($dedupe_run_id) {
       $dedupe_run = new CRM_Xdedupe_DedupeRun($dedupe_run_id);

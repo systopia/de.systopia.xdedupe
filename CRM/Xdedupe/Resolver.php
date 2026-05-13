@@ -19,11 +19,10 @@ declare(strict_types = 1);
 use Civi\Core\Event\GenericHookEvent;
 
 /**
- * Implement a "Resolver", i.e. a class that can automatically resolve certain merge conflicts
+ * Implement a "Resolver", i.e., a class that can automatically resolve certain merge conflicts
  */
 // phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
 abstract class CRM_Xdedupe_Resolver {
-
   // phpcs:enable
 
   protected ?CRM_Xdedupe_Merge $merge = NULL;
@@ -42,7 +41,7 @@ abstract class CRM_Xdedupe_Resolver {
   }
 
   /**
-   * Get the spec (i.e. class name) that refers to this resolver
+   * Get the spec (i.e., class name) that refers to this resolver
    *
    * @return string spec string
    */
@@ -65,10 +64,10 @@ abstract class CRM_Xdedupe_Resolver {
   abstract public function resolve(int $main_contact_id, array $other_contact_ids): bool;
 
   /**
-   * Run some postprocessing, e.g. clean-up or similar, after the merge was successful
+   * Run some postprocessing, e.g., cleanup or similar, after the merge was successful
    *
-   * @param $main_contact_id    int     the main contact ID
-   * @param $other_contact_ids  array   other contact IDs
+   * @param int $main_contact_id the main contact ID
+   * @param array $other_contact_ids other contact IDs
    *
    * @throws Exception if the conflict couldn't be resolved
    */
@@ -149,7 +148,7 @@ abstract class CRM_Xdedupe_Resolver {
   public static function getResolverInstance(string $resolver_spec, ?CRM_Xdedupe_Merge $merge = NULL): ?self {
     $resolver_parameter = NULL;
     if (str_contains($resolver_spec, ':')) {
-      // this is a spec, i.e. a class name : parameter
+      // this is a spec, i.e., a class name: parameter
       [$resolver_spec, $resolver_parameter] = explode(':', $resolver_spec, 2);
     }
     if (class_exists($resolver_spec)) {

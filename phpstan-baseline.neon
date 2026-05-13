@@ -67,24 +67,6 @@ parameters:
 			path: CRM/Xdedupe/Configuration.php
 
 		-
-			message: '#^Method CRM_Xdedupe_Configuration\:\:getAll\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: CRM/Xdedupe/Configuration.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Configuration\:\:getAllScheduled\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: CRM/Xdedupe/Configuration.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Configuration\:\:getConfigurations\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: CRM/Xdedupe/Configuration.php
-
-		-
 			message: '#^Method CRM_Xdedupe_Configuration\:\:getStats\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -217,18 +199,6 @@ parameters:
 			path: CRM/Xdedupe/DedupeRun.php
 
 		-
-			message: '#^Method CRM_Xdedupe_DedupeRun\:\:updateTuple\(\) has parameter \$main_contact_id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/DedupeRun.php
-
-		-
-			message: '#^Method CRM_Xdedupe_DedupeRun\:\:updateTuple\(\) has parameter \$new_tuple with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/DedupeRun.php
-
-		-
 			message: '#^Only booleans are allowed in a negated boolean, int\|null given\.$#'
 			identifier: booleanNot.exprNotBoolean
 			count: 1
@@ -331,38 +301,8 @@ parameters:
 			path: CRM/Xdedupe/Filter/Similarity.php
 
 		-
-			message: '#^Loose comparison via "\!\=" is not allowed\.$#'
-			identifier: notEqual.notAllowed
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
-			identifier: equal.notAllowed
-			count: 2
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:buildSimilarityMatrix\(\) has parameter \$contact_ids with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
 			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:buildSimilarityMatrix\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:cacheDataForContacts\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:cacheDataForContacts\(\) has parameter \$contact_ids with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: CRM/Xdedupe/Filter/Similarity.php
 
@@ -373,68 +313,14 @@ parameters:
 			path: CRM/Xdedupe/Filter/Similarity.php
 
 		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getBestTuple\(\) has parameter \$contact_ids with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getBestTuple\(\) has parameter \$matrix with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) has parameter \$cache with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) has parameter \$contact_ids with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) has parameter \$matrix with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) has parameter \$size with no type specified\.$#'
-			identifier: missingType.parameter
+			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) has parameter \$cache with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: CRM/Xdedupe/Filter/Similarity.php
 
 		-
 			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:getTuplesOfSize\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:rateTuple\(\) has parameter \$matrix with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:rateTuple\(\) has parameter \$tuple with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:similarity\(\) has parameter \$contact_id_a with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Filter_Similarity\:\:similarity\(\) has parameter \$contact_id_b with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: CRM/Xdedupe/Filter/Similarity.php
 
@@ -447,30 +333,6 @@ parameters:
 		-
 			message: '#^Only booleans are allowed in an if condition, int\<0, max\> given\.$#'
 			identifier: if.condNotBoolean
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Property CRM_Xdedupe_Filter_Similarity\:\:\$attributes has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Property CRM_Xdedupe_Filter_Similarity\:\:\$batch_size has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Property CRM_Xdedupe_Filter_Similarity\:\:\$data_cache has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: CRM/Xdedupe/Filter/Similarity.php
-
-		-
-			message: '#^Property CRM_Xdedupe_Filter_Similarity\:\:\$threshold has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: CRM/Xdedupe/Filter/Similarity.php
 
@@ -489,18 +351,6 @@ parameters:
 		-
 			message: '#^Method CRM_Xdedupe_Finder\:\:getFinderInstances\(\) should return array\<CRM_Xdedupe_Finder\> but returns list\<object\>\.$#'
 			identifier: return.type
-			count: 1
-			path: CRM/Xdedupe/Finder.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Finder\:\:getFinderList\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: CRM/Xdedupe/Finder.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Finder\:\:getFinders\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
 			count: 1
 			path: CRM/Xdedupe/Finder.php
 
@@ -665,12 +515,6 @@ parameters:
 			path: CRM/Xdedupe/Form/ControlRoom.php
 
 		-
-			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:buildQuickForm\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: CRM/Xdedupe/Form/ControlRoom.php
-
-		-
 			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:configChanged\(\) has parameter \$configuration with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -683,30 +527,6 @@ parameters:
 			path: CRM/Xdedupe/Form/ControlRoom.php
 
 		-
-			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:getContactTypeOptions\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: CRM/Xdedupe/Form/ControlRoom.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:getGroups\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: CRM/Xdedupe/Form/ControlRoom.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:getTags\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: CRM/Xdedupe/Form/ControlRoom.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:getTupleRowsAJAX\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: CRM/Xdedupe/Form/ControlRoom.php
-
-		-
 			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:handle\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -715,18 +535,6 @@ parameters:
 		-
 			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:handle\(\) has parameter \$actionName with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: CRM/Xdedupe/Form/ControlRoom.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:postProcess\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: CRM/Xdedupe/Form/ControlRoom.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Form_ControlRoom\:\:prepareSubmissionData\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: CRM/Xdedupe/Form/ControlRoom.php
 
@@ -1026,12 +834,6 @@ parameters:
 		-
 			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
 			identifier: equal.notAllowed
-			count: 1
-			path: CRM/Xdedupe/Page/Manager.php
-
-		-
-			message: '#^Method CRM_Xdedupe_Page_Manager\:\:renderConfiguration\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
 			count: 1
 			path: CRM/Xdedupe/Page/Manager.php
 
@@ -1452,7 +1254,7 @@ parameters:
 		-
 			message: '#^NotIdentical\: Insane comparison between '''' and ''''\.$#'
 			identifier: voku.NotIdentical
-			count: 2
+			count: 1
 			path: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
 
 		-

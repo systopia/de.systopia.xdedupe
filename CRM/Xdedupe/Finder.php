@@ -29,7 +29,7 @@ abstract class CRM_Xdedupe_Finder extends CRM_Xdedupe_QueryPlugin {
   /**
    * Get a list of all available finder classes
    *
-   * @return array list of class names
+   * @return array<string> list of class names
    */
   public static function getFinders(): array {
     $finder_list = [];
@@ -43,7 +43,7 @@ abstract class CRM_Xdedupe_Finder extends CRM_Xdedupe_QueryPlugin {
   /**
    * Get a list of all available finder classes
    *
-   * @return array class => name
+   * @return array<string, string> class => name
    */
   public static function getFinderList(): array {
     $finder_list = [];

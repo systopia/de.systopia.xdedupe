@@ -155,7 +155,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
    * @param CRM_Xdedupe_Configuration $configuration
    *   the configuration
    *
-   * @return array
+   * @return array<string, mixed>
    *   data structure to be passed to the template engine
    */
   protected function renderConfiguration(CRM_Xdedupe_Configuration $configuration): array {
@@ -191,7 +191,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
   /**
    * render stats
    *
-   * @param array $stats
+   * @param array $stats<string, mixed>
    */
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.MaxExceeded
   protected function renderStats(array $stats): string {

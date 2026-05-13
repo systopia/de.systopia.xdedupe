@@ -23,10 +23,17 @@ declare(strict_types = 1);
 abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
 // phpcs:enable
 
-  protected $attributes = [];
-  protected $threshold = 0.95;
-  protected $batch_size = 250;
-  protected $data_cache = [];
+  /**
+   * @var array<string> list of attributes to compare.
+   */
+  protected array $attributes = [];
+  protected float $threshold = 0.95;
+  protected int $batch_size = 250;
+
+  /**
+   * @var array<string, array<string, string>>
+   */
+  protected array $data_cache = [];
 
   /**
    * @inheritDoc
@@ -66,7 +73,7 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
         // evaluate
         if ($best_tuple) {
           // if there is a best tuple...
-          if ($best_tuple != $contact_ids) {
+          if ($best_tuple !== $contact_ids) {
             $run->updateTuple($main_contact_id, $best_tuple);
           }
         }
@@ -83,17 +90,17 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
   /**
    * Create a matrix of all similarities between the contacts
    *
-   * @param $contact_ids array
+   * @param list<int> $contact_ids
    * @return array two-dimensional array
    */
-  protected function buildSimilarityMatrix($contact_ids): array {
+  protected function buildSimilarityMatrix(array $contact_ids): array {
     $matrix = [];
+    $contactIdsCount = count($contact_ids);
     // phpcs:disable Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed
-    for ($i = 0; $i < count($contact_ids); $i++) {
-      $contact_id_a = $contact_ids[$i];
-      for ($j = $i + 1; $j < count($contact_ids); $j++) {
+    foreach ($contact_ids as $i => $contact_id_a) {
+      for ($j = ($i + 1); $j < $contactIdsCount; $j++) {
         $contact_id_b = $contact_ids[$j];
-        $similarity   = $this->similarity($contact_id_a, $contact_id_b);
+        $similarity = $this->similarity($contact_id_a, $contact_id_b);
         if ($similarity >= $this->threshold) {
           $matrix[$contact_id_a][$contact_id_b] = $similarity;
           $matrix[$contact_id_b][$contact_id_a] = $similarity;
@@ -107,10 +114,10 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
   /**
    * Find the largest tuple where the minimum similarity is given
    *
-   * @param $matrix
-   * @param $contact_ids
+   * @param array<array<int, float>> $matrix
+   * @param array<int> $contact_ids
    */
-  protected function getBestTuple($matrix, $contact_ids) {
+  protected function getBestTuple(array $matrix, array $contact_ids) {
     // TODO: better algorithm!?
     //  Benedikt proposes "growing" tuples
     // try finding maximum sized tuples
@@ -137,45 +144,44 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
   /**
    * calculate the average similarity of all elements
    *
-   * @param $tuple  array tuple
-   * @param $matrix array similarity matrix
+   * @param array<array-key, int> $tuple tuple
+   * @param array<int, array<int, float>> $matrix similarity matrix
    *
    * @return float average rating
    */
-  protected function rateTuple($tuple, $matrix): float {
+  protected function rateTuple(array $tuple, array $matrix): float {
     $rating_count = 0;
-    $rating_sum   = 0.0;
+    $rating_sum = 0.0;
+    $tupleCount = count($tuple);
     // phpcs:disable Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed
-    for ($i = 0; $i < count($tuple); $i++) {
-      $contact_id_a = $tuple[$i];
-      for ($j = $i + 1; $j < count($tuple); $j++) {
+    foreach ($tuple as $i => $contact_id_a) {
+      for ($j = ($i + 1); $j < $tupleCount; $j++) {
         $contact_id_b = $tuple[$j];
-        $rating_count += 1;
-        $rating_sum   += $matrix[$contact_id_a][$contact_id_b];
+        ++$rating_count;
+        $rating_sum += $matrix[$contact_id_a][$contact_id_b];
       }
     }
     // phpcs:enable
     if ($rating_count) {
       return $rating_sum / (float) $rating_count;
     }
-    else {
-      return 0.0;
-    }
+
+    return 0.0;
   }
 
   /**
    * Get all (viable) tuples of size $size
    *
-   * @param $size         integer size of tuples wanted
-   * @param $contact_ids  array   list of elements
-   * @param $matrix       array   matrix defining which combinations are allowed
-   * @param $cache        array   internal tuple cache
+   * @param int $size size of tuples wanted
+   * @param array<int> $contact_ids list of elements
+   * @param array<array<int, float>> $matrix matrix defining which combinations are allowed
+   * @param array $cache internal tuple cache
    *
    * @return array tuples
    * @todo better algorithm!?
    */
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
-  protected function getTuplesOfSize($size, $contact_ids, $matrix, &$cache = NULL) {
+  protected function getTuplesOfSize(int $size, array $contact_ids, array $matrix, ?array &$cache = NULL): array {
   // phpcs:enable
     if ($size <= 0) {
       exit('WTF?');
@@ -190,12 +196,12 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
     }
 
     $tuples = [];
-    if ($size == count($contact_ids)) {
+    if ($size === count($contact_ids)) {
       // for the (one) full tuple, this is a yes or no decision:
+      $contactIdsCount = count($contact_ids);
       // phpcs:disable Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed
-      for ($i = 0; $i < count($contact_ids); $i++) {
-        $contact_id_a = $contact_ids[$i];
-        for ($j = $i + 1; $j < count($contact_ids); $j++) {
+      foreach ($contact_ids as $i => $contact_id_a) {
+        for ($j = ($i + 1); $j < $contactIdsCount; $j++) {
           $contact_id_b = $contact_ids[$j];
           if (!isset($matrix[$contact_id_a][$contact_id_b])) {
             // at least one pair is not similar, so: NO
@@ -207,7 +213,8 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
       // all combinations are similar
       return [$contact_ids];
     }
-    elseif ($size == 1) {
+
+    if ($size === 1) {
       // 2-tuples we can create
       foreach ($contact_ids as $contact_id) {
         $tuples[] = [$contact_id];
@@ -244,17 +251,20 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
   /**
    * Calculate the similarity between two contacts
    *
-   * @param $contact_id_a integer first contact
-   * @param $contact_id_b integer second contact
+   * @param int $contact_id_a first contact
+   * @param int $contact_id_b second contact
    * @return float 0...1
    */
-  protected function similarity($contact_id_a, $contact_id_b): float {
-    if ($this->attributes) {
+  protected function similarity(int $contact_id_a, int $contact_id_b): float {
+    if (count($this->attributes) > 0) {
       $similarity = 0.00;
       foreach ($this->attributes as $attribute) {
         $value_a    = $this->data_cache[$contact_id_a][$attribute] ?? '';
         $value_b    = $this->data_cache[$contact_id_b][$attribute] ?? '';
-        $similarity += (float) levenshtein($value_a, $value_b) / (float) max(strlen($value_a), strlen($value_b));
+        $max_length = max(strlen($value_a), strlen($value_b));
+        if ($max_length > 0) {
+          $similarity += (float) levenshtein($value_a, $value_b) / (float) $max_length;
+        }
       }
       return 1.0 - ($similarity / (float) count($this->attributes));
     }
@@ -267,18 +277,21 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
    *
    * Default implementation: cache the "this->attributes" of each contact
    *
-   * @param $contact_ids array list of contact IDs
+   * @param array<int> $contact_ids list of contact IDs
+   *
+   * @return void
+   * @throws \CRM_Core_Exception
    */
-  protected function cacheDataForContacts($contact_ids) {
-    if ($this->attributes) {
+  protected function cacheDataForContacts(array $contact_ids): void {
+    if (count($this->attributes) > 0) {
       $query = civicrm_api3(
         'Contact',
         'get',
         [
-          'id'           => ['IN' => $contact_ids],
+          'id' => ['IN' => $contact_ids],
           'option.limit' => 0,
-          'sequential'   => 0,
-          'return'       => 'id,' . implode($this->attributes),
+          'sequential' => 0,
+          'return' => 'id,' . implode($this->attributes),
         ]
       );
       $this->data_cache = $query['values'];

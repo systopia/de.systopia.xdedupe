@@ -196,9 +196,8 @@ class CRM_Xdedupe_Config implements EventSubscriberInterface {
     if (isset($location_types[$location_type_id])) {
       return E::ts('%1 [%2]', [1 => $location_types[$location_type_id], 2 => $location_type_id]);
     }
-    else {
-      return E::ts('Location Type [%1]', [1 => $location_type_id]);
-    }
+
+    return E::ts('Location Type [%1]', [1 => $location_type_id]);
   }
 
   /**
