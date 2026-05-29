@@ -52,9 +52,7 @@ class CRM_Xdedupe_Resolver_Addressee extends CRM_Xdedupe_Resolver {
     foreach ($other_contact_ids as $other_contact_id) {
       civicrm_api3('Contact', 'create', [
         'id' => $other_contact_id,
-        // @phpstan-ignore property.notFound
         'addressee_id' => $main_values->addressee_id ?? '',
-        // @phpstan-ignore property.notFound
         'addressee_custom' => $main_values->addressee_custom ?? '',
       ]);
       $this->getContext()?->unloadContact($other_contact_id);

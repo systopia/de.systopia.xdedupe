@@ -25,24 +25,6 @@ parameters:
 			path: CRM/Xdedupe/Config.php
 
 		-
-			message: '#^Access to an undefined property object\:\:\$config\.$#'
-			identifier: property.notFound
-			count: 1
-			path: CRM/Xdedupe/Configuration.php
-
-		-
-			message: '#^Access to an undefined property object\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: CRM/Xdedupe/Configuration.php
-
-		-
-			message: '#^Access to an undefined property object\:\:\$last_run\.$#'
-			identifier: property.notFound
-			count: 1
-			path: CRM/Xdedupe/Configuration.php
-
-		-
 			message: '#^Argument of an invalid type list\<string\>\|string supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
@@ -51,18 +33,6 @@ parameters:
 		-
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
-			count: 1
-			path: CRM/Xdedupe/Configuration.php
-
-		-
-			message: '#^Call to an undefined method object\:\:fetch\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: CRM/Xdedupe/Configuration.php
-
-		-
-			message: '#^Class CRM_Core_DAO referenced with incorrect case\: CRM_CORE_DAO\.$#'
-			identifier: class.nameCase
 			count: 1
 			path: CRM/Xdedupe/Configuration.php
 
@@ -153,12 +123,6 @@ parameters:
 		-
 			message: '#^Property CRM_Xdedupe_Configuration\:\:\$stats type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: CRM/Xdedupe/Configuration.php
-
-		-
-			message: '#^Variable property access on object\.$#'
-			identifier: property.dynamicName
 			count: 1
 			path: CRM/Xdedupe/Configuration.php
 

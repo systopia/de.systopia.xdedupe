@@ -128,6 +128,7 @@ class CRM_Xdedupe_Configuration {
    */
   public static function getConfigurations(string $sql_query): array {
     $configs = [];
+    /** @var \CRM_Core_DAO $configuration_search */
     $configuration_search = CRM_Core_DAO::executeQuery($sql_query);
     while ($configuration_search->fetch()) {
       $data = [];
@@ -292,7 +293,7 @@ class CRM_Xdedupe_Configuration {
       return $this->configuration_id;
     }
 
-    return (int) CRM_CORE_DAO::singleValueQuery('SELECT LAST_INSERT_ID()');
+    return (int) CRM_Core_DAO::singleValueQuery('SELECT LAST_INSERT_ID()');
   }
 
   /**

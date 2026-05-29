@@ -96,7 +96,6 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
   protected function buildSimilarityMatrix(array $contact_ids): array {
     $matrix = [];
     $contactIdsCount = count($contact_ids);
-    // phpcs:disable Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed
     foreach ($contact_ids as $i => $contact_id_a) {
       for ($j = ($i + 1); $j < $contactIdsCount; $j++) {
         $contact_id_b = $contact_ids[$j];
@@ -107,7 +106,6 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
         }
       }
     }
-    // phpcs:enable
     return $matrix;
   }
 
@@ -153,7 +151,6 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
     $rating_count = 0;
     $rating_sum = 0.0;
     $tupleCount = count($tuple);
-    // phpcs:disable Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed
     foreach ($tuple as $i => $contact_id_a) {
       for ($j = ($i + 1); $j < $tupleCount; $j++) {
         $contact_id_b = $tuple[$j];
@@ -161,7 +158,6 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
         $rating_sum += $matrix[$contact_id_a][$contact_id_b];
       }
     }
-    // phpcs:enable
     if ($rating_count) {
       return $rating_sum / (float) $rating_count;
     }
@@ -175,7 +171,7 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
    * @param int $size size of tuples wanted
    * @param array<int> $contact_ids list of elements
    * @param array<array<int, float>> $matrix matrix defining which combinations are allowed
-   * @param array $cache internal tuple cache
+   * @param array|null $cache internal tuple cache
    *
    * @return array tuples
    * @todo better algorithm!?
@@ -199,7 +195,6 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
     if ($size === count($contact_ids)) {
       // for the (one) full tuple, this is a yes or no decision:
       $contactIdsCount = count($contact_ids);
-      // phpcs:disable Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed
       foreach ($contact_ids as $i => $contact_id_a) {
         for ($j = ($i + 1); $j < $contactIdsCount; $j++) {
           $contact_id_b = $contact_ids[$j];
@@ -209,7 +204,6 @@ abstract class CRM_Xdedupe_Filter_Similarity extends CRM_Xdedupe_Filter {
           }
         }
       }
-      // phpcs:enable
       // all combinations are similar
       return [$contact_ids];
     }
