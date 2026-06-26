@@ -172,7 +172,7 @@ class CRM_Xdedupe_Resolver_CustomGroupIntegral extends CRM_Xdedupe_Resolver {
               'where' => [
                     ['extends', 'IN', ['Contact', 'Individual', 'Household', 'Organization']],
                     ['is_active', '=', TRUE],
-    // multiple entry groups can always be "merged" without any issue, so no resolver needed
+                    // multiple entry groups can always be "merged" without any issue, so no resolver needed
                     ['is_multiple', '=', FALSE],
               ],
             ]

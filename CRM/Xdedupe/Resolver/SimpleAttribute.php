@@ -209,7 +209,7 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
    *
    * @param list<int> $contact_ids contact IDs
    *
-   * @return TRUE if a change was performed
+   * @return bool TRUE if a change was performed, FALSE otherwise.
    * @throws CRM_Core_Exception
    */
   protected function unsetValueForContacts(array $contact_ids): bool {

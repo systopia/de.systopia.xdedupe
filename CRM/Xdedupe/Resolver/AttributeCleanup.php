@@ -21,9 +21,9 @@ use CRM_Xdedupe_ExtensionUtil as E;
 /**
  * Implements a resolver for basic contact fields
  */
-// phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
+// phpcs:ignore Generic.NamingConventions.AbstractClassNamePrefix.Missing
 abstract class CRM_Xdedupe_Resolver_AttributeCleanup extends CRM_Xdedupe_Resolver {
-// phpcs:enable
+
   /**
    * @var string name of the attribute to clean up */
   protected $attribute_name;

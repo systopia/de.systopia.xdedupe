@@ -92,7 +92,6 @@ abstract class CRM_Xdedupe_Resolver {
   /**
    * get an explanation what the resolver does
    *
-   * @return string name
    */
   abstract public function getHelp(): string;
 

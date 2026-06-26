@@ -162,7 +162,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
   /**
    * Add a resolver spec for each Multi-Select field to the list
    *
-   * @param $list array list of resolver specs
+   * @param array $list list of resolver specs
    *
    * @throws \CRM_Core_Exception
    * @throws \Civi\API\Exception\NotImplementedException

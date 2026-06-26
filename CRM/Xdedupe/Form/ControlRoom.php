@@ -770,7 +770,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   /**
    * Generate the contact image with the overview popup
    *
-   * @param $contact array contact_data
+   * @param array<string, mixed> $contact
    *
    * @return string HTML code for image
    */

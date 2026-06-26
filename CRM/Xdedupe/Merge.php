@@ -503,8 +503,8 @@ class CRM_Xdedupe_Merge {
   /**
    * Create a new not with the contact adding the merge details
    *
-   * @param $contact_id int    contact ID the merge detail should be recorded
-   * @param $subject    string the subject line
+   * @param int $contact_id contact ID the merge detail should be recorded
+   * @param string $subject the subject line
    */
   public function createMergeDetailNote($contact_id, $subject = 'Merge Details'): void {
     $merge_details = $this->getMergeDetails($contact_id);

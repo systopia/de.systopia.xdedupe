@@ -170,7 +170,7 @@ class CRM_Xdedupe_Config implements EventSubscriberInterface {
   /**
    * Resolve the location type to a display string
    *
-   * @param $location_type_id
+   * @param int $location_type_id
    * @return string
    */
   public static function resolveLocationType($location_type_id): string {

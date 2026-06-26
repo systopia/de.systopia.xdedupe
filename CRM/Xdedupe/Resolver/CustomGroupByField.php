@@ -78,7 +78,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByField extends CRM_Xdedupe_Resolver {
   /**
    * Get the contact's field values
    *
-   * @param $contact_id integer contact ID
+   * @param int $contact_id
    *
    * @return array
    * @throws \CRM_Core_Exception
@@ -150,7 +150,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByField extends CRM_Xdedupe_Resolver {
   /**
    * Add a resolver spec for each Multi-Select field to the list
    *
-   * @param $list array list of resolver specs
+   * @param array $list list of resolver specs
    */
   public static function addAllResolvers(&$list): void {
     $contact_custom_groups = civicrm_api4(

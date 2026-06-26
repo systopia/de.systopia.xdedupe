@@ -132,7 +132,7 @@ class CRM_Xdedupe_Resolver_MultiSelect extends CRM_Xdedupe_Resolver {
   /**
    * Add a resolver spec for each Multi-Select field to the list
    *
-   * @param $list array list of resolver specs
+   * @param array $list list of resolver specs
    */
   public static function addAllResolvers(&$list): void {
     $contact_custom_group_ids = [];
