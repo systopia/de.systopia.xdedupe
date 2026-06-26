@@ -47,9 +47,8 @@ class CRM_Xdedupe_Picker_Activities extends CRM_Xdedupe_Picker {
   /**
    * @inheritDoc
    */
-  // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
-  public function selectMainContact(array $contact_ids): ?int {
-  // phpcs:enable
+  // phpcs:ingore Generic.Metrics.CyclomaticComplexity.TooHigh
+  public function selectMainContact($contact_ids): ?int {
 
     $where_clauses = [];
     if ($contact_ids !== []) {
