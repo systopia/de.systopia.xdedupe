@@ -30,7 +30,7 @@ abstract class CRM_Xdedupe_Picker {
   /**
    * Select the main contact from a set of contacts
    *
-   * @param list<int> $contact_ids list of contact IDs
+   * @param non-empty-list<int> $contact_ids list of contact IDs
    *
    * @return int|null one of the contacts in the list. null means "can't decide"
    */

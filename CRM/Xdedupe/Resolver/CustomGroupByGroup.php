@@ -74,7 +74,12 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
     );
   }
 
-  protected function getValues($contact_id): mixed {
+  /**
+   * @param int $contact_id
+   *
+   * @throws \CRM_Core_Exception
+   */
+  protected function getValues($contact_id): array {
     $group_name = civicrm_api4('CustomGroup', 'get', [
       'select' => ['name'],
       'where' => [['id', '=', $this->custom_group_id]],
@@ -84,7 +89,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByGroup extends CRM_Xdedupe_Resolver {
       'where' => [['id', '=', $contact_id]],
     ]);
 
-    $values = $group_values[0];
+    $values = $group_values->single();
 
     // id is always set, so unset
     unset($values['id']);

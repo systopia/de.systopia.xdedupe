@@ -179,6 +179,8 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
 
   /**
    * render a date
+   *
+   * @param string $string
    */
   protected function renderDate($string): string {
     if ($string === NULL || $string === '') {
@@ -191,7 +193,7 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
   /**
    * render stats
    *
-   * @param array $stats<string, mixed>
+   * @param array<string, mixed> $stats
    */
   // phpcs:disable Generic.Metrics.CyclomaticComplexity.MaxExceeded
   protected function renderStats(array $stats): string {
@@ -218,12 +220,12 @@ class CRM_Xdedupe_Page_Manager extends CRM_Core_Page {
 
         case 'finder_runtime':
           $label = E::ts('Runtime (Finder)');
-          $value = sprintf('%0.1fs', $raw_value);
+          $value = sprintf('%0.1fs', (string) $raw_value);
           break;
 
         case 'merger_runtime':
           $label = E::ts('Runtime (Merger)');
-          $value = sprintf('%0.1fs', $raw_value);
+          $value = sprintf('%0.1fs', (string) $raw_value);
           break;
 
         case 'errors':

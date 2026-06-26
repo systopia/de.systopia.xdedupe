@@ -723,6 +723,8 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
 
   /**
    * Re-route our commands to submit
+   *
+   * @param string $actionName
    */
   public function handle($actionName) {
     if (in_array($actionName, ['find', 'merge', 'nextpage', 'prevpage', 'save', 'create', 'clear'])) {
@@ -753,7 +755,7 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
   /**
    * Aggregate certain values in the data, e.g. pickers
    *
-   * @param $values
+   * @param array<string, mixed> $values
    */
   protected function prepareSubmissionData(&$values): void {
     // join picker fields

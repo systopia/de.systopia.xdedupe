@@ -28,6 +28,9 @@ class CRM_Xdedupe_Resolver_CustomGroupByField extends CRM_Xdedupe_Resolver {
    */
   protected int $custom_group_id;
 
+  /**
+   * @param int $custom_group_id
+   */
   public function __construct(?CRM_Xdedupe_Merge $merge, $custom_group_id) {
     $this->custom_group_id = (int) $custom_group_id;
     parent::__construct($merge);

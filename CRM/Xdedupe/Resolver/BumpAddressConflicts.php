@@ -111,7 +111,7 @@ class CRM_Xdedupe_Resolver_BumpAddressConflicts extends CRM_Xdedupe_Resolver {
   /**
    * Get the given contact's address records
    *
-   * @param $contact_id int contact ID
+   * @param int $contact_id contact ID
    *
    * @return array id => address data
    */
@@ -131,8 +131,8 @@ class CRM_Xdedupe_Resolver_BumpAddressConflicts extends CRM_Xdedupe_Resolver {
 
   /**
    * Check if the list of addresses contain a 'conflict' address
-   * @param $addresses array list of address data
-   * @return boolean true if it does
+   * @param array $addresses list of address data
+   * @return bool true if it does
    */
   protected function containsConflictAddress($addresses): bool {
     $conflict_location_type_id = CRM_Xdedupe_Config::getConflictLocationTypeID();
@@ -146,9 +146,11 @@ class CRM_Xdedupe_Resolver_BumpAddressConflicts extends CRM_Xdedupe_Resolver {
 
   /**
    * Check if the address is the same according to the attributes
-   * @param $address1 array address data
-   * @param $address2 array address data
-   * @return boolean are they equal?
+   *
+   * @param array $address1 address data
+   * @param array $address2 address data
+   *
+   * @return bool are they equal?
    */
   protected function addressEquals($address1, $address2): bool {
     foreach (self::$relevant_address_fields as $attribute) {

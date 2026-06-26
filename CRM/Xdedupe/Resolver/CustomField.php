@@ -27,6 +27,9 @@ class CRM_Xdedupe_Resolver_CustomField extends CRM_Xdedupe_Resolver {
    * @var int ID of the custom field */
   protected int $custom_field_id;
 
+  /**
+   * @param int $custom_field_id
+   */
   public function __construct(?CRM_Xdedupe_Merge $merge, $custom_field_id) {
     $this->custom_field_id = (int) $custom_field_id;
     parent::__construct($merge);

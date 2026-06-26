@@ -36,7 +36,7 @@ abstract class CRM_Xdedupe_Resolver_AttributeCleanup extends CRM_Xdedupe_Resolve
    * @var array list of preg_replace patterns as a tuple [search pattern, replace pattern] */
   protected $regular_expressions;
 
-  public function __construct(?CRM_Xdedupe_Merge $merge, $attribute_name) {
+  public function __construct(?CRM_Xdedupe_Merge $merge, string $attribute_name) {
     parent::__construct($merge);
     $this->attribute_name = $attribute_name;
     $this->attribute_label = $attribute_name;

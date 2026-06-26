@@ -27,10 +27,9 @@ use CRM_Xdedupe_ExtensionUtil as E;
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_config
  */
-function xdedupe_civicrm_config(&$config): void {
+function xdedupe_civicrm_config(\CRM_Core_Config $config): void {
   _xdedupe_civix_civicrm_config($config);
 
-  require_once 'CRM/Xdedupe/Config.php';
   Civi::dispatcher()->addSubscriber(new CRM_Xdedupe_Config());
 }
 
@@ -110,8 +109,8 @@ function xdedupe_civicrm_navigationMenu(&$menu): void {
 /**
  * Helper function to see if the menu item is already there
  *
- * @param $menu array current menu
- * @param $path string path to look for
+ * @param array $menu current menu
+ * @param string $path path to look for
  *
  * @return bool
  */

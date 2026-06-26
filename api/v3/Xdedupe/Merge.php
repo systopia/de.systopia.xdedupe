@@ -20,7 +20,7 @@ declare(strict_types = 1);
  * API Specs:Xdedupe.merge: Automatically merge multiple contacts
  *  using resolvers
  */
-function _civicrm_api3_xdedupe_merge_spec(&$spec): void {
+function _civicrm_api3_xdedupe_merge_spec(array &$spec): void {
   $spec['main_contact_id'] = [
     'name' => 'main_contact_id',
     'api.required' => 1,

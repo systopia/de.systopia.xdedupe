@@ -23,7 +23,7 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 class CRM_Xdedupe_Resolver_CityCleanup extends CRM_Xdedupe_Resolver_AttributeCleanup {
 
-  public function __construct($merge) {
+  public function __construct(?CRM_Xdedupe_Merge $merge) {
     parent::__construct($merge, 'city');
     $this->regular_expressions = [
       // remove multiple whitespaces

@@ -56,7 +56,7 @@ function _civicrm_api3_xdedupe_run_spec(&$spec): void {
 /**
  * API Specs:Xdedupe.run: run and merge a configuration
  *
- * @param array $params<string, mixed> see specs
+ * @param array<string, mixed> $params see specs
  *
  * @return array result merge result
  * @throws CRM_Core_Exception
@@ -68,10 +68,10 @@ function civicrm_api3_xdedupe_run($params): array {
   if ($params['cid'] === 'scheduled') {
     $configs_to_run = CRM_Xdedupe_Configuration::getAllScheduled();
   }
-  elseif (preg_match('/[0-9, ]+/', $params['cid'])) {
+  elseif (preg_match('/[0-9, ]+/', (string) $params['cid'])) {
     $scheduled_override = (bool) ($params['scheduled_override'] ?? FALSE);
     $configs_to_run = [];
-    foreach (explode(',', $params['cid']) as $cid) {
+    foreach (explode(',', (string) $params['cid']) as $cid) {
       $cid = (int) $cid;
       if ($cid) {
         $config = CRM_Xdedupe_Configuration::get($cid);
