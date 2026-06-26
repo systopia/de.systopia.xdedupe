@@ -19,9 +19,9 @@ declare(strict_types = 1);
 /**
  * Implement a "Finder", i.e. a class that will identify potential dupes in the DB
  */
-// phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
+// phpcs:ignore Generic.NamingConventions.AbstractClassNamePrefix.Missing
 abstract class CRM_Xdedupe_Finder_Address extends CRM_Xdedupe_Finder {
-// phpcs:enable
+
 
   protected array $address_fields = [];
 
