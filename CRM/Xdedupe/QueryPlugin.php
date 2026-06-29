@@ -14,59 +14,63 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
-use CRM_Xdedupe_ExtensionUtil as E;
+declare(strict_types = 1);
 
 /**
  * Abstract base class for query-modifying modules
  */
-abstract class CRM_Xdedupe_QueryPlugin
-{
+// phpcs:disable Generic.NamingConventions.AbstractClassNamePrefix.Missing
+abstract class CRM_Xdedupe_QueryPlugin {
 
-    protected $alias = null;
-    protected $params = null;
+  // phpcs:enable
+  protected ?string $alias = NULL;
 
-    public function __construct($alias, $params)
-    {
-        $this->params = $params;
-        $this->alias  = $alias;
-    }
+  protected ?array $params = NULL;
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public abstract function getName();
+  /**
+   * @param string|NULL $alias
+   * @param array|NULL $params
+   */
+  public function __construct(?string $alias, ?array $params) {
+    $this->params = $params;
+    $this->alias = $alias;
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public abstract function getHelp();
+  /**
+   * get the name of the finder
+   *
+   * @return string name
+   */
+  abstract public function getName(): string;
 
-    /**
-     * Add this finder's JOIN clauses to the list
-     *
-     * @param $joins array
-     */
-    public function addJOINS(&$joins)
-    {
-    }
+  /**
+   * get an explanation what the finder does
+   *
+   * @return string name
+   */
+  abstract public function getHelp(): string;
 
-    /**
-     * Add this finder's WHERE clauses to the list
-     *
-     * @param $wheres array
-     */
-    public function addWHERES(&$wheres)
-    {
-    }
+  /**
+   * Add this finder's JOIN clauses to the list
+   *
+   * @param list<string> $joins array
+   */
+  public function addJOINS(array &$joins): void {}
 
-    /**
-     * Add this finder's GROUP BY clauses to the list
-     *
-     * @param $groupbys array
-     */
-    public function addGROUPBYS(&$groupbys)
-    {
-    }
+  /**
+   * Add this finder's WHERE clauses to the list
+   *
+   * @param list<string> $wheres array
+   *
+   * @return void
+   */
+  public function addWHERES(array &$wheres): void {}
+
+  /**
+   * Add this finder's GROUP BY clauses to the list
+   *
+   * @param list<string> $groupbys array
+   */
+  public function addGROUPBYS(array &$groupbys): void {}
+
 }

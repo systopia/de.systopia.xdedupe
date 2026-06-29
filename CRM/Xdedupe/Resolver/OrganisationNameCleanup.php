@@ -14,28 +14,28 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Implements a resolver for Organisation Name
  */
-class CRM_Xdedupe_Resolver_OrganisationNameCleanup extends CRM_Xdedupe_Resolver_AttributeCleanup
-{
+class CRM_Xdedupe_Resolver_OrganisationNameCleanup extends CRM_Xdedupe_Resolver_AttributeCleanup {
 
-    public function __construct($merge)
-    {
-        parent::__construct($merge, 'organization_name');
-        $this->regular_expressions = [
-            ['/\s+/', ' '], // remove multiple whitespaces
-        ];
-    }
+  public function __construct(?CRM_Xdedupe_Merge $merge) {
+    parent::__construct($merge, 'organization_name');
+    $this->regular_expressions = [
+      // remove multiple whitespaces
+      ['/\s+/', ' '],
+    ];
+  }
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Clean Organisation Name");
-    }
+  /**
+   * @inheritDoc
+   */
+  public function getName(): string {
+    return E::ts('Clean Organisation Name');
+  }
+
 }

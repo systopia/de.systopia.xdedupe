@@ -14,58 +14,47 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Find people by birthdate
  */
-class CRM_Xdedupe_Finder_BirthDate extends CRM_Xdedupe_Finder
-{
+class CRM_Xdedupe_Finder_BirthDate extends CRM_Xdedupe_Finder {
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Identical Birth Date");
-    }
+  /**
+   * @inheritDoc
+   */
+  public function getName(): string {
+    return E::ts('Identical Birth Date');
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Looks for fully identical birth dates");
-    }
+  /**
+   * @inheritDoc
+   */
+  public function getHelp(): string {
+    return E::ts('Looks for fully identical birth dates');
+  }
 
-    /**
-     * Add this finder's JOIN clauses to the list
-     *
-     * @param $joins array
-     */
-    public function addJOINS(&$joins)
-    {
-    }
+  /**
+   * @inheritDoc
+   */
+  public function addJOINS(&$joins): void {
+  }
 
-    /**
-     * Add this finder's GROUP BY clauses to the list
-     *
-     * @param $groupbys array
-     */
-    public function addGROUPBYS(&$groupbys)
-    {
-        $groupbys[] = "contact.birth_date";
-    }
+  /**
+   * @inheritDoc
+   */
+  public function addGROUPBYS(&$groupbys): void {
+    $groupbys[] = 'contact.birth_date';
+  }
 
-    /**
-     * Add this finder's WHERE clauses to the list
-     *
-     * @param $wheres array
-     */
-    public function addWHERES(&$wheres)
-    {
-        $wheres[] = "contact.birth_date IS NOT NULL";
-    }
+  /**
+   * @inheritDoc
+   */
+  public function addWHERES(&$wheres): void {
+    $wheres[] = 'contact.birth_date IS NOT NULL';
+  }
+
 }

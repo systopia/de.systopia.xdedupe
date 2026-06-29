@@ -14,33 +14,31 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Filter by the stripped, purely numeric phone number
  */
-class CRM_Xdedupe_Finder_PhoneLiteral extends CRM_Xdedupe_Finder_Phone
-{
-    public function __construct($alias, $params)
-    {
-        parent::__construct($alias, $params, 'phone');
-    }
+class CRM_Xdedupe_Finder_PhoneLiteral extends CRM_Xdedupe_Finder_Phone {
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Phone (literal)");
-    }
+  public function __construct(?string $alias, ?array $params) {
+    parent::__construct($alias, $params, 'phone');
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Looks for phone number entries (without extensions) that are 100% identical as strings");
-    }
+  /**
+   * @inheritDoc
+   */
+  public function getName(): string {
+    return E::ts('Phone (literal)');
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getHelp(): string {
+    return E::ts('Looks for phone number entries (without extensions) that are 100% identical as strings');
+  }
+
 }

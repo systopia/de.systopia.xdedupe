@@ -14,28 +14,28 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Implements a resolver for street address
  */
-class CRM_Xdedupe_Resolver_StreetAddressCleanup extends CRM_Xdedupe_Resolver_AttributeCleanup
-{
+class CRM_Xdedupe_Resolver_StreetAddressCleanup extends CRM_Xdedupe_Resolver_AttributeCleanup {
 
-    public function __construct($merge)
-    {
-        parent::__construct($merge, 'street_address');
-        $this->regular_expressions = [
-            ['/\s+/', ' '], // remove multiple whitespaces
-        ];
-    }
+  public function __construct(?CRM_Xdedupe_Merge $merge) {
+    parent::__construct($merge, 'street_address');
+    $this->regular_expressions = [
+      // remove multiple whitespaces
+      ['/\s+/', ' '],
+    ];
+  }
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Clean Street Address");
-    }
+  /**
+   * @inheritDoc
+   */
+  public function getName(): string {
+    return E::ts('Clean Street Address');
+  }
+
 }

@@ -1,7 +1,8 @@
 site_name: X-Dedupe
-site_description: Extended Dedupe
+site_description: Extended Dedupe. A powerful tool for large scale deduping.
+site_author: SYSTOPIA
 repo_url: https://github.com/systopia/de.systopia.xdedupe
-theme: 
+theme:
   name: material
 
 nav:
@@ -14,10 +15,14 @@ markdown_extensions:
   - admonition
   - def_list
   - codehilite
-  - toc: 
+  - toc:
       permalink: true
   - pymdownx.superfences
   - pymdownx.inlinehilite
   - pymdownx.tilde
   - pymdownx.betterem
   - pymdownx.mark
+
+plugins:
+  - search:
+      lang: en

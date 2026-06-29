@@ -14,40 +14,38 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Implement a "ContactPicker", i.e. a class that will identify the main contact from a list of contacts
  */
-class CRM_Xdedupe_Picker_Oldest extends CRM_Xdedupe_Picker
-{
+class CRM_Xdedupe_Picker_Oldest extends CRM_Xdedupe_Picker {
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Oldest (by CiviCRM ID)");
-    }
+  /**
+   * get the name of the finder
+   *
+   * @return string name
+   */
+  public function getName(): string {
+    return E::ts('Oldest (by CiviCRM ID)');
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Picks the contact with the lowest CiviCRM ID");
-    }
+  /**
+   * get an explanation what the finder does
+   *
+   * @return string name
+   */
+  public function getHelp(): string {
+    return E::ts('Picks the contact with the lowest CiviCRM ID');
+  }
 
-    /**
-     * Select the main contact from a set of contacts
-     *
-     * @param $contact_ids array list of contact IDs
-     * @return int|null one of the contacts in the list. null means "can't decide"
-     */
-    public function selectMainContact($contact_ids)
-    {
-        return min($contact_ids);
-    }
+  /**
+   * @inheritDoc
+   */
+  public function selectMainContact(array $contact_ids): ?int {
+    return (int) min($contact_ids);
+  }
+
 }

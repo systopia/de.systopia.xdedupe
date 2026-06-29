@@ -14,33 +14,32 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Filter by the stripped, purely numeric phone number
  */
-class CRM_Xdedupe_Finder_PhoneNumeric extends CRM_Xdedupe_Finder_Phone
-{
-    public function __construct($alias, $params)
-    {
-        parent::__construct($alias, $params, 'phone_numeric');
-    }
+class CRM_Xdedupe_Finder_PhoneNumeric extends CRM_Xdedupe_Finder_Phone {
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Phone (numeric)");
-    }
+  public function __construct(?string $alias, ?array $params) {
+    parent::__construct($alias, $params, 'phone_numeric');
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Finds contacts where all the digits of the phone number are equal. Formatting characters like '+', '-', or '/' are ignored.");
-    }
+  /**
+   * @inheritDoc
+   */
+  public function getName(): string {
+    return E::ts('Phone (numeric)');
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getHelp(): string {
+    // phpcs:ignore Generic.Files.LineLength.TooLong
+    return E::ts("Finds contacts where all the digits of the phone number are equal. Formatting characters like '+', '-', or '/' are ignored.");
+  }
+
 }

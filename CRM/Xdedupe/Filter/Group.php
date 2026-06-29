@@ -14,81 +14,75 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Implement a Group "Filter", i.e. will restrict the result set by group membership
  */
-class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter
-{
+class CRM_Xdedupe_Filter_Group extends CRM_Xdedupe_Filter {
 
-    protected $group_id = null;
-    protected $include = true;
+  protected ?int $group_id = NULL;
+  protected bool $include = TRUE;
 
-    public function __construct($alias, $params)
-    {
-        parent::__construct($alias, $params);
-        if (isset($params['group_id'])) {
-            $this->group_id = (int)$params['group_id'];
-        }
-        if (isset($params['exclude'])) {
-            $this->include = false;
-        }
+  public function __construct(?string $alias, ?array $params) {
+    parent::__construct($alias, $params);
+    if (isset($params['group_id'])) {
+      $this->group_id = (int) $params['group_id'];
     }
-
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Group %1", [1 => $this->group_id]);
+    if (isset($params['exclude'])) {
+      $this->include = FALSE;
     }
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Filter for contacts in the given group");
+  /**
+   * @inheritDoc
+   */
+  public function getName(): string {
+    return E::ts('Group %1', [1 => $this->group_id]);
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getHelp(): string {
+    return E::ts('Filter for contacts in the given group');
+  }
+
+  /**
+   * @inheritDoc
+   * @throws \CRM_Core_Exception
+   */
+  public function addJOINS(&$joins): void {
+    if ($this->group_id) {
+      // if this is a smart group, we should refresh the smart group cache:
+      $is_smart_group = CRM_Core_DAO::singleValueQuery(
+        'SELECT saved_search_id FROM civicrm_group WHERE id = %1',
+        [1 => [$this->group_id, 'Integer']]);
+      $table = 'civicrm_group_contact';
+      if ($is_smart_group) {
+        CRM_Contact_BAO_GroupContactCache::loadAll([$this->group_id]);
+        $table = 'civicrm_group_contact_cache';
+      }
+
+      // finally: add the join
+      $joins[] = "LEFT JOIN $table $this->alias ON $this->alias.contact_id = contact.id
+        AND $this->alias.group_id = $this->group_id" .
+        ($is_smart_group ? '' : " AND $this->alias.status = 'Added'");
     }
+  }
 
-    /**
-     * Add this finder's JOIN clauses to the list
-     *
-     * @param $joins array
-     */
-    public function addJOINS(&$joins)
-    {
-        if ($this->group_id) {
-            // if this is a smart group, we should refresh the smart group cache:
-            $is_smart_group = CRM_Core_DAO::singleValueQuery(
-                "SELECT saved_search_id FROM civicrm_group WHERE id = %1",
-                [1 => [$this->group_id, 'Integer']]);
-            $table = 'civicrm_group_contact';
-            if ($is_smart_group) {
-                CRM_Contact_BAO_GroupContactCache::loadAll([$this->group_id]);
-                $table = 'civicrm_group_contact_cache';
-            }
-
-            // finally: add the join
-            $joins[] = "LEFT JOIN {$table} {$this->alias} ON {$this->alias}.contact_id = contact.id 
-                                                                 AND {$this->alias}.group_id = {$this->group_id}" . ($is_smart_group ? '' : " AND {$this->alias}.status = 'Added'");
-        }
+  /**
+   * @inheritDoc
+   */
+  public function addWHERES(&$wheres): void {
+    if ($this->include) {
+      $wheres[] = "$this->alias.contact_id IS NOT NULL";
     }
-
-    /**
-     * Add this finder's WHERE clauses to the list
-     *
-     * @param $wheres array
-     */
-    public function addWHERES(&$wheres)
-    {
-        if ($this->include) {
-            $wheres[] = "{$this->alias}.contact_id IS NOT NULL";
-        } else {
-            $wheres[] = "{$this->alias}.contact_id IS NULL";
-        }
+    else {
+      $wheres[] = "$this->alias.contact_id IS NULL";
     }
+  }
+
 }

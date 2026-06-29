@@ -14,15 +14,15 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
-use CRM_Xdedupe_ExtensionUtil as E;
+declare(strict_types = 1);
 
 /**
  * Simple ExternalIdentifier Resolver
  */
-class CRM_Xdedupe_Resolver_ExternalIdentifier extends CRM_Xdedupe_Resolver_UniqueAttribute
-{
-    public function __construct($merge)
-    {
-        parent::__construct($merge, 'external_identifier');
-    }
+class CRM_Xdedupe_Resolver_ExternalIdentifier extends CRM_Xdedupe_Resolver_UniqueAttribute {
+
+  public function __construct(?CRM_Xdedupe_Merge $merge) {
+    parent::__construct($merge, 'external_identifier');
+  }
+
 }

@@ -14,58 +14,48 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implements a resolver to move contact details (emails, phones, etc)
+ * Implements a resolver to move contact details (emails, phones, etc.)
  */
-class CRM_Xdedupe_Resolver_WebsiteMover extends CRM_Xdedupe_Resolver_DetailMover
-{
+class CRM_Xdedupe_Resolver_WebsiteMover extends CRM_Xdedupe_Resolver_DetailMover {
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Website Mover");
-    }
+  /**
+   * @inheritDoc
+   */
+  public function getName(): string {
+    return E::ts('Website Mover');
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Move all websites to the main contact, unless they're duplicates");
-    }
+  /**
+   * @inheritDoc
+   */
+  public function getHelp(): string {
+    return E::ts("Move all websites to the main contact, unless they're duplicates");
+  }
 
-    /**
-     * Get a one-line representation of the detail data
-     *
-     * @param $detail array detail data
-     * @return string
-     */
-    protected function getOneLiner($detail)
-    {
-        return "{$detail['url']} ({$detail['website_type_id']})";
-    }
+  /**
+   * @inheritDoc
+   */
+  protected function getOneLiner(array $detail): string {
+    return "{$detail['url']} ({$detail['website_type_id']})";
+  }
 
-    /**
-     * Get the entity name
-     * @return string
-     */
-    protected function getEntity()
-    {
-        return 'Website';
-    }
+  /**
+   * @inheritDoc
+   */
+  protected function getEntity(): string {
+    return 'Website';
+  }
 
-    /**
-     * Get the list of relevant fields for this entity
-     * @return array
-     */
-    protected function getFieldList()
-    {
-        return ['url', 'website_type_id'];
-    }
+  /**
+   * @inheritDoc
+   */
+  protected function getFieldList(): array {
+    return ['url', 'website_type_id'];
+  }
+
 }

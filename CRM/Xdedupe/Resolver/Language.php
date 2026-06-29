@@ -14,46 +14,39 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
  * Implements a resolver for option value fields,
  *   selects the value with the lowest weight in the option group
  */
-class CRM_Xdedupe_Resolver_Language extends CRM_Xdedupe_Resolver_OptionValueAttribute
-{
+class CRM_Xdedupe_Resolver_Language extends CRM_Xdedupe_Resolver_OptionValueAttribute {
 
-    protected $option_group_name;
+  public function __construct(?CRM_Xdedupe_Merge $merge) {
+    parent::__construct($merge, 'preferred_language', 'languages');
+  }
 
-    public function __construct($merge)
-    {
-        parent::__construct($merge, 'preferred_language', 'languages');
-    }
+  /**
+   * @inheritDoc
+   */
+  protected function getValueAttribute(): string {
+    return 'name';
+  }
 
-    /**
-     * Get the attribute used as the value in CiviCRM. 'value' is default, obviously, but e.g. preferred_language stores 'name'
-     * @return string the attribute name
-     */
-    protected function getValueAttribute()
-    {
-        return 'name';
-    }
+  /**
+   * @inheritDoc
+   */
+  public function getName(): string {
+    return E::ts('Preferred Communication Language');
+  }
 
-    /**
-     * get the name of the finder
-     * @return string name
-     */
-    public function getName()
-    {
-        return E::ts("Preferred Communication Language");
-    }
+  /**
+   * @inheritDoc
+   */
+  public function getHelp(): string {
+    return E::ts('Will pick the highest ranking language');
+  }
 
-    /**
-     * get an explanation what the finder does
-     * @return string name
-     */
-    public function getHelp()
-    {
-        return E::ts("Will pick the highest ranking language");
-    }
 }
