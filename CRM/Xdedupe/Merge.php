@@ -351,6 +351,11 @@ class CRM_Xdedupe_Merge {
     $this->unloadContact($main_contact_id);
     $this->unloadContact($other_contact_id);
 
+    // See https://github.com/systopia/de.systopia.xdedupe/issues/38
+    // Under certain situations the transaction is not committed, so
+    // this explicit call helps prevent an infinite loop.
+    $transaction->commit();
+
     return $merge_succeeded;
   }
 
