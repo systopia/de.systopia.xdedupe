@@ -115,7 +115,8 @@ abstract class CRM_Xdedupe_Resolver_AttributeCleanup extends CRM_Xdedupe_Resolve
    */
   public function getHelp(): string {
     return E::ts(
-        "Cleans up the '%1' attribute before merging to avoid conflicts"
+        "Cleans up the '%1' attribute before merging to avoid conflicts",
+        [1 => $this->getAttributeName()]
     );
   }
 
