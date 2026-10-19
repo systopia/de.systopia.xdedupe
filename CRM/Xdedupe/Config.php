@@ -113,6 +113,7 @@ class CRM_Xdedupe_Config implements EventSubscriberInterface {
           'CRM_Xdedupe_Resolver_GreetingsPreferMain',
           'CRM_Xdedupe_Resolver_AddressHarmonise',
           'CRM_Xdedupe_Resolver_DeathIsFinal',
+          'CRM_Xdedupe_Resolver_MergeCommunicationMethodPrefs',
         ]
     );
 
