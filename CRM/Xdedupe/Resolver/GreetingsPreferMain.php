@@ -18,7 +18,7 @@
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
- * Implements a resolver for email and postal greeting fields.
+ * Implements a resolver for addressee, email and postal greeting fields.
  *   Overwrites 'other' contacts' data with the main contact's.
  */
 class CRM_Xdedupe_Resolver_GreetingsPreferMain extends CRM_Xdedupe_Resolver {
@@ -45,7 +45,7 @@ class CRM_Xdedupe_Resolver_GreetingsPreferMain extends CRM_Xdedupe_Resolver {
    * @return array list of contact attributes
    */
   public function getContactAttributes(): array {
-    return ['email_greeting_id', 'email_greeting_custom', 'postal_greeting_id', 'postal_greeting_custom'];
+    return ['email_greeting_id', 'email_greeting_custom', 'postal_greeting_id', 'postal_greeting_custom', 'addressee_id', 'addressee_custom'];
   }
 
   /**
@@ -65,27 +65,27 @@ class CRM_Xdedupe_Resolver_GreetingsPreferMain extends CRM_Xdedupe_Resolver {
     foreach ($other_contact_ids as $contact_id) {
       $contact = $this->getContext()->getContact($contact_id);
       $records = [];
-      foreach (['email', 'postal'] as $type) {
+      foreach (['email_greeting', 'postal_greeting', 'addressee'] as $type) {
         if (
-        ($main_contact["{$type}_greeting_id"] ?? '' != $contact["{$type}_greeting_id"] ?? '')
+        ($main_contact["{$type}_id"] ?? '' != $contact["{$type}_greeting_id"] ?? '')
         ||
-        ($main_contact["{$type}_greeting_custom"] ?? '' != $contact["{$type}_greeting_custom"] ?? '')
+        ($main_contact["{$type}_custom"] ?? '' != $contact["{$type}_custom"] ?? '')
         ) {
           $records[] = [
             'id' => $contact['id'],
-            "{$type}_greeting_id" => $main_contact["{$type}_greeting_id"],
-            "{$type}_greeting_custom" => $main_contact["{$type}_greeting_custom"],
+            "{$type}_id" => $main_contact["{$type}_id"],
+            "{$type}_custom" => $main_contact["{$type}_custom"],
           ];
           $this->addMergeDetail(
           E::ts(
-            "Discarding %1 greeting of contact [%2] in favour of main contact in order to resolve merge conflicts",
+            "Discarding %1 of contact [%2] in favour of main contact in order to resolve merge conflicts",
             [1 => $type, 2 => $contact_id]
           )
           );
-          $this->getContext()->unloadContact($contact_id);
         }
       }
       if ($records) {
+        $this->getContext()->unloadContact($contact_id);
         Civi\Api4\Contact::save(FALSE)
           ->setRecords($records)
           ->execute();

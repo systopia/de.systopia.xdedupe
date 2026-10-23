@@ -90,7 +90,7 @@ class CRM_Xdedupe_Resolver_MergeCommunicationMethodPrefs extends CRM_Xdedupe_Res
       }
     }
     if ($contactsToUpdate) {
-      $r = Civi\Api4\Contact::update(FALSE)
+      Civi\Api4\Contact::update(FALSE)
         ->addWhere('id', 'IN', $contactsToUpdate)
         ->addValue('preferred_communication_method:name', $all)
         ->execute();

@@ -292,10 +292,11 @@ class CRM_Xdedupe_Merge {
               }
             }
           }
-        }
+        } // don't want to drop our own table
         else {
           $this->stats['errors'][] = E::ts('unknown');
         }
+        \Civi::log()->info("Merge conflicts preventing merge into $main_contact_id from $other_contact_id", ['conflicts' => $conflicts['values']['safe']]);
       }
       elseif (count($result['values']['merged'])) {
         // MERGE SUCCESSFUL!
