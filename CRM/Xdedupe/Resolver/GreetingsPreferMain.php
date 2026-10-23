@@ -27,7 +27,7 @@ class CRM_Xdedupe_Resolver_GreetingsPreferMain extends CRM_Xdedupe_Resolver {
    * get the name of the finder
    * @return string name
    */
-  public function getName() {
+  public function getName():string {
     return E::ts("Main Greetings");
   }
 
@@ -35,7 +35,7 @@ class CRM_Xdedupe_Resolver_GreetingsPreferMain extends CRM_Xdedupe_Resolver {
    * get an explanation what the finder does
    * @return string name
    */
-  public function getHelp() {
+  public function getHelp():string {
     return E::ts("In case of conflicts, keep the greetings of the main contact.");
   }
 
@@ -44,7 +44,7 @@ class CRM_Xdedupe_Resolver_GreetingsPreferMain extends CRM_Xdedupe_Resolver {
    *
    * @return array list of contact attributes
    */
-  public function getContactAttributes() {
+  public function getContactAttributes(): array {
     return ['email_greeting_id', 'email_greeting_custom', 'postal_greeting_id', 'postal_greeting_custom'];
   }
 
@@ -59,7 +59,7 @@ class CRM_Xdedupe_Resolver_GreetingsPreferMain extends CRM_Xdedupe_Resolver {
    * @return boolean TRUE, if there was a conflict to be resolved
    * @throws Exception if the conflict couldn't be resolved
    */
-  public function resolve($main_contact_id, $other_contact_ids) {
+  public function resolve($main_contact_id, $other_contact_ids): bool {
     $main_contact = $this->getContext()->getContact($main_contact_id);
 
     foreach ($other_contact_ids as $contact_id) {
