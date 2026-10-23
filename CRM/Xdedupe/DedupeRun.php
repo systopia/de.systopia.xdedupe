@@ -283,7 +283,7 @@ class CRM_Xdedupe_DedupeRun {
     // GROUP_CONCAT is by default limited to 1024 characters. This can create
     // the (somewhat awful) condition that the contact IDs get truncated, which
     // can mean changing one contact into another, e.g. "1234" becomes "12".
-    CRM_Core_DAO::singleValueQuery("SET @@SESSION.group_concat_max_len = 4294967295");
+    CRM_Core_DAO::singleValueQuery('SET @@SESSION.group_concat_max_len = 4294967295');
     $sql = "
     INSERT IGNORE INTO `$table_name` (contact_id, match_count, contact_ids)
     SELECT
