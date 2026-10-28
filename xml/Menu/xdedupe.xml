@@ -19,6 +19,7 @@
         <path>civicrm/ajax/xdedupetuples</path>
         <page_callback>CRM_Xdedupe_Form_ControlRoom::getTupleRowsAJAX</page_callback>
         <access_arguments>administer CiviCRM</access_arguments>
+        <is_ajax>true</is_ajax>
     </item>
     <item>
         <path>civicrm/xdedupe/modules</path>
