@@ -471,10 +471,6 @@ class CRM_Xdedupe_Form_ControlRoom extends CRM_Core_Form {
           NULL,
           FALSE
         ),
-        'exclude_tuple_url' => CRM_Utils_System::url(
-          'civicrm/ajax/rest',
-          'className=CRM_Contact_Page_AJAX&fnName=processDupes'
-        ),
         'dedupe_run_id' => $dedupe_run,
       ]
     );
