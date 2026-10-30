@@ -312,7 +312,8 @@ abstract class CRM_Xdedupe_Resolver_SimpleAttribute extends CRM_Xdedupe_Resolver
   public function getHelp(): string {
     return E::ts(
     // phpcs:ignore Generic.Files.LineLength.TooLong
-      "Will resolve the '%1' attribute by simply taking the value in the following order: main contact, other contacts in increasing ID"
+      "Will resolve the '%1' attribute by simply taking the value in the following order: main contact, other contacts in increasing ID",
+      [1 => $this->getAttributeName()]
     );
   }
 

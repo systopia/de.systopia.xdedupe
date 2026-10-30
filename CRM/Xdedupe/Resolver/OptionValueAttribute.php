@@ -114,7 +114,10 @@ abstract class CRM_Xdedupe_Resolver_OptionValueAttribute extends CRM_Xdedupe_Res
    * @inheritDoc
    */
   public function getHelp(): string {
-    return E::ts("Will resolve the '%1' attribute by picking the one that is highest up in the option group");
+    return E::ts(
+      "Will resolve the '%1' attribute by picking the one that is highest up in the option group",
+      [1 => $this->getAttributeName()]
+    );
   }
 
 }
