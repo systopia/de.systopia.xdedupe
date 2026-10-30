@@ -427,6 +427,7 @@ class CRM_Xdedupe_Configuration {
   public function run($parameters = [], &$merge_limit = NULL) {
     // find tuples, init merger
     $dedupe_run = $this->find();
+    $dedupe_run->cleanupDB();
     $config = $this->getConfig();
     $merger = new CRM_Xdedupe_Merge($config);
     $stats = [
