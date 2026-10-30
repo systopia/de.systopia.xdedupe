@@ -195,7 +195,7 @@ class CRM_Xdedupe_DedupeRun {
       CREATE TABLE IF NOT EXISTS `$table_name`(
        `contact_id`   int unsigned NOT NULL     COMMENT 'minimum contact ID for index, not necessarily main contact',
        `match_count`  int unsigned NOT NULL     COMMENT 'number of contacts',
-       `contact_ids`  varchar(255) NOT NULL     COMMENT 'all contact ids, comma separated',
+       `contact_ids`  MEDIUMTEXT                COMMENT 'all contact ids, comma separated',
        `merged_count` int unsigned DEFAULT NULL COMMENT 'will be set to the number of contacts merged',
       PRIMARY KEY ( `contact_id` ),
       INDEX `match_count` (match_count)
@@ -280,6 +280,10 @@ class CRM_Xdedupe_DedupeRun {
     }
 
     $table_name = $this->getTableName();
+    // GROUP_CONCAT is by default limited to 1024 characters. This can create
+    // the (somewhat awful) condition that the contact IDs get truncated, which
+    // can mean changing one contact into another, e.g. "1234" becomes "12".
+    CRM_Core_DAO::singleValueQuery('SET @@SESSION.group_concat_max_len = 4294967295');
     $sql = "
     INSERT IGNORE INTO `$table_name` (contact_id, match_count, contact_ids)
     SELECT
