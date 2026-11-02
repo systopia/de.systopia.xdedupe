@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de.systopia.xdedupe\n"
-"POT-Creation-Date: 2023-01-11 11:17-0600\n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: CRM/Xdedupe/Config.php
 msgid "Conflict"
@@ -300,8 +300,8 @@ msgid "New Configuration -- <a href=\"%1\">Configuration Manager</a>"
 msgstr "Neue Konfiguration -- <a href=\"%1\">Konfigurations-Manager</a>"
 
 #: CRM/Xdedupe/Form/ControlRoom.php
-msgid "Extendend Dedupe: '%1'"
-msgstr "X-Dedupe: '%1'"
+msgid "Extended Dedupe: '%1'"
+msgstr ""
 
 #: CRM/Xdedupe/Form/ControlRoom.php
 msgid "Configuration Name"
@@ -372,6 +372,10 @@ msgstr "Hauptkontakt"
 msgid "Auto Resolve"
 msgstr "Automatische Konfliktlösung"
 
+#: CRM/Xdedupe/Form/ControlRoom.php templates/CRM/Xdedupe/Form/ControlRoom.tpl
+msgid "Merge Log"
+msgstr "Zusammenführungslog"
+
 #: CRM/Xdedupe/Form/ControlRoom.php
 msgid "Find"
 msgstr "Suche"
@@ -399,6 +403,14 @@ msgstr "Diese Konfiguration benötigt einen Namen"
 #: CRM/Xdedupe/Form/ControlRoom.php
 msgid "This name is already in use."
 msgstr "Diese Name wird bereits verwendet."
+
+#: CRM/Xdedupe/Form/ControlRoom.php
+msgid "CiviCRM cannot write to file '%1'."
+msgstr ""
+
+#: CRM/Xdedupe/Form/ControlRoom.php
+msgid "CiviCRM cannot create log file '%1'."
+msgstr ""
 
 #: CRM/Xdedupe/Form/ControlRoom.php
 msgid "any"
@@ -532,6 +544,10 @@ msgstr "Ja"
 msgid "X-Dedupe Module Documentation"
 msgstr "X-Dedupe Moduldokumentation"
 
+#: CRM/Xdedupe/Picker.php
+msgid "Picker '%1' could not be found!"
+msgstr "Auswahlmodul '%1' konnte nicht gefunden werden!"
+
 #: CRM/Xdedupe/Picker/AIVLPersonalActivities.php
 msgid "AIVL Most Personalised Activities"
 msgstr "Meiste personalisierte Aktivitäten (AIVL)"
@@ -594,7 +610,7 @@ msgstr "Wählt den Kontakt mit der höchsten CiviCRM ID"
 
 #: CRM/Xdedupe/Resolver/Addressee.php
 msgid "Main Addressee"
-msgstr ""
+msgstr "Hauptadressat"
 
 #: CRM/Xdedupe/Resolver/Addressee.php
 msgid "In case of conflicts, keep the addressee of the main contact."
@@ -616,6 +632,7 @@ msgstr "'%1'Normieren"
 #: CRM/Xdedupe/Resolver/AttributeCleanup.php
 msgid "Cleans up the '%1' attribute before merging to avoid conflicts"
 msgstr ""
+"Bereinigt das Attribut '%1' vor dem Zusammenführen, um Konflikte zu vermeiden"
 
 #: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
 msgid "Bump Address Conflicts"
@@ -637,6 +654,76 @@ msgstr ""
 #: CRM/Xdedupe/Resolver/CityCleanup.php
 msgid "Clean City"
 msgstr "Stadt Normieren"
+
+#: CRM/Xdedupe/Resolver/CustomField.php
+msgid "'%1' Custom Field of Group '%2'"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomField.php
+msgid ""
+"The field '%1' is a custom field. This resolver will merge the values of all "
+"duplicates, so that the main contact will have all."
+msgstr ""
+"Das Feld '%1' ist ein benutzerdefiniertes Feld. Dieser Konfliktlöser wird "
+"die Werte alle Dubletten zusammenführen, so dass der Hauptkontakt alle "
+"erhält."
+
+#: CRM/Xdedupe/Resolver/CustomGroupByField.php
+msgid "Merge by field for group '%1'"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupByField.php
+msgid ""
+"The field '%1' is a custom field. This resolver will merge the values of all "
+"duplicates. It will fill empty fields with the first found value and it will "
+"add new options to a multi select field."
+msgstr ""
+"Das Feld '%1' ist ein benutzerdefiniertes Feld. Dieser Konfliktlöser wird "
+"die Werte alle Dubletten zusammenführen. Leere Felder werden mit dem ersten "
+"gefundenen Wert gefüllt. Bei Mehrfachauswahlfeldern werden neue Optionen "
+"hinzugefügt."
+
+#: CRM/Xdedupe/Resolver/CustomGroupByField.php
+msgid "Merge by field group id: [%1]"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+msgid "Merge as a group '%1' Custom Group"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+msgid ""
+"The group '%1' is a custom group. This resolver will take the values for all "
+"fields of the custom group from the first duplicate that has values in the "
+"fields if all fields in the main contact are empty."
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+msgid "Merge as group id: [%1]"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+msgid "\"%1\" conflicts (integral)"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+msgid ""
+"This resolver will make sure that any potential merge conflicts in the "
+"custom group '%1' will be solved by treating the custom group data as an "
+"integral record, i.e. it will <i>not</i> merge attributes from different "
+"custom group records, but rather select one of the existing records to "
+"prevail - preferredly the main contact's."
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+msgid "Deleting all but the head's record for custom group '%1'"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+msgid "Deleting all but the oldest record for custom group '%1'"
+msgstr ""
+"Löscht alle bis auf den ältesten Datensatz der benutzerdefinierten Gruppe "
+"'%1'"
 
 #: CRM/Xdedupe/Resolver/DetailMover.php
 msgid ""
@@ -794,6 +881,10 @@ msgid ""
 "outs."
 msgstr "Konservatives Zusammenführen: erhält alle Opt-Outs."
 
+#: CRM/Xdedupe/Resolver/Privacy.php
+msgid "Inherited %1 from contact(s): %2"
+msgstr ""
+
 #: CRM/Xdedupe/Resolver/SimpleAttribute.php
 #: CRM/Xdedupe/Resolver/UniqueAttribute.php
 msgid "Changed '%1' from '%2' to '%3' in contact [%4] to avoid merge conflicts"
@@ -836,10 +927,6 @@ msgid "Move all websites to the main contact, unless they're duplicates"
 msgstr ""
 "Alle Webseiten werden zum Hauptkontakt verschoben, es sei denn es handelt "
 "sich um ein Duplikat"
-
-#: CRM/Xdedupe/Upgrader/Base.php
-msgid "Upgrade %1 to revision %2"
-msgstr ""
 
 #: CRM/Xdedupe/Upgrader.php
 msgid "Scheduled Deduplication (X-Dedupe)"
@@ -916,8 +1003,8 @@ msgstr ""
 
 #: templates/CRM/Xdedupe/Form/ControlRoom.hlp
 msgid ""
-"You can find a detailed description of individual modules on the <a href="
-"\"%1\">module overview page</a>."
+"You can find a detailed description of individual modules on the <a "
+"href=\"%1\">module overview page</a>."
 msgstr ""
 "Eine Detaillierte Beschreibung der einzelnen Module befindet sich auf der a "
 "href=\"%1\">Modulübersicht</a>."
@@ -968,6 +1055,14 @@ msgstr ""
 "von Konfliktlösern zu konfigurieren, um diese kontrolliert zu beseitigen. "
 "Erzwungenes Zusammenführen kann die Kontakte stark beschädigen. Falls nicht "
 "vermeidbar, unbedingt vor dem Einsatz gut testen.</strong>"
+
+#: templates/CRM/Xdedupe/Form/ControlRoom.hlp
+msgid ""
+"You can provide a separate log file for merges. If you don't, the "
+"information will be logged to the CiviCRM log."
+msgstr ""
+"Sie können eine unabhängige Logdatei für Zusammenführungen angeben. "
+"Anderenfalls wird das CiviCRM-Log verwendet."
 
 #: templates/CRM/Xdedupe/Form/ControlRoom.tpl
 msgid "Search Criteria"
@@ -1028,8 +1123,8 @@ msgid ""
 "a>, or edit one of the\n"
 "        configurations below and save as new."
 msgstr ""
-"Um eine neue Konfiguration zu erstellen, einfach zur <a href="
-"\"%1\">SCHALTZENTRALE</a> gehen, oder\n"
+"Um eine neue Konfiguration zu erstellen, einfach zur <a "
+"href=\"%1\">SCHALTZENTRALE</a> gehen, oder\n"
 "        eine der Konfigurationen hier bearbeiten und als neue Konfiguration "
 "speichern."
 
@@ -1219,14 +1314,8 @@ msgstr ""
 
 #: xdedupe.php
 msgid "Automation"
-msgstr ""
+msgstr "Automatisierung"
 
 #: xdedupe.php
 msgid "Extended Deduplication (X-Dedupe)"
 msgstr "Erweiterte Deduplizierung (X-Dedupe)"
-
-#~ msgid "Looks for fully identical organisation names"
-#~ msgstr "Sucht nach identischem Orgnisationsname"
-
-#~ msgid "Extended Deduplication"
-#~ msgstr "Erweiterte Deduplizierung"

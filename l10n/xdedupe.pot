@@ -1,16 +1,3 @@
-# Copyright CiviCRM LLC (c) 2004-2015
-# This file is distributed under the same license as the CiviCRM package.
-# If you contribute heavily to a translation and deem your work copyrightable,
-# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
-msgid ""
-msgstr ""
-"Project-Id-Version: de.systopia.xdedupe\n"
-"POT-Creation-Date: 2023-01-11 11:17-0600\n"
-"Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-
 #: CRM/Xdedupe/Config.php
 msgid "Conflict"
 msgstr ""
@@ -32,28 +19,22 @@ msgid "Exclude Dedupe Exceptions"
 msgstr ""
 
 #: CRM/Xdedupe/Filter/DedupeException.php
-msgid ""
-"Exclude contacts (not tuples!) that are in the system's dedupe exception "
-"list."
+msgid "Exclude contacts (not tuples!) that are in the system's dedupe exception list."
 msgstr ""
 
-#: CRM/Xdedupe/Filter/DisplayNameEightySimilarity.php
-#: CRM/Xdedupe/Filter/DisplayNameNinetyFiveSimilarity.php
+#: CRM/Xdedupe/Filter/DisplayNameEightySimilarity.php CRM/Xdedupe/Filter/DisplayNameNinetyFiveSimilarity.php
 msgid "(!) %1% %2 Similarity"
 msgstr ""
 
-#: CRM/Xdedupe/Filter/DisplayNameEightySimilarity.php
-#: CRM/Xdedupe/Filter/DisplayNameNinetyFiveSimilarity.php
+#: CRM/Xdedupe/Filter/DisplayNameEightySimilarity.php CRM/Xdedupe/Filter/DisplayNameNinetyFiveSimilarity.php
 msgid "Display Name"
 msgstr ""
 
-#: CRM/Xdedupe/Filter/DisplayNameEightySimilarity.php
-#: CRM/Xdedupe/Filter/DisplayNameNinetyFiveSimilarity.php
+#: CRM/Xdedupe/Filter/DisplayNameEightySimilarity.php CRM/Xdedupe/Filter/DisplayNameNinetyFiveSimilarity.php
 msgid "Remove contacts that don't have a similar %1"
 msgstr ""
 
-#: CRM/Xdedupe/Filter/DisplayNameEightySimilarity.php
-#: CRM/Xdedupe/Filter/DisplayNameNinetyFiveSimilarity.php
+#: CRM/Xdedupe/Filter/DisplayNameEightySimilarity.php CRM/Xdedupe/Filter/DisplayNameNinetyFiveSimilarity.php
 msgid "display name"
 msgstr ""
 
@@ -134,9 +115,7 @@ msgid "Identical Organization Name"
 msgstr ""
 
 #: CRM/Xdedupe/Finder/OrganizationName.php
-msgid ""
-"Looks for fully identical organisation names. Keep in mind that this might "
-"*not* case-sensitive, depending on your DB's collation."
+msgid "Looks for fully identical organisation names. Keep in mind that this might *not* case-sensitive, depending on your DB's collation."
 msgstr ""
 
 #: CRM/Xdedupe/Finder/OrganizationNameNoCase.php
@@ -144,10 +123,7 @@ msgid "Identical Organization Name (case insensitive)"
 msgstr ""
 
 #: CRM/Xdedupe/Finder/OrganizationNameNoCase.php
-msgid ""
-"Looks for fully identical organisation names, while ignoring upper/lower "
-"case differences. Keep in mind that this might already be the case depending "
-"on your DB's collation."
+msgid "Looks for fully identical organisation names, while ignoring upper/lower case differences. Keep in mind that this might already be the case depending on your DB's collation."
 msgstr ""
 
 #: CRM/Xdedupe/Finder/PartialOrganizationName.php
@@ -167,9 +143,7 @@ msgid "Phone (literal)"
 msgstr ""
 
 #: CRM/Xdedupe/Finder/PhoneLiteral.php
-msgid ""
-"Looks for phone number entries (without extensions) that are 100% identical "
-"as strings"
+msgid "Looks for phone number entries (without extensions) that are 100% identical as strings"
 msgstr ""
 
 #: CRM/Xdedupe/Finder/PhoneNumeric.php
@@ -177,9 +151,7 @@ msgid "Phone (numeric)"
 msgstr ""
 
 #: CRM/Xdedupe/Finder/PhoneNumeric.php
-msgid ""
-"Finds contacts where all the digits of the phone number are equal. "
-"Formatting characters like '+', '-', or '/' are ignored."
+msgid "Finds contacts where all the digits of the phone number are equal. Formatting characters like '+', '-', or '/' are ignored."
 msgstr ""
 
 #: CRM/Xdedupe/Finder/PostalCode.php
@@ -291,15 +263,14 @@ msgid "New Configuration -- <a href=\"%1\">Configuration Manager</a>"
 msgstr ""
 
 #: CRM/Xdedupe/Form/ControlRoom.php
-msgid "Extendend Dedupe: '%1'"
+msgid "Extended Dedupe: '%1'"
 msgstr ""
 
 #: CRM/Xdedupe/Form/ControlRoom.php
 msgid "Configuration Name"
 msgstr ""
 
-#: CRM/Xdedupe/Form/ControlRoom.php templates/CRM/Xdedupe/Page/Manager.tpl
-#: templates/CRM/Xdedupe/Page/ModuleList.tpl
+#: CRM/Xdedupe/Form/ControlRoom.php templates/CRM/Xdedupe/Page/Manager.tpl templates/CRM/Xdedupe/Page/ModuleList.tpl
 msgid "Description"
 msgstr ""
 
@@ -363,6 +334,10 @@ msgstr ""
 msgid "Auto Resolve"
 msgstr ""
 
+#: CRM/Xdedupe/Form/ControlRoom.php templates/CRM/Xdedupe/Form/ControlRoom.tpl
+msgid "Merge Log"
+msgstr ""
+
 #: CRM/Xdedupe/Form/ControlRoom.php
 msgid "Find"
 msgstr ""
@@ -389,6 +364,14 @@ msgstr ""
 
 #: CRM/Xdedupe/Form/ControlRoom.php
 msgid "This name is already in use."
+msgstr ""
+
+#: CRM/Xdedupe/Form/ControlRoom.php
+msgid "CiviCRM cannot write to file '%1'."
+msgstr ""
+
+#: CRM/Xdedupe/Form/ControlRoom.php
+msgid "CiviCRM cannot create log file '%1'."
 msgstr ""
 
 #: CRM/Xdedupe/Form/ControlRoom.php
@@ -523,19 +506,16 @@ msgstr ""
 msgid "X-Dedupe Module Documentation"
 msgstr ""
 
+#: CRM/Xdedupe/Picker.php
+msgid "Picker '%1' could not be found!"
+msgstr ""
+
 #: CRM/Xdedupe/Picker/AIVLPersonalActivities.php
 msgid "AIVL Most Personalised Activities"
 msgstr ""
 
 #: CRM/Xdedupe/Picker/AIVLPersonalActivities.php
-msgid ""
-"Picks the contact with the most non-mass activities in the last 5 years. "
-"Excluded activity types: Bulk Email, Change Membership Status, Mass SMS, "
-"Pledge Reminder, Membership Renewal Reminder, Uitgaande papieren bulk "
-"mailing, SDD Bulk Correction, importError, FWTM call assignment, "
-"Donorjourney DD1Y_H12/L6, Verschil in contact gegevens uit webformulier, "
-"DDchurnprevention, historic_recruitment, fraudWarning, Migration SDD "
-"mandaten, organizationDiscrepancy, Prenotificatie"
+msgid "Picks the contact with the most non-mass activities in the last 5 years. Excluded activity types: Bulk Email, Change Membership Status, Mass SMS, Pledge Reminder, Membership Renewal Reminder, Uitgaande papieren bulk mailing, SDD Bulk Correction, importError, FWTM call assignment, Donorjourney DD1Y_H12/L6, Verschil in contact gegevens uit webformulier, DDchurnprevention, historic_recruitment, fraudWarning, Migration SDD mandaten, organizationDiscrepancy, Prenotificatie"
 msgstr ""
 
 #: CRM/Xdedupe/Picker/Activities.php
@@ -559,10 +539,7 @@ msgid "Most Personalised Activities"
 msgstr ""
 
 #: CRM/Xdedupe/Picker/PersonalActivities.php
-msgid ""
-"Picks the contact with the most non-mass activities. Excluded activity "
-"types: Bulk Email, Change Membership Status, Mass SMS, Pledge Reminder, "
-"Membership Renewal Reminder"
+msgid "Picks the contact with the most non-mass activities. Excluded activity types: Bulk Email, Change Membership Status, Mass SMS, Pledge Reminder, Membership Renewal Reminder"
 msgstr ""
 
 #: CRM/Xdedupe/Picker/Youngest.php
@@ -582,9 +559,7 @@ msgid "In case of conflicts, keep the addressee of the main contact."
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/AttributeCleanup.php
-msgid ""
-"Changed %1 from '<code style='white-space: pre;'>%2</code>' to '<code "
-"style='white-space: pre;'>%3</code>' in contact [%4] to avoid merge conflicts"
+msgid "Changed %1 from '<code style='white-space: pre;'>%2</code>' to '<code style='white-space: pre;'>%3</code>' in contact [%4] to avoid merge conflicts"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/AttributeCleanup.php
@@ -600,9 +575,7 @@ msgid "Bump Address Conflicts"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
-msgid ""
-"If there is conflicting addresses with the same type, the address will be "
-"changed to the (new) location type 'conflict'"
+msgid "If there is conflicting addresses with the same type, the address will be changed to the (new) location type 'conflict'"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/BumpAddressConflicts.php
@@ -613,14 +586,60 @@ msgstr ""
 msgid "Clean City"
 msgstr ""
 
-#: CRM/Xdedupe/Resolver/DetailMover.php
-msgid ""
-"Deleted duplicate %1 [%2] ('%4') from contact [%3] to avoid merge conflicts"
+#: CRM/Xdedupe/Resolver/CustomField.php
+msgid "'%1' Custom Field of Group '%2'"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomField.php
+msgid "The field '%1' is a custom field. This resolver will merge the values of all duplicates, so that the main contact will have all."
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupByField.php
+msgid "Merge by field for group '%1'"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupByField.php
+msgid "The field '%1' is a custom field. This resolver will merge the values of all duplicates. It will fill empty fields with the first found value and it will add new options to a multi select field."
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupByField.php
+msgid "Merge by field group id: [%1]"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+msgid "Merge as a group '%1' Custom Group"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+msgid "The group '%1' is a custom group. This resolver will take the values for all fields of the custom group from the first duplicate that has values in the fields if all fields in the main contact are empty."
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupByGroup.php
+msgid "Merge as group id: [%1]"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+msgid "\"%1\" conflicts (integral)"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+msgid "This resolver will make sure that any potential merge conflicts in the custom group '%1' will be solved by treating the custom group data as an integral record, i.e. it will <i>not</i> merge attributes from different custom group records, but rather select one of the existing records to prevail - preferredly the main contact's."
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+msgid "Deleting all but the head's record for custom group '%1'"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/CustomGroupIntegral.php
+msgid "Deleting all but the oldest record for custom group '%1'"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/DetailMover.php
-msgid ""
-"Moved %1 [%2] from contact [%3] to contact [%4] to avoid merge conflicts"
+msgid "Deleted duplicate %1 [%2] ('%4') from contact [%3] to avoid merge conflicts"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/DetailMover.php
+msgid "Moved %1 [%2] from contact [%3] to contact [%4] to avoid merge conflicts"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/DropSamePhones.php
@@ -632,9 +651,7 @@ msgid "Will drop phones that are numerically the same."
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/DropSamePhones.php
-msgid ""
-"Deleted duplicate phone [%1] ('%3') from contact [%2] to avoid merge "
-"conflicts"
+msgid "Deleted duplicate phone [%1] ('%3') from contact [%2] to avoid merge conflicts"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/EmailMover.php
@@ -654,9 +671,7 @@ msgid "IM Mover"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/IMMover.php
-msgid ""
-"Move instant messenger contacts to the main contact, unless they're "
-"duplicates"
+msgid "Move instant messenger contacts to the main contact, unless they're duplicates"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/IndividualName.php
@@ -664,15 +679,11 @@ msgid "Main Individual Names"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/IndividualName.php
-msgid ""
-"In case of conflicts, keep the first, middle, and last name of the main "
-"contact."
+msgid "In case of conflicts, keep the first, middle, and last name of the main contact."
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/IndividualName.php
-msgid ""
-"Discarded name '%1' of contact [%2] in favour of '%3' in order to resolve "
-"merge conflicts"
+msgid "Discarded name '%1' of contact [%2] in favour of '%3' in order to resolve merge conflicts"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/Language.php
@@ -692,21 +703,15 @@ msgid "Merge '%1' Multi-Select Field"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/MultiSelect.php
-msgid ""
-"The field '%1' is a multi-select field. This resolver will merge the values "
-"of all duplicates, so that the main contact will have all."
+msgid "The field '%1' is a multi-select field. This resolver will merge the values of all duplicates, so that the main contact will have all."
 msgstr ""
 
-#: CRM/Xdedupe/Resolver/OptionValueAttribute.php
-#: CRM/Xdedupe/Resolver/SimpleAttribute.php
-#: CRM/Xdedupe/Resolver/UniqueAttribute.php
+#: CRM/Xdedupe/Resolver/OptionValueAttribute.php CRM/Xdedupe/Resolver/SimpleAttribute.php CRM/Xdedupe/Resolver/UniqueAttribute.php
 msgid "Select '%1'"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/OptionValueAttribute.php
-msgid ""
-"Will resolve the '%1' attribute by picking the one that is highest up in the "
-"option group"
+msgid "Will resolve the '%1' attribute by picking the one that is highest up in the option group"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/OrganisationName.php
@@ -726,9 +731,7 @@ msgid "Longest Organisation Name"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/OrganisationNameLongest.php
-msgid ""
-"Will resolve the Organization Name by selecting the longer one, with better "
-"formatting."
+msgid "Will resolve the Organization Name by selecting the longer one, with better formatting."
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/PhoneMover.php
@@ -744,13 +747,14 @@ msgid "Privacy"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/Privacy.php
-msgid ""
-"Conservative resolves the contacts' privacy settings, i.e. preserve all opt-"
-"outs."
+msgid "Conservative resolves the contacts' privacy settings, i.e. preserve all opt-outs."
 msgstr ""
 
-#: CRM/Xdedupe/Resolver/SimpleAttribute.php
-#: CRM/Xdedupe/Resolver/UniqueAttribute.php
+#: CRM/Xdedupe/Resolver/Privacy.php
+msgid "Inherited %1 from contact(s): %2"
+msgstr ""
+
+#: CRM/Xdedupe/Resolver/SimpleAttribute.php CRM/Xdedupe/Resolver/UniqueAttribute.php
 msgid "Changed '%1' from '%2' to '%3' in contact [%4] to avoid merge conflicts"
 msgstr ""
 
@@ -758,11 +762,8 @@ msgstr ""
 msgid "Cleared '%1' value '%2' in contact [%3] to avoid merge conflicts"
 msgstr ""
 
-#: CRM/Xdedupe/Resolver/SimpleAttribute.php
-#: CRM/Xdedupe/Resolver/UniqueAttribute.php
-msgid ""
-"Will resolve the '%1' attribute by simply taking the value in the following "
-"order: main contact, other contacts in increasing ID"
+#: CRM/Xdedupe/Resolver/SimpleAttribute.php CRM/Xdedupe/Resolver/UniqueAttribute.php
+msgid "Will resolve the '%1' attribute by simply taking the value in the following order: main contact, other contacts in increasing ID"
 msgstr ""
 
 #: CRM/Xdedupe/Resolver/Source.php
@@ -785,18 +786,12 @@ msgstr ""
 msgid "Move all websites to the main contact, unless they're duplicates"
 msgstr ""
 
-#: CRM/Xdedupe/Upgrader/Base.php
-msgid "Upgrade %1 to revision %2"
-msgstr ""
-
 #: CRM/Xdedupe/Upgrader.php
 msgid "Scheduled Deduplication (X-Dedupe)"
 msgstr ""
 
 #: CRM/Xdedupe/Upgrader.php
-msgid ""
-"Runs all X-Dedupe configurations that have been scheduled for automatic "
-"execution."
+msgid "Runs all X-Dedupe configurations that have been scheduled for automatic execution."
 msgstr ""
 
 #: api/v3/Xdedupe/Run.php
@@ -804,9 +799,7 @@ msgid "Configuration ID"
 msgstr ""
 
 #: api/v3/Xdedupe/Run.php
-msgid ""
-"Either an configuration ID, a comma separated list of configuration IDs or "
-"'scheduled' to run all scheduled configurations"
+msgid "Either an configuration ID, a comma separated list of configuration IDs or 'scheduled' to run all scheduled configurations"
 msgstr ""
 
 #: api/v3/Xdedupe/Run.php
@@ -822,10 +815,7 @@ msgid "Override Scheduled"
 msgstr ""
 
 #: api/v3/Xdedupe/Run.php
-msgid ""
-"Usually, only configurations marked as scheduled would be executed. This "
-"flag can be used to override this behaviour, and execute regardless of the "
-"scheduled status."
+msgid "Usually, only configurations marked as scheduled would be executed. This flag can be used to override this behaviour, and execute regardless of the scheduled status."
 msgstr ""
 
 #: js/controlroom.js
@@ -853,43 +843,31 @@ msgid "These finders will identify the <i>potential</i> duplicates."
 msgstr ""
 
 #: templates/CRM/Xdedupe/Form/ControlRoom.hlp
-msgid ""
-"You can find a detailed description of individual modules on the <a href="
-"\"%1\">module overview page</a>."
+msgid "You can find a detailed description of individual modules on the <a href=\"%1\">module overview page</a>."
+msgstr ""
+
+#: templates/CRM/Xdedupe/Form/ControlRoom.hlp templates/CRM/Xdedupe/Page/ModuleList.tpl
+msgid "Filter modules can restrict the tuples identified by the finder modules above. It is important, that no incorrect duplicates remain in the tuples before batch merging."
+msgstr ""
+
+#: templates/CRM/Xdedupe/Form/ControlRoom.hlp templates/CRM/Xdedupe/Page/ModuleList.tpl
+msgid "Picker modules have to select the main contact from a tuple, i.e. the prevailing contact that will receive all other contacts' data."
+msgstr ""
+
+#: templates/CRM/Xdedupe/Form/ControlRoom.hlp templates/CRM/Xdedupe/Page/ModuleList.tpl
+msgid "These modules try to automatically resolve conflicts so an automated merge can proceed."
 msgstr ""
 
 #: templates/CRM/Xdedupe/Form/ControlRoom.hlp
-#: templates/CRM/Xdedupe/Page/ModuleList.tpl
-msgid ""
-"Filter modules can restrict the tuples identified by the finder modules "
-"above. It is important, that no incorrect duplicates remain in the tuples "
-"before batch merging."
+msgid "You can use this flag to merge contacts even if they still have conflicts."
 msgstr ""
 
 #: templates/CRM/Xdedupe/Form/ControlRoom.hlp
-#: templates/CRM/Xdedupe/Page/ModuleList.tpl
-msgid ""
-"Picker modules have to select the main contact from a tuple, i.e. the "
-"prevailing contact that will receive all other contacts' data."
+msgid "<strong>This is highly discouraged! You should use an appropriate set of resolvers, to merge contacts automatically. Merging contacts by force can destroy them. If you must, be sure to test thoroughly before use.</strong>"
 msgstr ""
 
 #: templates/CRM/Xdedupe/Form/ControlRoom.hlp
-#: templates/CRM/Xdedupe/Page/ModuleList.tpl
-msgid ""
-"These modules try to automatically resolve conflicts so an automated merge "
-"can proceed."
-msgstr ""
-
-#: templates/CRM/Xdedupe/Form/ControlRoom.hlp
-msgid ""
-"You can use this flag to merge contacts even if they still have conflicts."
-msgstr ""
-
-#: templates/CRM/Xdedupe/Form/ControlRoom.hlp
-msgid ""
-"<strong>This is highly discouraged! You should use an appropriate set of "
-"resolvers, to merge contacts automatically. Merging contacts by force can "
-"destroy them. If you must, be sure to test thoroughly before use.</strong>"
+msgid "You can provide a separate log file for merges. If you don't, the information will be logged to the CiviCRM log."
 msgstr ""
 
 #: templates/CRM/Xdedupe/Form/ControlRoom.tpl
@@ -933,9 +911,7 @@ msgid "Delete Configuration \"%1\""
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/Manager.tpl
-msgid ""
-"You are about to delete configuration \"%1\" [%2]. You should consider "
-"simply disabling it, since all configuration data will be lost."
+msgid "You are about to delete configuration \"%1\" [%2]. You should consider simply disabling it, since all configuration data will be lost."
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/Manager.tpl
@@ -943,10 +919,7 @@ msgid "This is the list of you current XDedupe configurations"
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/Manager.tpl
-msgid ""
-"To create a new configuration, simply visit the <a href=\"%1\">CONTROL ROOM</"
-"a>, or edit one of the\n"
-"        configurations below and save as new."
+msgid "To create a new configuration, simply visit the <a href=\"%1\">CONTROL ROOM</a>, or edit one of the\n        configurations below and save as new."
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/Manager.tpl
@@ -1070,14 +1043,7 @@ msgid "Delete"
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/Manager.tpl
-msgid ""
-"\n"
-"            <strong>Caution!</strong>\n"
-"            Unsupervised execution of these Xdedupe configurations will "
-"perform automatic merges. If these merges turn out to be wrong, it's\n"
-"            <strong>a lot of work</strong>\n"
-"            to roll them back. Be sure you know what you're doing and test "
-"well."
+msgid "\n            <strong>Caution!</strong>\n            Unsupervised execution of these Xdedupe configurations will perform automatic merges. If these merges turn out to be wrong, it's\n            <strong>a lot of work</strong>\n            to roll them back. Be sure you know what you're doing and test well."
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/ModuleList.tpl
@@ -1085,11 +1051,7 @@ msgid "Finder Modules"
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/ModuleList.tpl
-msgid ""
-"Finder modules will efficiently identify\n"
-"                <i>potential</i>\n"
-"                 duplicates and group them into tuples, i.e. pairs of two or "
-"more contacts. These can later be filtered further."
+msgid "Finder modules will efficiently identify\n                <i>potential</i>\n                 duplicates and group them into tuples, i.e. pairs of two or more contacts. These can later be filtered further."
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/ModuleList.tpl
@@ -1105,15 +1067,11 @@ msgid "Picker Modules"
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/ModuleList.tpl
-msgid ""
-"The order here is vital: if the first picker cannot take a decision, it "
-"moves on to the next one in the list."
+msgid "The order here is vital: if the first picker cannot take a decision, it moves on to the next one in the list."
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/ModuleList.tpl
-msgid ""
-"If none of the selected pickers were able to select a contact, the one with "
-"the lowest ID will be used."
+msgid "If none of the selected pickers were able to select a contact, the one with the lowest ID will be used."
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/ModuleList.tpl
@@ -1121,9 +1079,7 @@ msgid "Resolver Modules"
 msgstr ""
 
 #: templates/CRM/Xdedupe/Page/ModuleList.tpl
-msgid ""
-"Make sure you understand what these chosen resolvers do, as they will not "
-"ask for any confirmation"
+msgid "Make sure you understand what these chosen resolvers do, as they will not ask for any confirmation"
 msgstr ""
 
 #: xdedupe.php
@@ -1133,3 +1089,4 @@ msgstr ""
 #: xdedupe.php
 msgid "Extended Deduplication (X-Dedupe)"
 msgstr ""
+
