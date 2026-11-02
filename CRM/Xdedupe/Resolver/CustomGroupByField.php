@@ -73,7 +73,7 @@ class CRM_Xdedupe_Resolver_CustomGroupByField extends CRM_Xdedupe_Resolver {
     ]);
     return E::ts(
     // phpcs:ignore Generic.Files.LineLength.TooLong
-      "The field '%1' is a custom field. This resolver will merge the values of all duplicates. It will fill empty fields with the first found value and it will add new options to a multi select field..",
+      "The field '%1' is a custom field. This resolver will merge the values of all duplicates. It will fill empty fields with the first found value and it will add new options to a multi select field.",
       [1 => $field_name[0]['label']]
     );
   }
