@@ -73,7 +73,11 @@ class CRM_Xdedupe_Resolver_Privacy extends CRM_Xdedupe_Resolver {
       foreach ($all_contact_ids as $contact_id) {
         $contact = $this->getContext()?->getContact($contact_id);
         $other_value = $contact[$attribute] ?? 0;
-        if ($other_value !== 0) {
+        // Nb. at time of writing, getContact() uses APIv3 which will
+        // return a string "1" if one of these is set. If we switched
+        // to API4 this would not work as it more accurately returns
+        // FALSE|TRUE.
+        if ($other_value === '1') {
           $combined_settings[$attribute] = 1;
           if (!isset($main_contact[$attribute])) {
             // this opt_out will override to the main contact's
@@ -88,8 +92,8 @@ class CRM_Xdedupe_Resolver_Privacy extends CRM_Xdedupe_Resolver {
       $contact = $this->getContext()?->getContact($contact_id);
       $contact_update = [];
       foreach (self::$privacy_attributes as $attribute) {
-        $contact_value = $contact[$attribute] ?? 0;
-        if ($contact_value != $combined_settings[$attribute]) {
+        $contact_value = (int) ($contact[$attribute] ?? 0);
+        if ($contact_value !== $combined_settings[$attribute]) {
           $contact_update[$attribute] = $combined_settings[$attribute];
         }
       }
