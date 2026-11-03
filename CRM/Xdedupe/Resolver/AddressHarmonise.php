@@ -45,7 +45,7 @@ class CRM_Xdedupe_Resolver_AddressHarmonise extends CRM_Xdedupe_Resolver {
   /**
    * List of address fields.
    */
-  protected static $addressFields = [
+  protected static array $addressFields = [
     'street_address',
     'supplemental_address_1',
     'supplemental_address_2',
