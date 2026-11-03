@@ -17,6 +17,8 @@
 
 use CRM_Xdedupe_ExtensionUtil as E;
 
+declare(strict_types = 1);
+
 /**
  * Implements a resolver for addressee, email and postal greeting fields.
  *   Overwrites 'other' contacts' data with the main contact's.
@@ -28,7 +30,7 @@ class CRM_Xdedupe_Resolver_GreetingsPreferMain extends CRM_Xdedupe_Resolver {
    * @return string name
    */
   public function getName():string {
-    return E::ts("Main Greetings");
+    return E::ts('Main Greetings');
   }
 
   /**
@@ -36,7 +38,7 @@ class CRM_Xdedupe_Resolver_GreetingsPreferMain extends CRM_Xdedupe_Resolver {
    * @return string name
    */
   public function getHelp():string {
-    return E::ts("In case of conflicts, keep the greetings of the main contact.");
+    return E::ts('In case of conflicts, keep the greetings of the main contact.');
   }
 
   /**
@@ -78,7 +80,7 @@ class CRM_Xdedupe_Resolver_GreetingsPreferMain extends CRM_Xdedupe_Resolver {
           ];
           $this->addMergeDetail(
           E::ts(
-            "Discarding %1 of contact [%2] in favour of main contact in order to resolve merge conflicts",
+            'Discarding %1 of contact [%2] in favour of main contact in order to resolve merge conflicts',
             [1 => $type, 2 => $contact_id]
           )
           );

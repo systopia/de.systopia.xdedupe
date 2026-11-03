@@ -17,6 +17,8 @@
 
 use CRM_Xdedupe_ExtensionUtil as E;
 
+declare(strict_types = 1);
+
 /**
  * Implements a resolver for email and postal greeting fields.
  *   Overwrites 'other' contacts' data with the main contact's.
@@ -28,7 +30,7 @@ class CRM_Xdedupe_Resolver_MergeCommunicationMethodPrefs extends CRM_Xdedupe_Res
    * @return string name
    */
   public function getName():string {
-    return E::ts("Merge preferred communication methods");
+    return E::ts('Merge preferred communication methods');
   }
 
   /**
@@ -36,7 +38,7 @@ class CRM_Xdedupe_Resolver_MergeCommunicationMethodPrefs extends CRM_Xdedupe_Res
    * @return string name
    */
   public function getHelp():string {
-    return E::ts("All preferred methods apply.");
+    return E::ts('All preferred methods apply.');
   }
 
   /**
@@ -95,7 +97,7 @@ class CRM_Xdedupe_Resolver_MergeCommunicationMethodPrefs extends CRM_Xdedupe_Res
         ->addValue('preferred_communication_method:name', $all)
         ->execute();
       $this->addMergeDetail(E::ts(
-            "Updating Preferred Communication Methods for contact(s) %1 to %2 to resolve merge conflicts",
+            'Updating Preferred Communication Methods for contact(s) %1 to %2 to resolve merge conflicts',
             [1 => implode(', ', $contactsToUpdate), 2 => implode(', ', $all)]
         ));
       return TRUE;

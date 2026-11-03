@@ -15,6 +15,8 @@
 | written permission from the original author(s).        |
 +--------------------------------------------------------*/
 
+declare(strict_types = 1);
+
 use CRM_Xdedupe_ExtensionUtil as E;
 
 /**
@@ -38,12 +40,36 @@ class CRM_Xdedupe_Resolver_AddressHarmonise extends CRM_Xdedupe_Resolver {
     'country_id:abbr',
   ];
 
+  protected string $defaultCountryAbbr;
+
+  /**
+   * List of address fields.
+   */
+  protected static $addressFields = [
+    'street_address',
+    'supplemental_address_1',
+    'supplemental_address_2',
+    'supplemental_address_3',
+    'city',
+    'postal_code',
+    'state_province_id',
+    'county_id',
+    'country_id:abbr',
+  ];
+
+
+  /**
+   * If an address is missing any of these details, we consider it
+   * is low value; incomplete.
+   */
+  protected static array $addressFieldsKey = ['street_address', 'city', 'postal_code'];
+
   /**
    * get the name of the resolver
    * @return string name
    */
   public function getName():string {
-    return E::ts("Address Harmoniser");
+    return E::ts('Address Harmoniser');
   }
 
   /**
@@ -52,8 +78,9 @@ class CRM_Xdedupe_Resolver_AddressHarmonise extends CRM_Xdedupe_Resolver {
    */
   public function getHelp():string {
     return E::ts(
-            "Move all addresses onto the main contact and try to de-dupe them on a per-location-type basis, preferring fuller data and using similarity matching."
-        );
+      'Move all addresses onto the main contact and try to de-dupe them on a per-location-type basis, '
+      . 'preferring fuller data and using similarity matching.'
+      );
   }
 
   /**
@@ -104,7 +131,7 @@ class CRM_Xdedupe_Resolver_AddressHarmonise extends CRM_Xdedupe_Resolver {
     }
 
     // Dedupe addresses for each loc type, within this one contact.
-    foreach ($addressesByLocType as $locType => $ads) {
+    foreach ($addressesByLocType as $ads) {
       [$deletions, $moves] = $this->dedupeAddresses($ads);
       if ($deletions) {
         $this->addMergeDetail(implode("\n", $deletions));
@@ -136,162 +163,166 @@ class CRM_Xdedupe_Resolver_AddressHarmonise extends CRM_Xdedupe_Resolver {
   protected function dedupeAddresses(array $addresses) {
     $deletions = [];
     $moves = [];
-    $addressFields = [
-      'street_address',
-      'supplemental_address_1',
-      'supplemental_address_2',
-      'supplemental_address_3',
-      'city',
-      'postal_code',
-      'state_province_id',
-      'county_id',
-      'country_id:abbr',
-    ];
-    // If an address is missing any of these details, we consider it
-    // is low value; incomplete.
-    $addressFieldsKey = ['street_address', 'city', 'postal_code'];
-    // Note: 'a' and 'b' here are local; they don't refer to main/other
-    // contact. Each address contains an isMainContact key for that purpose.
     while ($a = array_shift($addresses)) {
-      // this is constant across all addresses.
-      $locTypeName = $a['location_type_id:name'];
-      // If country is missing, add in US.
-      $a['country_id:abbr'] = $a['country_id:abbr'] ?: 'US';
+      $this->handleAddress($a, $addresses, $deletions, $moves);
+    }
 
-      // Compare to the rest of the addresses.
-      $aCountValues = 0;
-      $aMissing = [];
-      foreach ($addressFields as $field) {
-        $a[$field] = $this->normalise($a[$field] ?? '');
-        $aCountValues += (int) !empty($a[$field]);
-        if (in_array($field, $addressFieldsKey) && empty($a[$field])) {
-          $aMissing[] = $field;
-        }
-      }
-      $aMissing = implode(', ', $aMissing);
-      // Cache these for log messages.
-      $aNormal = implode("\t", $a);
-      $aDesc = "$locTypeName address ($a[id]) for contact $a[contact_id]";
-
-      // Assume we'll keep this address until proven otherwise.
-      if (!$a['isMainContact']) {
-        $moves[$a['id']] = "Moving $aDesc to main contact.";
-      }
-
-      // Compare against remaining addresses.
-      foreach ($addresses as $bIdx => $b) {
-        $b['country_id:abbr'] = $b['country_id:abbr'] ?: 'US';
-
-        $bCountValues = 0;
-        $bMissing = [];
-        $similarScore = 0;
-        foreach ($addressFields as $field) {
-          $b[$field] = $this->normalise($b[$field] ?? '');
-          $bCountValues += (int) !empty($b[$field]);
-          if (in_array($field, $addressFieldsKey) && empty($b[$field])) {
-            $bMissing[] = $field;
-          }
-          if (!empty($b[$field]) && !empty($a[$field])) {
-            $similarScore += $this->similar($a[$field], $b[$field]);
-          }
-        }
-        $bMissing = implode(', ', $bMissing);
-        $bNormal = implode("\t", $b);
-
-        // Reusable strings for log messages.
-        $bDesc = "$locTypeName address ($b[id]) for contact $b[contact_id]";
-
-        $this->addMergeDetail("Comparing\n$aNormal\n$bNormal\nsimilar score: $similarScore");
-
-        if (!$aMissing) {
-          // The 'a' address looks plausible.
-          if ($bMissing) {
-            // The 'b' address is incomplete, prefer a.
-            $deletions[$b['id']] = "Deleting {$bDesc} because it is incomplete (missing $bMissing) and we already have a complete one.\n$aNormal\n$bNormal";
-            // Remove the 'b' address from the list
-            unset($addresses[$bIdx]);
-            continue;
-          }
-          // a and b both have the key fields.
-          if ($similarScore === 0) {
-            // a and b are identical.
-            $deletions[$b['id']] = "Deleting {$bDesc} because it is identical to another.\n$aNormal\n$bNormal";
-            unset($addresses[$bIdx]);
-            continue;
-          }
-          // Allow one metaphone difference per item compared.
-          if ($similarScore <= max($aCountValues, $bCountValues)) {
-            // a and b are probably the same. If one has
-            // 2+ more data items, keep that one.
-            $moreDataInA = $aCountValues - $bCountValues;
-            $isMainDiff = $a['isMainContact'] - $b['isMainContact'];
-            if ($isMainDiff === 0) {
-              // Both Main, or neither is Main. Just go on which
-              // has more data, keeping 'a' if equal.
-              if ($moreDataInA >= 0) {
-                $deletions[$b['id']] = "Deleting {$bDesc} because it is a likely-duplicate of another, which has $moreDataInA details.\n$aNormal\n$bNormal";
-                unset($addresses[$bIdx]);
-              }
-              else {
-                // more data in B
-                $moreDataInB = -$moreDataInA;
-                $deletions[$a['id']] = "Deleting {$aDesc} because it is a less-complete likely-duplicate of another which has {$moreDataInB} more details.\n$aNormal\n$bNormal";
-                unset($moves[$a['id']]);
-                continue 2;
-              }
-            }
-            elseif (abs($moreDataInA) >= 2) {
-              // Allow 2 data items more to be more important than
-              // isMainContact.
-              if ($moreDataInA >= 0) {
-                $deletions[$b['id']] = "Deleting {$bDesc} because it is a likely-duplicate of another, which has $moreDataInA more details.\n$aNormal\n$bNormal";
-                unset($addresses[$bIdx]);
-              }
-              else {
-                // more data in B
-                $moreDataInB = -$moreDataInA;
-                $deletions[$a['id']] = "Deleting {$aDesc} because it is a less-complete likely-duplicate of another which has {$moreDataInB} more details.\n$aNormal\n$bNormal";
-                unset($moves[$a['id']]);
-                continue 2;
-              }
-            }
-            else {
-              // zero or one extra vals between the addresses,
-              // prefer Main contact's.
-              if ($isMainDiff >= 0) {
-                $deletions[$b['id']] = "Deleting {$bDesc} because it is a likely-duplicate of another, which belongs to the main contact.\n$aNormal\n$bNormal";
-                unset($addresses[$bIdx]);
-              }
-              else {
-                $deletions[$a['id']] = "Deleting {$aDesc} because it is a likely-duplicate of another, which belongs to the main contact.\n$aNormal\n$bNormal";
-                unset($moves[$a['id']]);
-                continue 2;
-              }
-            }
-          }
-          else {
-            // a and b seem quite different. Keep them both.
-          }
-        }
-        else {
-          // 'a' is incomplete...
-          if (!$bMissing) {
-            $deletions[$a['id']] = "Deleting {$a['location_type_id:name']} address $a[id] because it is incomplete (missing $aMissing) and we have another which is complete.\n$aNormal\n$bNormal";
-            unset($moves[$a['id']]);
-            continue 2;
-          }
-          else {
-            // 'a' is incomplete, but so is 'b'... Leave it for now,
-            // 'a' might get removed if there's another 'b' which
-            // is complete.
-          }
-        }
-      } /* end of 'b' addresses to compare with */
-    } /* no more addresses to compare */
+    $country = new CRM_Core_DAO_Country();
+    $country->id = CRM_Core_BAO_Country::defaultContactCountry();
+    $country->find(TRUE);
+    $this->defaultCountryAbbr = $country->iso_code;
 
     return [$deletions, $moves];
   }
 
+  /**
+   * Determine the quality of this address and what to do with it.
+   */
+  // phpcs:disable Generic.Metrics.CyclomaticComplexity.MaxExceeded
+  protected function handleAddress(array $a, array $addresses, array &$deletions, array &$moves) {
+
+    // Note: 'a' and 'b' here are local; they don't refer to main/other
+    // contact. Each address contains an isMainContact key for that purpose.
+
+    // this is constant across all addresses.
+    $locTypeName = $a['location_type_id:name'];
+
+    // If country is missing, add in US.
+    $a['country_id:abbr'] = $a['country_id:abbr'] ?: $this->defaultCountryAbbr;
+
+    // Compare to the rest of the addresses.
+    $aCountValues = 0;
+    $aMissing = [];
+    foreach (static::$addressFields as $field) {
+      $a[$field] = $this->normalise($a[$field] ?? '');
+      $aCountValues += (int) !empty($a[$field]);
+      if (in_array($field, static::$addressFieldsKey) && empty($a[$field])) {
+        $aMissing[] = $field;
+      }
+    }
+    $aMissing = implode(', ', $aMissing);
+    // Cache these for log messages.
+    $aNormal = implode("\t", $a);
+    $aDesc = "$locTypeName address ($a[id]) for contact $a[contact_id]";
+
+    // Assume we'll keep this address until proven otherwise.
+    if (!$a['isMainContact']) {
+      $moves[$a['id']] = "Moving $aDesc to main contact.";
+    }
+
+    // Compare against remaining addresses.
+    foreach ($addresses as $bIdx => $b) {
+      $b['country_id:abbr'] = $b['country_id:abbr'] ?: 'US';
+
+      $bCountValues = 0;
+      $bMissing = [];
+      $similarScore = 0;
+      foreach (static::$addressFields as $field) {
+        $b[$field] = $this->normalise($b[$field] ?? '');
+        $bCountValues += (int) !empty($b[$field]);
+        if (in_array($field, static::$addressFieldsKey) && empty($b[$field])) {
+          $bMissing[] = $field;
+        }
+        if (!empty($b[$field]) && !empty($a[$field])) {
+          $similarScore += $this->similar($a[$field], $b[$field]);
+        }
+      }
+      $bMissing = implode(', ', $bMissing);
+      $bNormal = implode("\t", $b);
+
+      // Reusable strings for log messages.
+      $bDesc = "$locTypeName address ($b[id]) for contact $b[contact_id]";
+
+      $this->addMergeDetail("Comparing\n$aNormal\n$bNormal\nsimilar score: $similarScore");
+
+      if (!$aMissing) {
+        // The 'a' address looks plausible.
+        if ($bMissing) {
+          // The 'b' address is incomplete, prefer a.
+          $deletions[$b['id']] = "Deleting {$bDesc} because it is incomplete (missing $bMissing) "
+            . "and we already have a complete one.\n$aNormal\n$bNormal";
+          // Remove the 'b' address from the list
+          unset($addresses[$bIdx]);
+          continue;
+        }
+        // a and b both have the key fields.
+        if ($similarScore === 0) {
+          // a and b are identical.
+          $deletions[$b['id']] = "Deleting {$bDesc} because it is identical to another.\n$aNormal\n$bNormal";
+          unset($addresses[$bIdx]);
+          continue;
+        }
+        // Allow one metaphone difference per item compared.
+        if ($similarScore <= max($aCountValues, $bCountValues)) {
+          // a and b are probably the same. If one has
+          // 2+ more data items, keep that one.
+          $moreDataInA = $aCountValues - $bCountValues;
+          $isMainDiff = $a['isMainContact'] - $b['isMainContact'];
+          if ($isMainDiff === 0) {
+            // Both Main, or neither is Main. Just go on which
+            // has more data, keeping 'a' if equal.
+            if ($moreDataInA >= 0) {
+              $deletions[$b['id']] = "Deleting {$bDesc} because it is a likely-duplicate of another, "
+                . "which has $moreDataInA details.\n$aNormal\n$bNormal";
+              unset($addresses[$bIdx]);
+            }
+            else {
+              // more data in B
+              $moreDataInB = -$moreDataInA;
+              $deletions[$a['id']] = "Deleting {$aDesc} because it is a less-complete likely-duplicate "
+                . "of another which has {$moreDataInB} more details.\n$aNormal\n$bNormal";
+              unset($moves[$a['id']]);
+              continue 2;
+            }
+          }
+          elseif (abs($moreDataInA) >= 2) {
+            // Allow 2 data items more to be more important than
+            // isMainContact.
+            if ($moreDataInA >= 0) {
+              $deletions[$b['id']] = "Deleting {$bDesc} because it is a likely-duplicate of another, which has $moreDataInA more details.\n$aNormal\n$bNormal";
+              unset($addresses[$bIdx]);
+            }
+            else {
+              // more data in B
+              $moreDataInB = -$moreDataInA;
+              $deletions[$a['id']] = "Deleting {$aDesc} because it is a less-complete likely-duplicate of another which has {$moreDataInB} more details.\n$aNormal\n$bNormal";
+              unset($moves[$a['id']]);
+              continue 2;
+            }
+          }
+          else {
+            // zero or one extra vals between the addresses,
+            // prefer Main contact's.
+            if ($isMainDiff >= 0) {
+              $deletions[$b['id']] = "Deleting {$bDesc} because it is a likely-duplicate of another, which belongs to the main contact.\n$aNormal\n$bNormal";
+              unset($addresses[$bIdx]);
+            }
+            else {
+              $deletions[$a['id']] = "Deleting {$aDesc} because it is a likely-duplicate of another, which belongs to the main contact.\n$aNormal\n$bNormal";
+              unset($moves[$a['id']]);
+              continue 2;
+            }
+          }
+        }
+        // else: a and b seem quite different. Keep them both.
+      }
+      else {
+        // 'a' is incomplete...
+        if (!$bMissing) {
+          $deletions[$a['id']] = "Deleting {$a['location_type_id:name']} address $a[id] because it is incomplete (missing $aMissing) and we have another which is complete.\n$aNormal\n$bNormal";
+          unset($moves[$a['id']]);
+          continue 2;
+        }
+        /* else:
+         * 'a' is incomplete, but so is 'b'... Leave it for now,
+         * 'a' might get removed if there's another 'b' which
+         * is complete.
+         */
+      }
+    } /* end of 'b' addresses to compare with */
+  }
+
+  // phpcs:enable
   protected function normalise(string $a): string {
     // normalise strings. trim, internal spaces normalised to one space,
     // punctuation removed, lowercase.

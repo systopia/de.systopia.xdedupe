@@ -17,6 +17,8 @@
 
 use CRM_Xdedupe_ExtensionUtil as E;
 
+declare(strict_types = 1);
+
 /**
  * Simple ExternalIdentifier Resolver
  */
@@ -28,7 +30,7 @@ class CRM_Xdedupe_Resolver_DeathIsFinal extends CRM_Xdedupe_Resolver {
    */
   public function getName():string {
 
-    return E::ts("Death is final");
+    return E::ts('Death is final');
   }
 
   /**
@@ -83,7 +85,7 @@ class CRM_Xdedupe_Resolver_DeathIsFinal extends CRM_Xdedupe_Resolver {
         $this->getContext()->unloadContact($contact_id);
       }
       $this->addMergeDetail(E::ts(
-        "Marking contacts %1 as deceased because at least one of the others is.",
+        'Marking contacts %1 as deceased because at least one of the others is.',
         [1 => implode(', ', $living)]
       ));
       return TRUE;
