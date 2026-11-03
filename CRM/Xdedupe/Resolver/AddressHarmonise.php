@@ -163,15 +163,10 @@ class CRM_Xdedupe_Resolver_AddressHarmonise extends CRM_Xdedupe_Resolver {
   protected function dedupeAddresses(array $addresses) {
     $deletions = [];
     $moves = [];
+    $this->defaultCountryAbbr = CRM_Core_BAO_Country::defaultContactCountry();
     while ($a = array_shift($addresses)) {
       $this->handleAddress($a, $addresses, $deletions, $moves);
     }
-
-    $country = new CRM_Core_DAO_Country();
-    $country->id = CRM_Core_BAO_Country::defaultContactCountry();
-    $country->find(TRUE);
-    $this->defaultCountryAbbr = $country->iso_code;
-
     return [$deletions, $moves];
   }
 
