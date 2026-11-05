@@ -27,7 +27,7 @@ use CRM_Xdedupe_ExtensionUtil as E;
  */
 class CRM_Xdedupe_Resolver_AddressHarmonise extends CRM_Xdedupe_Resolver {
 
-  static public handled_address_fields $array = [
+  static public array $handled_address_fields = [
     'location_type_id:name',
     'street_address',
     'supplemental_address_1',
